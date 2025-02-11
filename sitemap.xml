@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.learnhuggingface.com/notebooks/hugging_face_text_classification_tutorial.html</loc>
-    <lastmod>2025-01-24T02:41:18.912Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/extras/resources.html</loc>
-    <lastmod>2025-01-24T02:41:18.910Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/extras/setup.html</loc>
-    <lastmod>2025-01-24T02:41:18.910Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/about.html</loc>
-    <lastmod>2025-01-24T02:41:18.898Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/extras/glossary.html</loc>
-    <lastmod>2025-01-24T02:41:18.910Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/extras/todo.html</loc>
-    <lastmod>2025-01-24T02:41:18.910Z</lastmod>
+    <loc>https://www.learnhuggingface.com/notebooks/hugging_face_object_detection_tutorial.html</loc>
+    <lastmod>2025-02-11T04:22:30.755Z</lastmod>
   </url>
   <url>
     <loc>https://www.learnhuggingface.com/index.html</loc>
-    <lastmod>2025-01-24T02:41:18.910Z</lastmod>
+    <lastmod>2025-02-11T04:22:30.654Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/extras/todo.html</loc>
+    <lastmod>2025-02-11T04:22:30.654Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/extras/glossary.html</loc>
+    <lastmod>2025-02-11T04:22:30.654Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/about.html</loc>
+    <lastmod>2025-02-11T04:22:30.609Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/extras/setup.html</loc>
+    <lastmod>2025-02-11T04:22:30.654Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/extras/resources.html</loc>
+    <lastmod>2025-02-11T04:22:30.654Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/notebooks/hugging_face_text_classification_tutorial.html</loc>
+    <lastmod>2025-02-11T04:22:30.757Z</lastmod>
   </url>
 </urlset>
