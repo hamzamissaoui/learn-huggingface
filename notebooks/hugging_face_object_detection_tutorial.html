@@ -394,6 +394,7 @@ window.Quarto = {
 <p><a href="https://github.com/mrdbourke/learn-huggingface/blob/main/notebooks/hugging_face_object_detection_tutorial.ipynb">Source code on GitHub</a> | <a href="https://www.learnhuggingface.com/notebooks/hugging_face_object_detection_tutorial">Online book version</a> | <a href="https://www.learnhuggingface.com/extras/setup">Setup guide</a> | Video Course (coming soon)</p>
 <section id="tk---overview" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="tk---overview"><span class="header-section-number">1</span> TK - Overview</h2>
+<p>TK - Make an intro about being on the Trashify 🚮 team with a mission to make the world a cleaner place, trashify = using ML to incentivize people to pick up trash in their local area</p>
 <p>Welcome to the Learn Hugging Face Object Detection project!</p>
 <p>Inside this project, we’ll learn bits and pieces about the Hugging Face ecosystem as well as how to build our own custom object detection model.</p>
 <p>We’ll start with a collection of images with bounding box files as our dataset, fine-tune an existing computer vision model to detect items in an image and then share our model as a demo others can use.</p>
@@ -1368,7 +1369,22 @@ Table&nbsp;2: Places to get pre-trained object detection models
 <section id="downloading-our-model-from-hugging-face" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="downloading-our-model-from-hugging-face"><span class="header-section-number">6.2</span> Downloading our model from Hugging Face</h3>
 <p>For our Trashify 🚮 project we’re going to be using the pre-trained object detection model <a href="https://huggingface.co/microsoft/conditional-detr-resnet-50"><code>microsoft/conditional-detr-resnet-50</code></a> which was originally introduced in the paper <a href="https://arxiv.org/abs/2108.06152"><em>Conditional DETR for Fast Training Convergence</em></a>.</p>
-<p>UPTOHERE - add a note on what “DETR” and “ResNet-50” mean… these terms can get confusing, then finish off the TK’s in this code cell</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The term “DETR” stands for “DEtection TRansformer”.</p>
+<p>Where “Transformer” refers to the <a href="https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture)">Transformer neural network architecture</a>, specifically the <a href="https://en.wikipedia.org/wiki/Vision_transformer">Vision Transformer</a> (or ViT) rather than the Hugging Face <code>transformers</code> library (quite confusing, yes).</p>
+<p>So DETR means “performing detection with the Transformer architecture”.</p>
+<p>And the “ResNet” part stands for “<a href="https://en.wikipedia.org/wiki/Residual_neural_network">Residual Neural Network</a>” which is a common computer vision backbone. The “50” refers to the number of layers in the network. Saying “ResNet-50” means the 50 layer version of ResNet. ResNet-101 and ResNet-18 are two other larger and smaller variants.</p>
+</div>
+</div>
 <p>To use this model, there are some helpful documentation resources we should be aware of:</p>
 <div id="tbl-model-docs" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -1416,7 +1432,22 @@ Table&nbsp;3: Model documentation
 <p>We’ll get hands-on which each of these throughout the project.</p>
 <p>For now, if you’d like to read up more on each, I’d highly recommend it.</p>
 <p>Knowing how to navigate and read through a framework’s documentation is a very helpful skill to have.</p>
-<p>TK - note you could try other models (e.g.&nbsp;Facebook/IDEA-Research) but for now, we’ll stick with this one. TK - many models on Hugging Face follow this pattern of “processor” -&gt; “model”</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are other object detection models we could try on the Hugging Face Hub such as <a href="https://huggingface.co/facebook/detr-resnet-50"><code>facebook/detr-resnet-50</code></a> or <a href="https://huggingface.co/IDEA-Research/dab-detr-resnet-50-dc5-pat3"><code>IDEA-Research/dab-detr-resnet-50-dc5-pat3</code></a>.</p>
+<p>For now, we’ll stick with <code>microsoft/conditional-detr-resnet-50</code>.</p>
+<p>It’s easy to get stuck figuring out which model to use instead of just trying one and seeing how it goes.</p>
+<p>Best to get something small working with one model and try another one later as part of a series of experiments to try and improve your results.</p>
+</div>
+</div>
 <div id="cell-45" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForObjectDetection, AutoImageProcessor</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -2335,8 +2366,9 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 )</code></pre>
 </div>
 </div>
+<p>TK - callout: many models on Hugging Face follow this pattern of “processor” -&gt; “model”</p>
 <blockquote class="blockquote">
-<p><strong>Note:</strong> This may output some information about the model not being prepared for a custom dataset due to it originally being prepared for a certain number of classes (e.g.&nbsp;the model can only recognize what it was trained on). We’ve initialized it with an output head to have 4</p>
+<p><strong>Note:</strong> TK - This may output some information about the model not being prepared for a custom dataset due to it originally being prepared for a certain number of classes (e.g.&nbsp;the model can only recognize what it was trained on). We’ve initialized it with an output head to have 4</p>
 </blockquote>
 <div id="cell-71" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>model.forward?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
