@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.learnhuggingface.com/notebooks/hugging_face_text_classification_tutorial.html</loc>
-    <lastmod>2025-05-13T04:42:37.292Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/index.html</loc>
-    <lastmod>2025-05-13T04:42:37.274Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/extras/setup.html</loc>
-    <lastmod>2025-05-13T04:42:37.273Z</lastmod>
-  </url>
-  <url>
     <loc>https://www.learnhuggingface.com/extras/resources.html</loc>
-    <lastmod>2025-05-13T04:42:37.273Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/extras/glossary.html</loc>
-    <lastmod>2025-05-13T04:42:37.273Z</lastmod>
+    <lastmod>2025-05-27T02:10:18.889Z</lastmod>
   </url>
   <url>
     <loc>https://www.learnhuggingface.com/extras/todo.html</loc>
-    <lastmod>2025-05-13T04:42:37.273Z</lastmod>
+    <lastmod>2025-05-27T02:10:18.890Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/notebooks/hugging_face_text_classification_tutorial.html</loc>
+    <lastmod>2025-05-27T02:10:18.908Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/index.html</loc>
+    <lastmod>2025-05-27T02:10:18.890Z</lastmod>
   </url>
   <url>
     <loc>https://www.learnhuggingface.com/about.html</loc>
-    <lastmod>2025-05-13T04:42:37.226Z</lastmod>
+    <lastmod>2025-05-27T02:10:18.846Z</lastmod>
   </url>
   <url>
     <loc>https://www.learnhuggingface.com/notebooks/hugging_face_object_detection_tutorial.html</loc>
-    <lastmod>2025-05-13T04:42:37.291Z</lastmod>
+    <lastmod>2025-05-27T02:10:18.907Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/extras/glossary.html</loc>
+    <lastmod>2025-05-27T02:10:18.889Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/extras/setup.html</loc>
+    <lastmod>2025-05-27T02:10:18.890Z</lastmod>
   </url>
 </urlset>
