@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.learnhuggingface.com/extras/resources.html</loc>
-    <lastmod>2025-06-05T23:19:40.921Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/extras/todo.html</loc>
-    <lastmod>2025-06-05T23:19:40.921Z</lastmod>
+    <loc>https://www.learnhuggingface.com/index.html</loc>
+    <lastmod>2025-06-16T06:55:37.901Z</lastmod>
   </url>
   <url>
     <loc>https://www.learnhuggingface.com/notebooks/hugging_face_text_classification_tutorial.html</loc>
-    <lastmod>2025-06-05T23:19:40.951Z</lastmod>
+    <lastmod>2025-06-16T06:55:37.931Z</lastmod>
   </url>
   <url>
-    <loc>https://www.learnhuggingface.com/index.html</loc>
-    <lastmod>2025-06-05T23:19:40.921Z</lastmod>
+    <loc>https://www.learnhuggingface.com/extras/todo.html</loc>
+    <lastmod>2025-06-16T06:55:37.900Z</lastmod>
   </url>
   <url>
-    <loc>https://www.learnhuggingface.com/about.html</loc>
-    <lastmod>2025-06-05T23:19:40.878Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/notebooks/hugging_face_object_detection_tutorial.html</loc>
-    <lastmod>2025-06-05T23:19:40.950Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.learnhuggingface.com/extras/glossary.html</loc>
-    <lastmod>2025-06-05T23:19:40.921Z</lastmod>
+    <loc>https://www.learnhuggingface.com/extras/resources.html</loc>
+    <lastmod>2025-06-16T06:55:37.900Z</lastmod>
   </url>
   <url>
     <loc>https://www.learnhuggingface.com/extras/setup.html</loc>
-    <lastmod>2025-06-05T23:19:40.921Z</lastmod>
+    <lastmod>2025-06-16T06:55:37.900Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/extras/glossary.html</loc>
+    <lastmod>2025-06-16T06:55:37.900Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/about.html</loc>
+    <lastmod>2025-06-16T06:55:37.857Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.learnhuggingface.com/notebooks/hugging_face_object_detection_tutorial.html</loc>
+    <lastmod>2025-06-16T06:55:37.929Z</lastmod>
   </url>
 </urlset>
