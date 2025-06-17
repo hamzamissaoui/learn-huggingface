@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ae0b5334a1ec0bf99af3d0c304a697d2.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-236d90495073fb2ac8939117e3e83141.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-979b658114f66cd8c063e715ed3f4f8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -266,12 +266,12 @@ window.Quarto = {
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1</span> Overview</a>
   <ul class="collapse">
-  <li><a href="#tk---what-were-going-to-build" id="toc-tk---what-were-going-to-build" class="nav-link" data-scroll-target="#tk---what-were-going-to-build"><span class="header-section-number">1.1</span> TK - What we’re going to build</a></li>
-  <li><a href="#tk---what-is-object-detection" id="toc-tk---what-is-object-detection" class="nav-link" data-scroll-target="#tk---what-is-object-detection"><span class="header-section-number">1.2</span> TK - What is object detection?</a></li>
-  <li><a href="#tk---why-train-your-own-object-detection-models" id="toc-tk---why-train-your-own-object-detection-models" class="nav-link" data-scroll-target="#tk---why-train-your-own-object-detection-models"><span class="header-section-number">1.3</span> TK - Why train your own object detection models?</a></li>
-  <li><a href="#tk---workflow-were-going-to-follow" id="toc-tk---workflow-were-going-to-follow" class="nav-link" data-scroll-target="#tk---workflow-were-going-to-follow"><span class="header-section-number">1.4</span> TK - Workflow we’re going to follow</a></li>
+  <li><a href="#what-were-going-to-build" id="toc-what-were-going-to-build" class="nav-link" data-scroll-target="#what-were-going-to-build"><span class="header-section-number">1.1</span> What we’re going to build</a></li>
+  <li><a href="#what-is-object-detection" id="toc-what-is-object-detection" class="nav-link" data-scroll-target="#what-is-object-detection"><span class="header-section-number">1.2</span> What is object detection?</a></li>
+  <li><a href="#why-train-your-own-object-detection-models" id="toc-why-train-your-own-object-detection-models" class="nav-link" data-scroll-target="#why-train-your-own-object-detection-models"><span class="header-section-number">1.3</span> Why train your own object detection models?</a></li>
+  <li><a href="#workflow-were-going-to-follow" id="toc-workflow-were-going-to-follow" class="nav-link" data-scroll-target="#workflow-were-going-to-follow"><span class="header-section-number">1.4</span> Workflow we’re going to follow</a></li>
   </ul></li>
-  <li><a href="#tk---importing-necessary-libraries" id="toc-tk---importing-necessary-libraries" class="nav-link" data-scroll-target="#tk---importing-necessary-libraries"><span class="header-section-number">2</span> TK - Importing necessary libraries</a></li>
+  <li><a href="#importing-necessary-libraries" id="toc-importing-necessary-libraries" class="nav-link" data-scroll-target="#importing-necessary-libraries"><span class="header-section-number">2</span> Importing necessary libraries</a></li>
   <li><a href="#getting-a-dataset" id="toc-getting-a-dataset" class="nav-link" data-scroll-target="#getting-a-dataset"><span class="header-section-number">3</span> Getting a dataset</a>
   <ul class="collapse">
   <li><a href="#loading-the-dataset" id="toc-loading-the-dataset" class="nav-link" data-scroll-target="#loading-the-dataset"><span class="header-section-number">3.1</span> Loading the dataset</a></li>
@@ -280,7 +280,7 @@ window.Quarto = {
   <li><a href="#creating-a-mapping-from-numbers-to-labels" id="toc-creating-a-mapping-from-numbers-to-labels" class="nav-link" data-scroll-target="#creating-a-mapping-from-numbers-to-labels"><span class="header-section-number">3.4</span> Creating a mapping from numbers to labels</a></li>
   <li><a href="#creating-a-colour-palette" id="toc-creating-a-colour-palette" class="nav-link" data-scroll-target="#creating-a-colour-palette"><span class="header-section-number">3.5</span> Creating a colour palette</a></li>
   </ul></li>
-  <li><a href="#tk---plotting-a-single-image-and-visualizing-the-boxes" id="toc-tk---plotting-a-single-image-and-visualizing-the-boxes" class="nav-link" data-scroll-target="#tk---plotting-a-single-image-and-visualizing-the-boxes"><span class="header-section-number">4</span> TK - Plotting a single image and visualizing the boxes</a></li>
+  <li><a href="#plotting-a-single-image-and-visualizing-the-boxes" id="toc-plotting-a-single-image-and-visualizing-the-boxes" class="nav-link" data-scroll-target="#plotting-a-single-image-and-visualizing-the-boxes"><span class="header-section-number">4</span> Plotting a single image and visualizing the boxes</a></li>
   <li><a href="#different-bounding-box-formats" id="toc-different-bounding-box-formats" class="nav-link" data-scroll-target="#different-bounding-box-formats"><span class="header-section-number">5</span> Different bounding box formats</a>
   <ul class="collapse">
   <li><a href="#absolute-or-normalized-format" id="toc-absolute-or-normalized-format" class="nav-link" data-scroll-target="#absolute-or-normalized-format"><span class="header-section-number">5.1</span> Absolute or normalized format?</a></li>
@@ -319,34 +319,34 @@ window.Quarto = {
   <li><a href="#preparing-data-at-scale" id="toc-preparing-data-at-scale" class="nav-link" data-scroll-target="#preparing-data-at-scale"><span class="header-section-number">13</span> Preparing data at scale</a>
   <ul class="collapse">
   <li><a href="#splitting-the-data-into-training-and-test-sets" id="toc-splitting-the-data-into-training-and-test-sets" class="nav-link" data-scroll-target="#splitting-the-data-into-training-and-test-sets"><span class="header-section-number">13.1</span> Splitting the data into training and test sets</a></li>
-  <li><a href="#tk---writing-a-function-for-preprocessing-multiple-samples-at-a-time" id="toc-tk---writing-a-function-for-preprocessing-multiple-samples-at-a-time" class="nav-link" data-scroll-target="#tk---writing-a-function-for-preprocessing-multiple-samples-at-a-time"><span class="header-section-number">13.2</span> TK - Writing a function for preprocessing multiple samples at a time</a></li>
+  <li><a href="#writing-a-function-for-preprocessing-multiple-samples-at-a-time" id="toc-writing-a-function-for-preprocessing-multiple-samples-at-a-time" class="nav-link" data-scroll-target="#writing-a-function-for-preprocessing-multiple-samples-at-a-time"><span class="header-section-number">13.2</span> Writing a function for preprocessing multiple samples at a time</a></li>
   <li><a href="#applying-our-preprocessing-function-to-each-data-split" id="toc-applying-our-preprocessing-function-to-each-data-split" class="nav-link" data-scroll-target="#applying-our-preprocessing-function-to-each-data-split"><span class="header-section-number">13.3</span> Applying our preprocessing function to each data split</a></li>
   <li><a href="#creating-a-collation-function" id="toc-creating-a-collation-function" class="nav-link" data-scroll-target="#creating-a-collation-function"><span class="header-section-number">13.4</span> Creating a collation function</a></li>
   </ul></li>
-  <li><a href="#tk---setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" id="toc-tk---setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" class="nav-link" data-scroll-target="#tk---setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model"><span class="header-section-number">14</span> TK - Setting up TrainingArguments and a Trainer instance to train our model</a>
+  <li><a href="#setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" id="toc-setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" class="nav-link" data-scroll-target="#setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model"><span class="header-section-number">14</span> Setting up TrainingArguments and a Trainer instance to train our model</a>
   <ul class="collapse">
   <li><a href="#setting-up-our-trainingarguments" id="toc-setting-up-our-trainingarguments" class="nav-link" data-scroll-target="#setting-up-our-trainingarguments"><span class="header-section-number">14.1</span> Setting up our TrainingArguments</a></li>
-  <li><a href="#tk---optional-setting-up-an-optimizer-for-multiple-learning-rates" id="toc-tk---optional-setting-up-an-optimizer-for-multiple-learning-rates" class="nav-link" data-scroll-target="#tk---optional-setting-up-an-optimizer-for-multiple-learning-rates"><span class="header-section-number">14.2</span> TK - Optional: Setting up an optimizer for multiple learning rates</a></li>
-  <li><a href="#tk---creating-an-evaluation-function" id="toc-tk---creating-an-evaluation-function" class="nav-link" data-scroll-target="#tk---creating-an-evaluation-function"><span class="header-section-number">14.3</span> TK - Creating an evaluation function</a></li>
-  <li><a href="#tk---training-our-model-with-trainer" id="toc-tk---training-our-model-with-trainer" class="nav-link" data-scroll-target="#tk---training-our-model-with-trainer"><span class="header-section-number">14.4</span> TK - Training our model with Trainer</a></li>
+  <li><a href="#optional-setting-up-an-optimizer-for-multiple-learning-rates" id="toc-optional-setting-up-an-optimizer-for-multiple-learning-rates" class="nav-link" data-scroll-target="#optional-setting-up-an-optimizer-for-multiple-learning-rates"><span class="header-section-number">14.2</span> Optional: Setting up an optimizer for multiple learning rates</a></li>
+  <li><a href="#creating-an-evaluation-function" id="toc-creating-an-evaluation-function" class="nav-link" data-scroll-target="#creating-an-evaluation-function"><span class="header-section-number">14.3</span> Creating an evaluation function</a></li>
+  <li><a href="#training-our-model-with-trainer" id="toc-training-our-model-with-trainer" class="nav-link" data-scroll-target="#training-our-model-with-trainer"><span class="header-section-number">14.4</span> Training our model with Trainer</a></li>
   <li><a href="#plotting-our-models-loss-curves" id="toc-plotting-our-models-loss-curves" class="nav-link" data-scroll-target="#plotting-our-models-loss-curves"><span class="header-section-number">14.5</span> Plotting our model’s loss curves</a></li>
   </ul></li>
-  <li><a href="#tk---making-predictions-on-the-test-dataset" id="toc-tk---making-predictions-on-the-test-dataset" class="nav-link" data-scroll-target="#tk---making-predictions-on-the-test-dataset"><span class="header-section-number">15</span> TK - Making predictions on the test dataset</a>
+  <li><a href="#making-predictions-on-the-test-dataset" id="toc-making-predictions-on-the-test-dataset" class="nav-link" data-scroll-target="#making-predictions-on-the-test-dataset"><span class="header-section-number">15</span> Making predictions on the test dataset</a>
   <ul class="collapse">
-  <li><a href="#tk---evaluating-our-test-predictions" id="toc-tk---evaluating-our-test-predictions" class="nav-link" data-scroll-target="#tk---evaluating-our-test-predictions"><span class="header-section-number">15.1</span> TK - Evaluating our test predictions</a></li>
-  <li><a href="#tk---visualizing-our-test-dataset-mertics" id="toc-tk---visualizing-our-test-dataset-mertics" class="nav-link" data-scroll-target="#tk---visualizing-our-test-dataset-mertics"><span class="header-section-number">15.2</span> TK - Visualizing our test dataset mertics</a></li>
-  <li><a href="#tk---evaluating-and-visualizing-predictions-one-by-one" id="toc-tk---evaluating-and-visualizing-predictions-one-by-one" class="nav-link" data-scroll-target="#tk---evaluating-and-visualizing-predictions-one-by-one"><span class="header-section-number">15.3</span> TK - Evaluating and visualizing predictions one by one</a></li>
+  <li><a href="#evaluating-our-test-predictions" id="toc-evaluating-our-test-predictions" class="nav-link" data-scroll-target="#evaluating-our-test-predictions"><span class="header-section-number">15.1</span> Evaluating our test predictions</a></li>
+  <li><a href="#visualizing-our-test-dataset-evaluation-mertics" id="toc-visualizing-our-test-dataset-evaluation-mertics" class="nav-link" data-scroll-target="#visualizing-our-test-dataset-evaluation-mertics"><span class="header-section-number">15.2</span> Visualizing our test dataset evaluation mertics</a></li>
+  <li><a href="#evaluating-and-visualizing-predictions-one-by-one" id="toc-evaluating-and-visualizing-predictions-one-by-one" class="nav-link" data-scroll-target="#evaluating-and-visualizing-predictions-one-by-one"><span class="header-section-number">15.3</span> Evaluating and visualizing predictions one by one</a></li>
   <li><a href="#comparing-our-models-predicted-boxes-to-the-ground-truth-boxes" id="toc-comparing-our-models-predicted-boxes-to-the-ground-truth-boxes" class="nav-link" data-scroll-target="#comparing-our-models-predicted-boxes-to-the-ground-truth-boxes"><span class="header-section-number">15.4</span> Comparing our model’s predicted boxes to the ground truth boxes</a></li>
-  <li><a href="#tk---predict-on-image-from-the-wild" id="toc-tk---predict-on-image-from-the-wild" class="nav-link" data-scroll-target="#tk---predict-on-image-from-the-wild"><span class="header-section-number">15.5</span> TK - Predict on image from the wild</a></li>
+  <li><a href="#predict-on-image-from-the-wild" id="toc-predict-on-image-from-the-wild" class="nav-link" data-scroll-target="#predict-on-image-from-the-wild"><span class="header-section-number">15.5</span> Predict on image from the wild</a></li>
   </ul></li>
-  <li><a href="#tk---upload-our-trained-model-to-hugging-face-hub" id="toc-tk---upload-our-trained-model-to-hugging-face-hub" class="nav-link" data-scroll-target="#tk---upload-our-trained-model-to-hugging-face-hub"><span class="header-section-number">16</span> TK - Upload our trained model to Hugging Face Hub</a></li>
+  <li><a href="#uploading-our-trained-model-to-hugging-face-hub" id="toc-uploading-our-trained-model-to-hugging-face-hub" class="nav-link" data-scroll-target="#uploading-our-trained-model-to-hugging-face-hub"><span class="header-section-number">16</span> Uploading our trained model to Hugging Face Hub</a></li>
   <li><a href="#creating-a-demo-of-our-model-with-gradio" id="toc-creating-a-demo-of-our-model-with-gradio" class="nav-link" data-scroll-target="#creating-a-demo-of-our-model-with-gradio"><span class="header-section-number">17</span> Creating a demo of our model with Gradio</a>
   <ul class="collapse">
   <li><a href="#making-an-app-file" id="toc-making-an-app-file" class="nav-link" data-scroll-target="#making-an-app-file"><span class="header-section-number">17.1</span> Making an app file</a></li>
   <li><a href="#making-a-requirements-file" id="toc-making-a-requirements-file" class="nav-link" data-scroll-target="#making-a-requirements-file"><span class="header-section-number">17.2</span> Making a requirements file</a></li>
   <li><a href="#making-a-readme-file" id="toc-making-a-readme-file" class="nav-link" data-scroll-target="#making-a-readme-file"><span class="header-section-number">17.3</span> Making a README file</a></li>
   <li><a href="#making-an-examples-folder" id="toc-making-an-examples-folder" class="nav-link" data-scroll-target="#making-an-examples-folder"><span class="header-section-number">17.4</span> Making an examples folder</a></li>
-  <li><a href="#tk---uploading-our-demo-to-hugging-face-spaces" id="toc-tk---uploading-our-demo-to-hugging-face-spaces" class="nav-link" data-scroll-target="#tk---uploading-our-demo-to-hugging-face-spaces"><span class="header-section-number">17.5</span> TK - Uploading our demo to Hugging Face Spaces</a></li>
+  <li><a href="#uploading-our-demo-to-hugging-face-spaces" id="toc-uploading-our-demo-to-hugging-face-spaces" class="nav-link" data-scroll-target="#uploading-our-demo-to-hugging-face-spaces"><span class="header-section-number">17.5</span> Uploading our demo to Hugging Face Spaces</a></li>
   <li><a href="#testing-the-hosted-demo" id="toc-testing-the-hosted-demo" class="nav-link" data-scroll-target="#testing-the-hosted-demo"><span class="header-section-number">17.6</span> Testing the hosted demo</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">18</span> Summary</a>
@@ -428,8 +428,8 @@ Note
 <p>Feel to keep reading through the notebook but if you’d like to run the code yourself, be sure to go through the <a href="https://www.learnhuggingface.com/extras/setup">setup guide</a> first.</p>
 </div>
 </div>
-<section id="tk---what-were-going-to-build" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="tk---what-were-going-to-build"><span class="header-section-number">1.1</span> TK - What we’re going to build</h3>
+<section id="what-were-going-to-build" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="what-were-going-to-build"><span class="header-section-number">1.1</span> What we’re going to build</h3>
 <p>We’re going to be bulding Trashify 🚮, an <strong>object detection model</strong> which incentivises people to pick up trash in their local area by detecting <code>bin</code>, <code>trash</code>, <code>hand</code>.</p>
 <p>If all three items are detected, a person gets +1 point!</p>
 <p>For example, say you were going for a walk around your neighbourhood and took a photo of yourself picking up a piece (with your <strong>hand</strong> or <strong>trash arm</strong>) of <strong>trash</strong> and putting it in the <strong>bin</strong>, you would get a point.</p>
@@ -459,8 +459,8 @@ Note
 </div>
 </div>
 </section>
-<section id="tk---what-is-object-detection" class="level3" data-number="1.2">
-<h3 data-number="1.2" class="anchored" data-anchor-id="tk---what-is-object-detection"><span class="header-section-number">1.2</span> TK - What is object detection?</h3>
+<section id="what-is-object-detection" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="what-is-object-detection"><span class="header-section-number">1.2</span> What is object detection?</h3>
 <p>Object detection is the process of identifying and locating an item in an image.</p>
 <p>Where <em>item</em> can mean almost anything.</p>
 <p>For example:</p>
@@ -478,9 +478,12 @@ Note
 <li>A <a href="https://www.sciencedirect.com/science/article/abs/pii/S0956053X23001915">machine learning paper</a> for using a computer vision model on a Raspberry Pi (a small computer) for waste identification.</li>
 <li><a href="https://www.ameru.ai">Ameru</a> is a company building a trash-identifying bin to sort automatically sort trash as people put it in, see the <a href="https://labelstud.io/blog/ameru-labeling-for-a-greener-world/">case study of hose they created their own custom dataset using Label Studio</a>.</li>
 </ul>
-<p>–</p>
-<p>TK image - add examples of actual trash identification projects, see</p>
-<p>–</p>
+<figure style="text-align: center;" class="figure">
+<img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/01-where-object-detection-is-used.png" alt="A collage of five images illustrating computer vision applications: the top left shows a car at a parking barrier with its license plate highlighted by a green bounding box; the top right displays various trash items on a conveyor belt, each identified and outlined by a colored bounding box and label; the bottom left is a close-up of a bee with a green bounding box highlighting a varroa mite on its back; the bottom middle features a damaged road with two potholes, each outlined by a green bounding box; and the image on the right shows a smart waste bin with an interactive screen and a green bounding box highlighting an item in its collection bag visible through a window." style="width: 100%; max-width: 900px; height: auto;" class="figure-img">
+<figcaption>
+Different problems where object detection can be used: license plate detection, trash type identification, pest detection on bees and pothole detection.
+</figcaption>
+</figure>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -494,13 +497,6 @@ Note
 <p><strong>Note:</strong> Object detection is also sometimes referred to as <em>image localization</em> or <em>object localization</em>. For consistency, I will use the term object detection, however, either of these terms could substitute.</p>
 </div>
 </div>
-<table class="caption-top table">
-<tbody>
-<tr class="odd">
-<td>* TK image - examples of where object detection is used</td>
-</tr>
-</tbody>
-</table>
 <p><strong>Image classification</strong> deals with classifying an image as a whole into a single <code>class</code>, object detection endeavours to find the specific target item and <em>where</em> it is in an image.</p>
 <p>One of the most common ways of showing where an item is in an image is by displaying a <strong>bounding box</strong> (a rectangle-like box around the target item).</p>
 <p>An object detection model will often take an input image tensor in the shape <code>[3, 640, 640]</code> (<code>[colour_channels, height, width]</code>) and output a tensor in the form <code>[class_name, x_min, y_min, x_max, y_max]</code> or <code>[class_name, x1, y1, x2, y2]</code> (this is two ways to write the same example format, there are more formats, we’ll see these below in <a href="#tbl-bbox-formats" class="quarto-xref">Table&nbsp;1</a>).</p>
@@ -512,7 +508,12 @@ Note
 <li><code>x_max</code> = The <code>x</code> value of the bottom right corner of the box.</li>
 <li><code>y_max</code> = The <code>y</code> value of the bottom right corner of the box.</li>
 </ul>
-<p>– TK image – example of a bounding box on an image</p>
+<figure style="text-align: center;" class="figure">
+<img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/02-different-bounding-box-formats.png" alt="A side-by-side comparison of two diagrams illustrating bounding box coordinates for an image of a hand opening a metal trash bin, with the trash bin enclosed in a magenta bounding box; the left diagram, titled 'Normalized Bounding Box Coordinates in Various Formats,' displays coordinates as ratios relative to the image dimensions (960px width, 1280px height) for XYXY, XYWH, and CXCYWH formats, while the right diagram, titled 'Absolute Bounding Box Coordinates in Various Formats,' shows the same bounding box coordinates in absolute pixel values for the same formats." style="width: 100%; max-width: 900px; height: auto;" class="figure-img">
+<figcaption>
+Normalized bounding box coordinates in CXCYWH format as well as an absolute bounding in XYXY format.
+</figcaption>
+</figure>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -531,8 +532,8 @@ Object detection bounding box formats
 </div>
 </div>
 </section>
-<section id="tk---why-train-your-own-object-detection-models" class="level3" data-number="1.3">
-<h3 data-number="1.3" class="anchored" data-anchor-id="tk---why-train-your-own-object-detection-models"><span class="header-section-number">1.3</span> TK - Why train your own object detection models?</h3>
+<section id="why-train-your-own-object-detection-models" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="why-train-your-own-object-detection-models"><span class="header-section-number">1.3</span> Why train your own object detection models?</h3>
 <p>You can customize <strong>pre-trained models</strong> for object detection as well as API-powered models and LLMs such as <a href="https://ai.google.dev/gemini-api/docs/vision?lang=python#bbox">Gemini</a>, <a href="https://landing.ai/agentic-object-detection">LandingAI</a> and <a href="https://github.com/IDEA-Research/DINO-X-API">DINO-X</a>.</p>
 <p>Depending on your requirements, there are several pros and cons for using your own model versus using an API.</p>
 <p>Training/fine-tuning your own model:</p>
@@ -603,8 +604,8 @@ Object detection bounding box formats
 </table>
 <p>For this project, we’re going to focus on fine-tuning our own model.</p>
 </section>
-<section id="tk---workflow-were-going-to-follow" class="level3" data-number="1.4">
-<h3 data-number="1.4" class="anchored" data-anchor-id="tk---workflow-were-going-to-follow"><span class="header-section-number">1.4</span> TK - Workflow we’re going to follow</h3>
+<section id="workflow-were-going-to-follow" class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="workflow-were-going-to-follow"><span class="header-section-number">1.4</span> Workflow we’re going to follow</h3>
 <p>The good news for us is that the Hugging Face ecosystem makes working on custom machine learning projects an absolute blast.</p>
 <p>And workflow is reproducible across several kinds of projects.</p>
 <p>Start with data (or skip this step and go straight to a model) -&gt; get/customize a model -&gt; build and share a demo.</p>
@@ -632,8 +633,8 @@ A general Hugging Face workflow from idea to shared model and demo using tools f
 </figure>
 </section>
 </section>
-<section id="tk---importing-necessary-libraries" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="tk---importing-necessary-libraries"><span class="header-section-number">2</span> TK - Importing necessary libraries</h2>
+<section id="importing-necessary-libraries" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="importing-necessary-libraries"><span class="header-section-number">2</span> Importing necessary libraries</h2>
 <p>Let’s get started!</p>
 <p>First, we’ll import the required libraries.</p>
 <p>If you’re running on your local computer, be sure to check out the getting <a href="https://www.learnhuggingface.com/extras/setup">setup guide</a> to make sure you have everything you need.</p>
@@ -665,7 +666,7 @@ Note
 <li><a href="https://lightning.ai/docs/torchmetrics/stable/"><code>torchmetrics</code></a> - a library containing many evaluation metrics compatible with PyTorch/Transformers, you can install it via <code>pip install torchmetrics</code>.</li>
 </ul>
 <p>We can also check the versions of our software with <code>package_name.__version__</code>.</p>
-<div id="cell-10" class="cell" data-execution_count="2">
+<div id="cell-10" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install/import dependencies (this is mostly for Google Colab, as the other dependences are available by default in Colab)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> datasets, evaluate, accelerate</span>
@@ -685,7 +686,7 @@ Note
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Required for evaluation</span></span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Can install with !pip install torchmetrics[detection]</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torchmetrics</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pycocotools</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pycocotools <span class="co"># make sure we have this for torchmetrics</span></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Check versions (as long as you've got the following versions or higher, you should be good)</span></span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Using transformers version: </span><span class="sc">{</span>transformers<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -744,7 +745,12 @@ annotations.json</code></pre>
 <p>Don’t worry too much about the exact meaning of everything in the above <code>annotations.json</code> file for now (this is only one example, there are many different ways object detection information could be displayed).</p>
 <p>The main point is that each target image is paired with an assosciated label.</p>
 <p>Now like all good machine learning cooking shows, I’ve prepared a dataset from earlier.</p>
-<p>TK image - dataset on Hugging Face</p>
+<figure style="text-align: center;" class="figure">
+<a href="https://huggingface.co/datasets/mrdbourke/trashify_manual_labelled_images"> <img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/03-trashify-dataset-on-huggingface.png" alt="A screenshot of a Hugging Face webpage displaying the 'mrdbourke/trashify_manual_labelled_images' dataset, showing the 'Dataset card' tab with the 'Dataset Viewer' section visible, which lists image thumbnails, 'image_id', 'annotations', 'label_source', and 'image_source' for each entry; on the right sidebar, dataset statistics like 'Downloads last month' (106), 'Size of downloaded dataset files' (1.03 GB), and 'Number of rows' (1,128) are displayed, along with a 'Use this dataset' button; below the viewer, a 'Load data' section shows Python code to import and load the dataset using the 'datasets' library." style="width: 100%; max-width: 900px; height: auto;" class="figure-img"> </a>
+<figcaption>
+Our Trashify dataset is available on Hugging Face. These images have been labelled manually with bounding boxes for different classes.
+</figcaption>
+</figure>
 <p>It’s stored on Hugging Face Datasets (also called the Hugging Face Hub) under the name <a href="https://huggingface.co/datasets/mrdbourke/trashify_manual_labelled_images"><code>mrdbourke/trashify_manual_labelled_images</code></a>.</p>
 <p>This is a dataset I’ve collected manually by hand (yes, by picking up 1000+ pieces of trash and photographing it) as well as labelled by hand (by drawing boxes on each image with a labelling tool called <a href="https://prodi.gy/features/computer-vision">Prodigy</a>).</p>
 <section id="loading-the-dataset" class="level3" data-number="3.1">
@@ -1034,8 +1040,8 @@ ID to label mapping:
 <p>Now we know what colours to look out for when we visualize our bounding boxes.</p>
 </section>
 </section>
-<section id="tk---plotting-a-single-image-and-visualizing-the-boxes" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="tk---plotting-a-single-image-and-visualizing-the-boxes"><span class="header-section-number">4</span> TK - Plotting a single image and visualizing the boxes</h2>
+<section id="plotting-a-single-image-and-visualizing-the-boxes" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="plotting-a-single-image-and-visualizing-the-boxes"><span class="header-section-number">4</span> Plotting a single image and visualizing the boxes</h2>
 <p>Okay, okay, finally time to plot an image!</p>
 <p>Let’s take a random sample from our <code>dataset</code> and plot the image as well as the box on it.</p>
 <p>To save some space in our notebook (plotting many images can increase the size of our notebook dramatically), we’ll create two small helper functions:</p>
@@ -1331,13 +1337,13 @@ Note
 <p>There are two main ways of getting an object detection model:</p>
 <ol type="1">
 <li><strong>Building it yourself.</strong> For example, constructing it layer by layer, testing it and training it on your target problem.</li>
-<li><strong>Using an existing one.</strong> For example, find an existing model on a problem space similar to your own and then adapt it via <strong>transfer learning</strong> (TK - add link to glossary) to your own task.</li>
+<li><strong>Using an existing one.</strong> For example, find an existing model on a problem space similar to your own and then adapt it via <a href="https://en.wikipedia.org/wiki/Transfer_learning"><strong>transfer learning</strong></a> to your own task.</li>
 </ol>
 <p>In our case, we’re going to focus on the latter.</p>
 <p>We’ll be taking a pre-trained object detection model and fine-tuning it on our Trashify 🚮 dataset so it outputs the boxes and labels we’re after.</p>
 <section id="places-to-get-object-detection-models" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="places-to-get-object-detection-models"><span class="header-section-number">6.1</span> Places to get object detection models</h3>
-<p>Instead of building your own machine learning model from scratch, it’s common practice to take an existing model that works on similar problem space to yours and then <strong>fine-tune</strong> (TK - add link to glossary) it to your own use case.</p>
+<p>Instead of building your own machine learning model from scratch, it’s common practice to take an existing model that works on similar problem space to yours and then <strong>fine-tune</strong> it to your own use case.</p>
 <p>There are several places to get object detection models:</p>
 <div id="tbl-detection-models" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -2009,7 +2015,12 @@ AttributeError: 'Image' object has no attribute 'shape'</code></pre>
 <ul>
 <li>Data -&gt; Preprocessor -&gt; Model</li>
 </ul>
-<p>TK image - can we make data -&gt; preprocessor -&gt; model look better? potentially a flow chart?</p>
+<figure style="text-align: center;" class="figure">
+<img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/04-data-preprocess-model.png" alt="A diagram illustrating a three-stage object detection pipeline: the 'Data' stage shows an image of a hand discarding trash into a red-lidded bin, with bounding boxes labeling 'bin' (green), 'trash' (blue), and 'hand' (purple), alongside its corresponding JSON-like annotation data; an arrow points to the 'Preprocess' stage, represented by a green rounded rectangle labeled 'RTDetrImageProcessor'; another arrow leads to the 'Model' stage, depicted by a stylized neural network icon and labeled 'RTDetrV2ForObjectDetection'" style="width: 100%; max-width: 900px; height: auto;" class="figure-img">
+<figcaption>
+Workflow we’ll follow to create our own custom object detection model. We’ll start with images labelled with boxes of trash, bin and hand (and other classes), preprocess the process to be ready for use with a model and then we’ll train the model on our preprocessed custom data.
+</figcaption>
+</figure>
 <p>Meaning, the raw input data gets preprocessed or transformed in some way before being passed to a model.</p>
 <p>Preprocessors and models are often loaded with an <a href="https://huggingface.co/docs/transformers/en/model_doc/auto">Auto Class</a>.</p>
 <p>An Auto Class pairs a preprocessor and model based on their model name or key.</p>
@@ -4077,10 +4088,15 @@ tensor([[0.3925, 0.1854, 0.7033, 0.5378],
 <li>First on <code>dataset["train"]</code> with <code>test_size=0.3</code> to make the 70/30 training/test split, we’ll save this split to the variable <code>dataset_split</code>.</li>
 <li>Next on <code>dataset_split["test"]</code> with <code>test_size=0.66</code> to make the 66/33 test/validation split, we’ll set this variable to <code>dataset_test_val_split</code>.</li>
 </ol>
+<figure style="text-align: center;" class="figure">
+<img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/05-dataset-splits.png" alt="A diagram illustrating two methods of splitting a dataset, shown as three vertical bars: the leftmost pink bar represents the 'Whole Dataset'; an arrow points to the middle bar, which is split into a blue 'Testing Split (30%)' on top and a pink 'Training Split (70%)' on the bottom; a second arrow points to the rightmost bar, which is divided into a blue 'Testing Split (20%)' at the top, a yellow 'Validation Split (10%)' in the middle, and a pink 'Training Split (70%)' at the bottom." style="width: 100%; max-width: 900px; height: auto;" class="figure-img">
+<figcaption>
+An approximate breakdown of the different dataset splits we’re going to create. We’ll start with the whole dataset and then break it into training and test splits before breaking the subsequent test split into test and validation splits. Our model will train on the training data and be evaluated on the validation and testing data.
+</figcaption>
+</figure>
 <p>Once we’ve done this, we’ll reassign all of the splits back to our original <code>dataset</code>.</p>
 <p>We’ll also set <code>seed=42</code> for reproducibility.</p>
 <p>Let’s do it!</p>
-<p>TK image - make an image of these workflows to make it easier to understand</p>
 <div id="cell-165" class="cell" data-execution_count="64">
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: Be careful of running this cell multiple times, if you do, the dataset size will get smaller. </span></span>
 <span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="co"># If this happens, just reload the whole `dataset` as above.</span></span>
@@ -4124,8 +4140,8 @@ tensor([[0.3925, 0.1854, 0.7033, 0.5378],
 <p>Now we’ve got three splits of our dataset to work with.</p>
 <p>We’ll make sure our model never sees the <code>validation</code> and <code>test</code> splits during training, so when evaluate it we know that it’s only seeing new samples.</p>
 </section>
-<section id="tk---writing-a-function-for-preprocessing-multiple-samples-at-a-time" class="level3" data-number="13.2">
-<h3 data-number="13.2" class="anchored" data-anchor-id="tk---writing-a-function-for-preprocessing-multiple-samples-at-a-time"><span class="header-section-number">13.2</span> TK - Writing a function for preprocessing multiple samples at a time</h3>
+<section id="writing-a-function-for-preprocessing-multiple-samples-at-a-time" class="level3" data-number="13.2">
+<h3 data-number="13.2" class="anchored" data-anchor-id="writing-a-function-for-preprocessing-multiple-samples-at-a-time"><span class="header-section-number">13.2</span> Writing a function for preprocessing multiple samples at a time</h3>
 <p>We’ve preprocessed and passed one sample through our model, new let’s do the same for multiple samples.</p>
 <p>We’re going to work towards having a function that can go from a group or batch of samples (images and their annotations) and return them in preprocessed form (via <a href="https://huggingface.co/docs/transformers/en/model_doc/rt_detr#transformers.RTDetrImageProcessor.preprocess"><code>transformers.RTDetrImageProcessor.preprocess</code></a>) ready to be used with our model.</p>
 <p>Let’s first remind ourselves of what a single unprocessed sample looks like.</p>
@@ -4715,8 +4731,8 @@ Wall time: 9.66 s</code></pre>
 </ol>
 </section>
 </section>
-<section id="tk---setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" class="level2" data-number="14">
-<h2 data-number="14" class="anchored" data-anchor-id="tk---setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model"><span class="header-section-number">14</span> TK - Setting up TrainingArguments and a Trainer instance to train our model</h2>
+<section id="setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model"><span class="header-section-number">14</span> Setting up TrainingArguments and a Trainer instance to train our model</h2>
 <p>Data ready and prepared, time to train a model!</p>
 <p>We’ll use <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.TrainingArguments"><code>transformers.TrainingArguments</code></a> to set various hyperparameters for our model (many of these will be set by default, however, we can tweak them to our liking).</p>
 <p>We’ll also create an instance of <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer"><code>transformers.Trainer</code></a> which we can pass our preprocessed datasets for it to train/evaluate on.</p>
@@ -4724,7 +4740,7 @@ Wall time: 9.66 s</code></pre>
 <ol type="1">
 <li>Create a fresh instance of our model using the <code>create_model()</code> function.</li>
 <li>Make a directory for saving our trained models to.</li>
-<li>Define our model’s hyperparameters using <code>transformers.TrainingArguments</code>, we’ll take many of these settings from the assosciated research papers that introduced the models.</li>
+<li>Define our model’s hyperparameters using <code>transformers.TrainingArguments</code>, we’ll take many of these settings from the assosciated research papers that introduced our model.</li>
 <li>Create an evaluation function we can pass to our <code>transformers.Trainer</code> instance as the <code>compute_metrics</code> parameter to evaluate our model.</li>
 <li>Create an instance of <code>transformers.Trainer</code> and pass it our training arguments from 2 as well as our preprocessed data.</li>
 <li>Call <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.train"><code>transformers.Trainer.train()</code></a> to train the model from 1 on our own data.</li>
@@ -4878,9 +4894,15 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 </div>
 </div>
 </section>
-<section id="tk---optional-setting-up-an-optimizer-for-multiple-learning-rates" class="level3" data-number="14.2">
-<h3 data-number="14.2" class="anchored" data-anchor-id="tk---optional-setting-up-an-optimizer-for-multiple-learning-rates"><span class="header-section-number">14.2</span> TK - Optional: Setting up an optimizer for multiple learning rates</h3>
+<section id="optional-setting-up-an-optimizer-for-multiple-learning-rates" class="level3" data-number="14.2">
+<h3 data-number="14.2" class="anchored" data-anchor-id="optional-setting-up-an-optimizer-for-multiple-learning-rates"><span class="header-section-number">14.2</span> Optional: Setting up an optimizer for multiple learning rates</h3>
 <p>In the papers that mentioned the DETR model we’re using (see Table 1 in the <a href="https://arxiv.org/abs/2407.17140">RT-DETRv2 paper</a>), they state that they used a different learning rate value for the backbone (<code>learning_rate=1e-5</code>) as well as the object detection head (<code>learning_rate=1e-4</code>).</p>
+<figure style="text-align: center;" class="figure">
+<img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/06-table-1-rt-detrv2-paper.png" alt="A table, titled 'Table 1: The hyperparameters of RT-DETRv2,' lists four model variants: 'RT-DETRv2-S,' 'RT-DETRv2-M,' 'RT-DETRv2-L,' and 'RT-DETRv2-X,' along with their respective 'Backbone' architectures ('ResNet18,' 'ResNet34,' 'ResNet50,' and 'ResNet101'), and their learning rates for the backbone ('lr_backbone': '1e-4,' '5e-5,' '1e-5,' '1e-6') and the detector head ('lr_det': all '1e-4')" style="width: 100%; max-width: 600px; height: auto;" class="figure-img">
+<figcaption>
+Different learning rates used for different sections of the model from the <a href="https://arxiv.org/pdf/2407.17140">RT-DETRv2 paper</a>. The backbone uses a slightly lower learning rate than the detection head.
+</figcaption>
+</figure>
 <p>To set this up ourselves, we can extract which parameters of our model belong to the <code>backbone</code> as well as which don’t.</p>
 <p>To find the backbone parameters, we can loop through our model’s <code>named_parameters()</code> method and filter for any which contain the string <code>"backbone"</code> in their name.</p>
 <p>We’ll append these to a list called <code>backbone_parameters</code> and assume any that don’t have <code>"backbone"</code> in their name are not part of the model’s backbone.</p>
@@ -4936,8 +4958,8 @@ Note
 <p>Awesome!</p>
 <p>Now if we wanted to use our custom optimizer, we could use <code>CustomTrainer</code> instead of <code>Trainer</code>.</p>
 </section>
-<section id="tk---creating-an-evaluation-function" class="level3" data-number="14.3">
-<h3 data-number="14.3" class="anchored" data-anchor-id="tk---creating-an-evaluation-function"><span class="header-section-number">14.3</span> TK - Creating an evaluation function</h3>
+<section id="creating-an-evaluation-function" class="level3" data-number="14.3">
+<h3 data-number="14.3" class="anchored" data-anchor-id="creating-an-evaluation-function"><span class="header-section-number">14.3</span> Creating an evaluation function</h3>
 <p>Evaluating a model’s performance is just as important as training a model.</p>
 <p>After all, if you don’t know how well your model is performing, how can you be confident in deploying it or using it in the real world?</p>
 <p>In this section, let’s create an evaluation function we can pass to <code>transformers.Trainer</code>’s <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.compute_metrics"><code>compute_metrics</code> parameter</a>.</p>
@@ -5155,11 +5177,11 @@ Note
 <span id="cb164-139"><a href="#cb164-139" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="tk---training-our-model-with-trainer" class="level3" data-number="14.4">
-<h3 data-number="14.4" class="anchored" data-anchor-id="tk---training-our-model-with-trainer"><span class="header-section-number">14.4</span> TK - Training our model with Trainer</h3>
+<section id="training-our-model-with-trainer" class="level3" data-number="14.4">
+<h3 data-number="14.4" class="anchored" data-anchor-id="training-our-model-with-trainer"><span class="header-section-number">14.4</span> Training our model with Trainer</h3>
 <p>We’ve now got all the ingredients needed to train our model!</p>
-<p>The good new is since we’ve put so much effort into preparing our dataset, creating an evaluation function and setting up our training arguments, we can train our model in a few lines of code.</p>
-<p>To train our model, we’ll set up an instance of <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#api-reference%20%5D%5B%20transformers.Trainer"><code>transformers.Trainer</code></a> and then we’ll pass it the following arguments:</p>
+<p>The good news is since we’ve put so much effort into preparing our dataset, creating an evaluation function and setting up our training arguments, we can train our model in a few lines of code.</p>
+<p>To train our model, we’ll set up an instance of <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer"><code>transformers.Trainer</code></a> and then we’ll pass it the following arguments:</p>
 <ul>
 <li><code>model</code> - The <code>model</code> we’d like to train. In our case it will be the fresh insteand of <code>model</code> we created using our <code>create_model()</code> function.</li>
 <li><code>args</code> - An instance of <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.TrainingArguments"><code>transformers.TrainingArguments</code></a> (or <code>training_args</code> in our case) containing various hyperparameter settings to use for our model.</li>
@@ -5596,10 +5618,10 @@ Note
 <p>I’ll leave this as an extension for you to try.</p>
 </section>
 </section>
-<section id="tk---making-predictions-on-the-test-dataset" class="level2" data-number="15">
-<h2 data-number="15" class="anchored" data-anchor-id="tk---making-predictions-on-the-test-dataset"><span class="header-section-number">15</span> TK - Making predictions on the test dataset</h2>
-<p>We’ve trained a model on our training data (<code>processed_dataset["train"]</code>) and by the metrics on the validation data (<code>processed_dataset["validation"]</code>) it looks like it’s performing well.</p>
-<p>However, there’s nothing quite like performing predictions on <em>unseen</em> data and seeing how they go.</p>
+<section id="making-predictions-on-the-test-dataset" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="making-predictions-on-the-test-dataset"><span class="header-section-number">15</span> Making predictions on the test dataset</h2>
+<p>We’ve trained a model on our training data (<code>processed_dataset["train"]</code>) and considering the metrics on the validation data (<code>processed_dataset["validation"]</code>) it looks like it’s performing well.</p>
+<p>However, there’s nothing quite like performing predictions on <em>unseen</em> test data and seeing how they go.</p>
 <p>We can make predictions using our trained model by passing it samples formatted in the same way it was trained on.</p>
 <p>Good news is, we’ve already got preprocessed test samples (our model has never seen these) in <code>processed_dataset["test"]</code>.</p>
 <p>Let’s start by inspecting a single processed test sample and then we’ll make predictions on the whole test dataset.</p>
@@ -5726,8 +5748,8 @@ Note
 [INFO] Test predictions boxes shape: torch.Size([224, 300, 4]) -&gt; (num_samples, num_predictions, box_coordinates - CXCYWH normalize format)</code></pre>
 </div>
 </div>
-<section id="tk---evaluating-our-test-predictions" class="level3" data-number="15.1">
-<h3 data-number="15.1" class="anchored" data-anchor-id="tk---evaluating-our-test-predictions"><span class="header-section-number">15.1</span> TK - Evaluating our test predictions</h3>
+<section id="evaluating-our-test-predictions" class="level3" data-number="15.1">
+<h3 data-number="15.1" class="anchored" data-anchor-id="evaluating-our-test-predictions"><span class="header-section-number">15.1</span> Evaluating our test predictions</h3>
 <p>Now we’ve got our predicted logits and boxes, we can format them in a way so we can evaluate them with <a href="https://lightning.ai/docs/torchmetrics/stable/detection/mean_average_precision.html"><code>torchmetrics.detection.meap_ap.MeanAveragePrecision</code></a>.</p>
 <p>The <code>MeanAveragePrecision</code> metric wants the following:</p>
 <ul>
@@ -5924,8 +5946,8 @@ Note
 </div>
 </div>
 </section>
-<section id="tk---visualizing-our-test-dataset-mertics" class="level3" data-number="15.2">
-<h3 data-number="15.2" class="anchored" data-anchor-id="tk---visualizing-our-test-dataset-mertics"><span class="header-section-number">15.2</span> TK - Visualizing our test dataset mertics</h3>
+<section id="visualizing-our-test-dataset-evaluation-mertics" class="level3" data-number="15.2">
+<h3 data-number="15.2" class="anchored" data-anchor-id="visualizing-our-test-dataset-evaluation-mertics"><span class="header-section-number">15.2</span> Visualizing our test dataset evaluation mertics</h3>
 <p>We’ve now got some test dataset evaluation metrics, how about we follow the data explorer’s motto and visualize, visualize, visualize!</p>
 <p>Let’s visualize a these in a bar chart.</p>
 <div id="cell-234" class="cell" data-execution_count="97">
@@ -6035,8 +6057,8 @@ Note
 </div>
 </div>
 </section>
-<section id="tk---evaluating-and-visualizing-predictions-one-by-one" class="level3" data-number="15.3">
-<h3 data-number="15.3" class="anchored" data-anchor-id="tk---evaluating-and-visualizing-predictions-one-by-one"><span class="header-section-number">15.3</span> TK - Evaluating and visualizing predictions one by one</h3>
+<section id="evaluating-and-visualizing-predictions-one-by-one" class="level3" data-number="15.3">
+<h3 data-number="15.3" class="anchored" data-anchor-id="evaluating-and-visualizing-predictions-one-by-one"><span class="header-section-number">15.3</span> Evaluating and visualizing predictions one by one</h3>
 <p>We’ve seen how our model performs on the test dataset in metric form but nothing quite compares to visualizing actual predictions.</p>
 <p>To do so, we’ll extract a random sample from <code>processed_dataset["test"]</code>, pass it to our model, post process the outputs and then plot the predicted boxes on an actual image.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -6175,15 +6197,15 @@ Pred: not_trash (0.4536)</code></pre>
 <p>Woah! It looks like our model does fairly well to reproduce boxes that are similar to the ground truth.</p>
 <p>There are some slight mistakes such as where our model predicts more than one of the same box in similar areas (this could be filtered later on with NMS or <a href="https://paperswithcode.com/method/non-maximum-suppression">non-maximum suppression</a> which removes all but the highest prediction probability boxes for each class).</p>
 </section>
-<section id="tk---predict-on-image-from-the-wild" class="level3" data-number="15.5">
-<h3 data-number="15.5" class="anchored" data-anchor-id="tk---predict-on-image-from-the-wild"><span class="header-section-number">15.5</span> TK - Predict on image from the wild</h3>
+<section id="predict-on-image-from-the-wild" class="level3" data-number="15.5">
+<h3 data-number="15.5" class="anchored" data-anchor-id="predict-on-image-from-the-wild"><span class="header-section-number">15.5</span> Predict on image from the wild</h3>
 <p>We’ve seen how our model performs on test data which is similar to our training data.</p>
 <p>But how does it do on an image from the wild?</p>
 <p>For the image below, I searched for “person putting trash in bin” and selected one of the first images to appear.</p>
-<p>You can see it at the URL <code>https://images.pexels.com/photos/7565384/pexels-photo-7565384.jpeg</code>.</p>
-<p>We could even try our model on an AI generated image of a person throwing trash in a bin and see how it performs.</p>
+<p>You can see it at the URL: <a href="https://images.pexels.com/photos/7565384/pexels-photo-7565384.jpeg"><code>https://images.pexels.com/photos/7565384/pexels-photo-7565384.jpeg</code></a>.</p>
+<p>If this image doesn’t work, we could even try our model on an AI generated image of a person throwing trash in a bin and see how it performs.</p>
 <p>Let’s write some code to download our target image from the URL above and save it to file.</p>
-<div id="cell-245" class="cell" data-execution_count="101">
+<div id="cell-245" class="cell">
 <div class="sourceCode cell-code" id="cb192"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
 <span id="cb192-3"><a href="#cb192-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -6193,7 +6215,7 @@ Pred: not_trash (0.4536)</code></pre>
 <span id="cb192-7"><a href="#cb192-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb192-8"><a href="#cb192-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Donwload image</span></span>
 <span id="cb192-9"><a href="#cb192-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> requests.get(url, stream<span class="op">=</span><span class="va">True</span>, timeout<span class="op">=</span><span class="dv">10</span>) <span class="im">as</span> response:</span>
-<span id="cb192-10"><a href="#cb192-10" aria-hidden="true" tabindex="-1"></a>    response.raise_for_status()            <span class="co"># ensure the download succeeded</span></span>
+<span id="cb192-10"><a href="#cb192-10" aria-hidden="true" tabindex="-1"></a>    response.raise_for_status() <span class="co"># ensure the download succeeded</span></span>
 <span id="cb192-11"><a href="#cb192-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(filename, <span class="st">"wb"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
 <span id="cb192-12"><a href="#cb192-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> chunk <span class="kw">in</span> response.iter_content(chunk_size<span class="op">=</span><span class="dv">8192</span>):</span>
 <span id="cb192-13"><a href="#cb192-13" aria-hidden="true" tabindex="-1"></a>            <span class="bu">file</span>.write(chunk)</span>
@@ -6323,8 +6345,8 @@ Pred: bin (0.4587)</code></pre>
 <p>To fix this, we could incorportate more diverse training data into our pipeline.</p>
 </section>
 </section>
-<section id="tk---upload-our-trained-model-to-hugging-face-hub" class="level2" data-number="16">
-<h2 data-number="16" class="anchored" data-anchor-id="tk---upload-our-trained-model-to-hugging-face-hub"><span class="header-section-number">16</span> TK - Upload our trained model to Hugging Face Hub</h2>
+<section id="uploading-our-trained-model-to-hugging-face-hub" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="uploading-our-trained-model-to-hugging-face-hub"><span class="header-section-number">16</span> Uploading our trained model to Hugging Face Hub</h2>
 <p>Since our model looks like it’s working quite well, how about we upload to the Hugging Face Hub to make it accessible to others?</p>
 <p>We’ll first start by creating a path to save the model to locally.</p>
 <p>Then we’ll save the model to file using the <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.save_model"><code>transformers.Trainer.save_model</code></a> method.</p>
@@ -6683,10 +6705,9 @@ Note
 <li><code>app_file</code> - The target app file for Spaces to run (set to <code>app_file: app.py</code> by default).</li>
 </ul>
 <p>And there are plenty more in the <a href="https://huggingface.co/docs/hub/en/spaces-config-reference">Spaces Configuration References documentation</a>.</p>
-TK image - fix this image to be the trashify demo
 <figure style="text-align: center;" class="figure">
 <!-- figtemplate -->
-<img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-text-classification/08-huggingface-spaces-yaml-front-matter.png" alt="Screenshot of a README.md file on Hugging Face Spaces. The file includes YAML front matter and Markdown content. The YAML front matter specifies the title as 'Food Not Food Text Classifier', with other attributes such as emoji, colorFrom, colorTo, sdk (Gradio), sdk_version, app_file, pinned, and license. Below the YAML section, the Markdown content includes a header 'Food Not Food Text Classifier' and a description of the project, which is a small demo to showcase a text classifier determining if a sentence is about food or not. The classifier is based on a DistilBERT model fine-tuned on a small synthetic dataset of 250 generated food or not food image captions." style="width: 100%; max-width: 900px; height: auto;" class="figure-img">
+<img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/09-trashify-spaces-front-matter.png" alt="A screenshot of a Hugging Face Space 'README.md' editor for 'trashify_demo_v4', divided into two green-outlined sections: the top section, labeled 'YAML front matter', displays a 'Metadata UI' with fields for 'license' (Apache License 2.0), 'sdk' (Gradio), 'colorFrom' (purple), etc., and below it, the corresponding YAML code with 'title: Trashify Demo V4', 'emoji: 🗑️', 'colorFrom: purple', and other settings; the bottom section, labeled 'Markdown description', shows the markdown content starting with '# 🗑️ Trashify Object Detector V4', followed by descriptions under '## Dataset', '## Demos', and '## Learn more', including links to datasets and other demo versions." style="width: 100%; max-width: 900px; height: auto;" class="figure-img">
 <figcaption>
 Example of Hugging Face Spaces README.md file with YAML front matter (front matter is another term for “things at the front/top of the file”) for formatting the Space.
 </figcaption>
@@ -6812,8 +6833,8 @@ Note
 <p>Looks like we’ve got all the files we need to create our Space.</p>
 <p>Let’s upload them to the Hugging Face Hub.</p>
 </section>
-<section id="tk---uploading-our-demo-to-hugging-face-spaces" class="level3" data-number="17.5">
-<h3 data-number="17.5" class="anchored" data-anchor-id="tk---uploading-our-demo-to-hugging-face-spaces"><span class="header-section-number">17.5</span> TK - Uploading our demo to Hugging Face Spaces</h3>
+<section id="uploading-our-demo-to-hugging-face-spaces" class="level3" data-number="17.5">
+<h3 data-number="17.5" class="anchored" data-anchor-id="uploading-our-demo-to-hugging-face-spaces"><span class="header-section-number">17.5</span> Uploading our demo to Hugging Face Spaces</h3>
 <p>We’ve created all of the files required for our demo, now for the fun part!</p>
 <p>Let’s upload them to Hugging Face Spaces.</p>
 <p>To do so programmatically, we can use the <a href="https://huggingface.co/docs/huggingface_hub/en/package_reference/hf_api">Hugging Face Hub Python API</a>.</p>
@@ -6842,7 +6863,7 @@ Note
 <li>Hope it all works and inspect the results! 🤞</li>
 </ol>
 <p>A fair few steps but we’ve got this!</p>
-<div id="cell-275" class="cell" data-execution_count="25">
+<div id="cell-275" class="cell">
 <div class="sourceCode cell-code" id="cb217"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Import the required methods for uploading to the Hugging Face Hub</span></span>
 <span id="cb217-2"><a href="#cb217-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> (</span>
 <span id="cb217-3"><a href="#cb217-3" aria-hidden="true" tabindex="-1"></a>    create_repo,</span>
@@ -6852,7 +6873,7 @@ Note
 <span id="cb217-7"><a href="#cb217-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb217-8"><a href="#cb217-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb217-9"><a href="#cb217-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Define the parameters we'd like to use for the upload</span></span>
-<span id="cb217-10"><a href="#cb217-10" aria-hidden="true" tabindex="-1"></a>LOCAL_DEMO_FOLDER_PATH_TO_UPLOAD <span class="op">=</span> <span class="st">"../demos/trashify_object_detector"</span> <span class="co"># TK - update this path </span></span>
+<span id="cb217-10"><a href="#cb217-10" aria-hidden="true" tabindex="-1"></a>LOCAL_DEMO_FOLDER_PATH_TO_UPLOAD <span class="op">=</span> <span class="st">"../demos/trashify_object_detector"</span> </span>
 <span id="cb217-11"><a href="#cb217-11" aria-hidden="true" tabindex="-1"></a>HF_TARGET_SPACE_NAME <span class="op">=</span> <span class="st">"trashify_demo_v4"</span></span>
 <span id="cb217-12"><a href="#cb217-12" aria-hidden="true" tabindex="-1"></a>HF_REPO_TYPE <span class="op">=</span> <span class="st">"space"</span> <span class="co"># we're creating a Hugging Face Space</span></span>
 <span id="cb217-13"><a href="#cb217-13" aria-hidden="true" tabindex="-1"></a>HF_SPACE_SDK <span class="op">=</span> <span class="st">"gradio"</span></span>
