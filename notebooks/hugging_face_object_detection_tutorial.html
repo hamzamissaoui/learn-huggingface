@@ -6599,7 +6599,7 @@ Note
 <p>We can write all of the above in a notebook cell.</p>
 <p>And we can turn it into a file by using the <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html#cellmagic-writefile"><code>%%writefile</code></a> magic command and passing it our target filepath.</p>
 <p>Let’s do it!</p>
-<div id="cell-259" class="cell" data-execution_count="109">
+<div id="cell-259" class="cell">
 <div class="sourceCode cell-code" id="cb204"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>writefile ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span>app.py</span>
 <span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb204-3"><a href="#cb204-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Import the required libraries and packages</span></span>
@@ -6764,7 +6764,7 @@ Note
 <span id="cb204-162"><a href="#cb204-162" aria-hidden="true" tabindex="-1"></a>        gr.Text(label<span class="op">=</span><span class="st">"Text Output"</span>)</span>
 <span id="cb204-163"><a href="#cb204-163" aria-hidden="true" tabindex="-1"></a>    ],</span>
 <span id="cb204-164"><a href="#cb204-164" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"🚮 Trashify Object Detection Demo V4"</span>,</span>
-<span id="cb204-165"><a href="#cb204-165" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">"Help clean up your local area! Upload an image and get +1 if there is all of the following items detected: trash, bin, hand."</span>,</span>
+<span id="cb204-165"><a href="#cb204-165" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span>description,</span>
 <span id="cb204-166"><a href="#cb204-166" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Examples come in the form of a list of lists, where each inner list contains elements to prefill the `inputs` parameter with</span></span>
 <span id="cb204-167"><a href="#cb204-167" aria-hidden="true" tabindex="-1"></a>    <span class="co"># See where the examples originate from here: https://huggingface.co/datasets/mrdbourke/trashify_examples/</span></span>
 <span id="cb204-168"><a href="#cb204-168" aria-hidden="true" tabindex="-1"></a>    examples<span class="op">=</span>[</span>
