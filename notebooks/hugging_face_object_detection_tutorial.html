@@ -3976,7 +3976,6 @@ tensor([[0.3925, 0.1854, 0.7033, 0.5378],
 <p>Much of the work before ever training a model is preparing the data for the model.</p>
 <p>And much of the work after training a model is preparing the data for your use case.</p>
 <p>The following table highlights the different states our bounding boxes go in and out of.</p>
-<p>TK image - turn this into a nice image of the workflow</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -4013,8 +4012,15 @@ tensor([[0.3925, 0.1854, 0.7033, 0.5378],
 </tr>
 </tbody>
 </table>
+<figure style="text-align: center;" class="figure">
+<img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/08-bounding-box-formats.png" alt="A diagram illustrating a four-stage object detection pipeline: 'Original Data' shows an image of a hand, trash, and bin with bounding boxes, having 'Format: XYWH' and 'Scale: Absolute'; an arrow points to the '.preprocess()' stage, represented by a green 'RTDetrImageProcessor' block, with 'Format: CXCYWH' and 'Scale: Normalized'; another arrow leads to the '.forward()' stage, depicted by a neural network icon labeled 'RTDetrV2ForObjectDetection', with 'Format: CXCYWH' and 'Scale: Normalized'; a final arrow points to the '.post_process_object_detection()' stage, another green 'RTDetrImageProcessor' block, with 'Format: XYXY' and 'Scale: Absolute'." style="width: 100%; max-width: 900px; height: auto;" class="figure-img">
+<figcaption>
+Our bounding boxes go through a series of format changes from input to final output. Keeping track of what format our boduning boxes are in is important for both training models and visualizing boxes on images. If we use the wrong format for plotting boxes on images, we may falsely assume our model is performing better or worse than it actually is.
+</figcaption>
+</figure>
 <p>Keeping track of these input and output formats is helpful for knowing the state of your data.</p>
 <p>But remember, just because our current workflow is like this, doesn’t mean all future workflows you work on will have the same transformation steps.</p>
+<p>For more on different bounding box formats, see the <a href="https://www.learnml.io/posts/a-guide-to-bounding-box-formats/">bounding box formats guide</a>.</p>
 </section>
 <section id="preparing-data-at-scale" class="level2" data-number="13">
 <h2 data-number="13" class="anchored" data-anchor-id="preparing-data-at-scale"><span class="header-section-number">13</span> Preparing data at scale</h2>
@@ -4815,7 +4821,12 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 </tr>
 </tbody>
 </table>
-<p>TK image - showcase different papers referencing the hyperparameters for the models</p>
+<figure style="text-align: center;" class="figure">
+<img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/07-hyperparameters-for-models.png" alt="An image displaying training hyperparameters for RT-DETR, with 'Table A. Main hyperparameters of RT-DETR.' on the left, listing items like 'optimizer' (AdamW), 'base learning rate' (1e-4), 'learning rate of backbone' (1e-5), and various cost and loss weights; on the right, section 'A.4 Training hyperparameters' describes the training process, mentioning the use of 'AdamW', 'gradient clipping', an 'ImageNet pretrained backbone ResNet-50 imported from Torchvision', fine-tuning the backbone with a learning rate of '10^-5', and training the transformer with a learning rate of '10^-4', with key phrases like 'gradient clipping', 'ResNet-50 is imported from Torchvision', 'fine-tune the backbone using learning rate of 10^-5', and 'train the transformer with a learning rate of 10^-4' underlined in green." style="width: 100%; max-width: 900px; height: auto;" class="figure-img">
+<figcaption>
+Different hyperparameter settings from the official papers for the <a href="https://arxiv.org/pdf/2304.08069">RT-DETR model</a> (left) and the original <a href="https://arxiv.org/pdf/2005.12872">DETR model</a> (right).
+</figcaption>
+</figure>
 <p>It’s important to note that all of these values can be experimented with.</p>
 <p>And just because a research paper mentions a specific value, doesn’t mean you have to use.</p>
 <p>For example, all the mentioned research papers tend to focus on training a model from scratch on the COCO dataset (330k images, 80 classes).</p>
@@ -6129,7 +6140,22 @@ Pred: not_trash (0.4536)</code></pre>
 </div>
 <p>Nice!</p>
 <p>These prediction boxes look far better than our randomly predicted boxes with an untrained model.</p>
-<p>TK note: if you notice double (e.g.&nbsp;two boxes predicting trash, we can filter those later on with NMS filtering)</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you have two predictions appearing for the same class on the image (e.g.&nbsp;two boxes around the <code>hand</code>), this can be remedied by post processing the predicted boxes with a technique called NMS (Non-maximum Suppression).</p>
+<p>NMS can help to only keep the highest scoring box per class (the one with the <em>maximum</em> prediction probability).</p>
+<p>This would mean that if there are two (or more) boxes predicted for the <code>hand</code> class, only the one with the highest prediction probability will remain.</p>
+<p>This same filtering technique can be applied to each predicted class.</p>
+</div>
+</div>
 </section>
 <section id="comparing-our-models-predicted-boxes-to-the-ground-truth-boxes" class="level3" data-number="15.4">
 <h3 data-number="15.4" class="anchored" data-anchor-id="comparing-our-models-predicted-boxes-to-the-ground-truth-boxes"><span class="header-section-number">15.4</span> Comparing our model’s predicted boxes to the ground truth boxes</h3>
