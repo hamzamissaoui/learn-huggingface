@@ -641,9 +641,9 @@ Note
 <ul>
 <li><a href="https://huggingface.co/docs/transformers/en/installation"><code>transformers</code></a> - comes pre-installed on Google Colab but if you’re running on your local machine, you can install it via <code>pip install transformers</code>.</li>
 <li><a href="https://huggingface.co/docs/datasets/installation"><code>datasets</code></a> - a library for accessing and manipulating datasets on and off the Hugging Face Hub, you can install it via <code>pip install datasets</code>.</li>
-<li><a href="https://huggingface.co/docs/evaluate/installation"><code>evaluate</code></a> - a library for evaluating machine learning model performance with various metrics, you can install it via <code>pip install evaluate</code>.</li>
-<li><a href="https://huggingface.co/docs/accelerate/basic_tutorials/install"><code>accelerate</code></a> - a library for training machine learning models faster, you can install it via <code>pip install accelerate</code>.</li>
 <li><a href="https://www.gradio.app/guides/quickstart#installation"><code>gradio</code></a> - a library for creating interactive demos of machine learning models, you can install it via <code>pip install gradio</code>.</li>
+<li>Optional: <a href="https://huggingface.co/docs/evaluate/installation"><code>evaluate</code></a> - a library for evaluating machine learning model performance with various metrics, you can install it via <code>pip install evaluate</code>.</li>
+<li>Optional: <a href="https://huggingface.co/docs/accelerate/basic_tutorials/install"><code>accelerate</code></a> - a library for training machine learning models faster, you can install it via <code>pip install accelerate</code>.</li>
 </ul>
 <p>And the following library is not part of the Hugging Face ecosystem but it is helpful for evaluating our models:</p>
 <ul>
@@ -661,7 +661,7 @@ Note
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If a module isn't found, install it </span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">!</span>pip install <span class="op">-</span>U datasets gradio <span class="co"># -U stands for "upgrade" so we'll get the latest version by default</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">!</span>pip install torchmetrics[detection]</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">!</span>pip install <span class="op">-</span>U torchmetrics[detection]</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> datasets</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> gradio <span class="im">as</span> gr</span>
