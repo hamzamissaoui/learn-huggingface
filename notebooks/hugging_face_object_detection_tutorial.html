@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-236d90495073fb2ac8939117e3e83141.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-979b658114f66cd8c063e715ed3f4f8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3758b6d30a804f3605fb59b6f8c383d4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -313,51 +313,52 @@ window.Quarto = {
   <li><a href="#creating-a-function-to-format-our-annotations-as-coco-format" id="toc-creating-a-function-to-format-our-annotations-as-coco-format" class="nav-link" data-scroll-target="#creating-a-function-to-format-our-annotations-as-coco-format"><span class="header-section-number">9.4</span> Creating a function to format our annotations as COCO format</a></li>
   <li><a href="#preprocess-a-single-image-and-set-of-coco-format-annotations" id="toc-preprocess-a-single-image-and-set-of-coco-format-annotations" class="nav-link" data-scroll-target="#preprocess-a-single-image-and-set-of-coco-format-annotations"><span class="header-section-number">9.5</span> Preprocess a single image and set of COCO format annotations</a></li>
   </ul></li>
-  <li><a href="#postprocessing-a-single-output" id="toc-postprocessing-a-single-output" class="nav-link" data-scroll-target="#postprocessing-a-single-output"><span class="header-section-number">10</span> Postprocessing a single output</a></li>
-  <li><a href="#going-end-to-end-on-a-single-sample" id="toc-going-end-to-end-on-a-single-sample" class="nav-link" data-scroll-target="#going-end-to-end-on-a-single-sample"><span class="header-section-number">11</span> Going end-to-end on a single sample</a></li>
-  <li><a href="#reproducing-our-postprocessed-box-scores-by-hand" id="toc-reproducing-our-postprocessed-box-scores-by-hand" class="nav-link" data-scroll-target="#reproducing-our-postprocessed-box-scores-by-hand"><span class="header-section-number">11.1</span> Reproducing our postprocessed box scores by hand</a></li>
-  <li><a href="#reproducing-our-postprocessed-box-labels-by-hand" id="toc-reproducing-our-postprocessed-box-labels-by-hand" class="nav-link" data-scroll-target="#reproducing-our-postprocessed-box-labels-by-hand"><span class="header-section-number">11.2</span> Reproducing our postprocessed box labels by hand</a></li>
-  <li><a href="#reproducing-our-postprocessed-box-coordinates-by-hand" id="toc-reproducing-our-postprocessed-box-coordinates-by-hand" class="nav-link" data-scroll-target="#reproducing-our-postprocessed-box-coordinates-by-hand"><span class="header-section-number">11.3</span> Reproducing our postprocessed box coordinates by hand</a></li>
-  <li><a href="#plotting-our-models-first-box-predictions-on-an-image" id="toc-plotting-our-models-first-box-predictions-on-an-image" class="nav-link" data-scroll-target="#plotting-our-models-first-box-predictions-on-an-image"><span class="header-section-number">11.4</span> Plotting our model’s first box predictions on an image</a></li>
-  <li><a href="#aside-bounding-box-formats-in-and-out-of-our-model" id="toc-aside-bounding-box-formats-in-and-out-of-our-model" class="nav-link" data-scroll-target="#aside-bounding-box-formats-in-and-out-of-our-model"><span class="header-section-number">12</span> Aside: Bounding box formats in and out of our model</a></li>
-  <li><a href="#preparing-data-at-scale" id="toc-preparing-data-at-scale" class="nav-link" data-scroll-target="#preparing-data-at-scale"><span class="header-section-number">13</span> Preparing data at scale</a>
+  <li><a href="#post-processing-a-single-output" id="toc-post-processing-a-single-output" class="nav-link" data-scroll-target="#post-processing-a-single-output"><span class="header-section-number">10</span> Post processing a single output</a>
   <ul class="collapse">
-  <li><a href="#splitting-the-data-into-training-and-test-sets" id="toc-splitting-the-data-into-training-and-test-sets" class="nav-link" data-scroll-target="#splitting-the-data-into-training-and-test-sets"><span class="header-section-number">13.1</span> Splitting the data into training and test sets</a></li>
-  <li><a href="#writing-a-function-for-preprocessing-multiple-samples-at-a-time" id="toc-writing-a-function-for-preprocessing-multiple-samples-at-a-time" class="nav-link" data-scroll-target="#writing-a-function-for-preprocessing-multiple-samples-at-a-time"><span class="header-section-number">13.2</span> Writing a function for preprocessing multiple samples at a time</a></li>
-  <li><a href="#applying-our-preprocessing-function-to-each-data-split" id="toc-applying-our-preprocessing-function-to-each-data-split" class="nav-link" data-scroll-target="#applying-our-preprocessing-function-to-each-data-split"><span class="header-section-number">13.3</span> Applying our preprocessing function to each data split</a></li>
-  <li><a href="#creating-a-collation-function" id="toc-creating-a-collation-function" class="nav-link" data-scroll-target="#creating-a-collation-function"><span class="header-section-number">13.4</span> Creating a collation function</a></li>
+  <li><a href="#reproducing-our-postprocessed-box-scores-by-hand" id="toc-reproducing-our-postprocessed-box-scores-by-hand" class="nav-link" data-scroll-target="#reproducing-our-postprocessed-box-scores-by-hand"><span class="header-section-number">10.1</span> Reproducing our postprocessed box scores by hand</a></li>
+  <li><a href="#reproducing-our-postprocessed-box-labels-by-hand" id="toc-reproducing-our-postprocessed-box-labels-by-hand" class="nav-link" data-scroll-target="#reproducing-our-postprocessed-box-labels-by-hand"><span class="header-section-number">10.2</span> Reproducing our postprocessed box labels by hand</a></li>
+  <li><a href="#reproducing-our-postprocessed-box-coordinates-by-hand" id="toc-reproducing-our-postprocessed-box-coordinates-by-hand" class="nav-link" data-scroll-target="#reproducing-our-postprocessed-box-coordinates-by-hand"><span class="header-section-number">10.3</span> Reproducing our postprocessed box coordinates by hand</a></li>
+  <li><a href="#plotting-our-models-first-box-predictions-on-an-image" id="toc-plotting-our-models-first-box-predictions-on-an-image" class="nav-link" data-scroll-target="#plotting-our-models-first-box-predictions-on-an-image"><span class="header-section-number">10.4</span> Plotting our model’s first box predictions on an image</a></li>
   </ul></li>
-  <li><a href="#setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" id="toc-setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" class="nav-link" data-scroll-target="#setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model"><span class="header-section-number">14</span> Setting up TrainingArguments and a Trainer instance to train our model</a>
+  <li><a href="#aside-bounding-box-formats-in-and-out-of-our-model" id="toc-aside-bounding-box-formats-in-and-out-of-our-model" class="nav-link" data-scroll-target="#aside-bounding-box-formats-in-and-out-of-our-model"><span class="header-section-number">11</span> Aside: Bounding box formats in and out of our model</a></li>
+  <li><a href="#preparing-data-at-scale" id="toc-preparing-data-at-scale" class="nav-link" data-scroll-target="#preparing-data-at-scale"><span class="header-section-number">12</span> Preparing data at scale</a>
   <ul class="collapse">
-  <li><a href="#setting-up-our-trainingarguments" id="toc-setting-up-our-trainingarguments" class="nav-link" data-scroll-target="#setting-up-our-trainingarguments"><span class="header-section-number">14.1</span> Setting up our TrainingArguments</a></li>
-  <li><a href="#optional-setting-up-an-optimizer-for-multiple-learning-rates" id="toc-optional-setting-up-an-optimizer-for-multiple-learning-rates" class="nav-link" data-scroll-target="#optional-setting-up-an-optimizer-for-multiple-learning-rates"><span class="header-section-number">14.2</span> Optional: Setting up an optimizer for multiple learning rates</a></li>
-  <li><a href="#creating-an-evaluation-function" id="toc-creating-an-evaluation-function" class="nav-link" data-scroll-target="#creating-an-evaluation-function"><span class="header-section-number">14.3</span> Creating an evaluation function</a></li>
-  <li><a href="#training-our-model-with-trainer" id="toc-training-our-model-with-trainer" class="nav-link" data-scroll-target="#training-our-model-with-trainer"><span class="header-section-number">14.4</span> Training our model with Trainer</a></li>
-  <li><a href="#plotting-our-models-loss-curves" id="toc-plotting-our-models-loss-curves" class="nav-link" data-scroll-target="#plotting-our-models-loss-curves"><span class="header-section-number">14.5</span> Plotting our model’s loss curves</a></li>
+  <li><a href="#splitting-the-data-into-training-and-test-sets" id="toc-splitting-the-data-into-training-and-test-sets" class="nav-link" data-scroll-target="#splitting-the-data-into-training-and-test-sets"><span class="header-section-number">12.1</span> Splitting the data into training and test sets</a></li>
+  <li><a href="#writing-a-function-for-preprocessing-multiple-samples-at-a-time" id="toc-writing-a-function-for-preprocessing-multiple-samples-at-a-time" class="nav-link" data-scroll-target="#writing-a-function-for-preprocessing-multiple-samples-at-a-time"><span class="header-section-number">12.2</span> Writing a function for preprocessing multiple samples at a time</a></li>
+  <li><a href="#applying-our-preprocessing-function-to-each-data-split" id="toc-applying-our-preprocessing-function-to-each-data-split" class="nav-link" data-scroll-target="#applying-our-preprocessing-function-to-each-data-split"><span class="header-section-number">12.3</span> Applying our preprocessing function to each data split</a></li>
+  <li><a href="#creating-a-collation-function" id="toc-creating-a-collation-function" class="nav-link" data-scroll-target="#creating-a-collation-function"><span class="header-section-number">12.4</span> Creating a collation function</a></li>
   </ul></li>
-  <li><a href="#making-predictions-on-the-test-dataset" id="toc-making-predictions-on-the-test-dataset" class="nav-link" data-scroll-target="#making-predictions-on-the-test-dataset"><span class="header-section-number">15</span> Making predictions on the test dataset</a>
+  <li><a href="#setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" id="toc-setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" class="nav-link" data-scroll-target="#setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model"><span class="header-section-number">13</span> Setting up TrainingArguments and a Trainer instance to train our model</a>
   <ul class="collapse">
-  <li><a href="#evaluating-our-test-predictions" id="toc-evaluating-our-test-predictions" class="nav-link" data-scroll-target="#evaluating-our-test-predictions"><span class="header-section-number">15.1</span> Evaluating our test predictions</a></li>
-  <li><a href="#visualizing-our-test-dataset-evaluation-mertics" id="toc-visualizing-our-test-dataset-evaluation-mertics" class="nav-link" data-scroll-target="#visualizing-our-test-dataset-evaluation-mertics"><span class="header-section-number">15.2</span> Visualizing our test dataset evaluation mertics</a></li>
-  <li><a href="#evaluating-and-visualizing-predictions-one-by-one" id="toc-evaluating-and-visualizing-predictions-one-by-one" class="nav-link" data-scroll-target="#evaluating-and-visualizing-predictions-one-by-one"><span class="header-section-number">15.3</span> Evaluating and visualizing predictions one by one</a></li>
-  <li><a href="#comparing-our-models-predicted-boxes-to-the-ground-truth-boxes" id="toc-comparing-our-models-predicted-boxes-to-the-ground-truth-boxes" class="nav-link" data-scroll-target="#comparing-our-models-predicted-boxes-to-the-ground-truth-boxes"><span class="header-section-number">15.4</span> Comparing our model’s predicted boxes to the ground truth boxes</a></li>
-  <li><a href="#predict-on-image-from-the-wild" id="toc-predict-on-image-from-the-wild" class="nav-link" data-scroll-target="#predict-on-image-from-the-wild"><span class="header-section-number">15.5</span> Predict on image from the wild</a></li>
+  <li><a href="#setting-up-our-trainingarguments" id="toc-setting-up-our-trainingarguments" class="nav-link" data-scroll-target="#setting-up-our-trainingarguments"><span class="header-section-number">13.1</span> Setting up our TrainingArguments</a></li>
+  <li><a href="#optional-setting-up-an-optimizer-for-multiple-learning-rates" id="toc-optional-setting-up-an-optimizer-for-multiple-learning-rates" class="nav-link" data-scroll-target="#optional-setting-up-an-optimizer-for-multiple-learning-rates"><span class="header-section-number">13.2</span> Optional: Setting up an optimizer for multiple learning rates</a></li>
+  <li><a href="#creating-an-evaluation-function" id="toc-creating-an-evaluation-function" class="nav-link" data-scroll-target="#creating-an-evaluation-function"><span class="header-section-number">13.3</span> Creating an evaluation function</a></li>
+  <li><a href="#training-our-model-with-trainer" id="toc-training-our-model-with-trainer" class="nav-link" data-scroll-target="#training-our-model-with-trainer"><span class="header-section-number">13.4</span> Training our model with Trainer</a></li>
+  <li><a href="#plotting-our-models-loss-curves" id="toc-plotting-our-models-loss-curves" class="nav-link" data-scroll-target="#plotting-our-models-loss-curves"><span class="header-section-number">13.5</span> Plotting our model’s loss curves</a></li>
   </ul></li>
-  <li><a href="#uploading-our-trained-model-to-hugging-face-hub" id="toc-uploading-our-trained-model-to-hugging-face-hub" class="nav-link" data-scroll-target="#uploading-our-trained-model-to-hugging-face-hub"><span class="header-section-number">16</span> Uploading our trained model to Hugging Face Hub</a></li>
-  <li><a href="#creating-a-demo-of-our-model-with-gradio" id="toc-creating-a-demo-of-our-model-with-gradio" class="nav-link" data-scroll-target="#creating-a-demo-of-our-model-with-gradio"><span class="header-section-number">17</span> Creating a demo of our model with Gradio</a>
+  <li><a href="#making-predictions-on-the-test-dataset" id="toc-making-predictions-on-the-test-dataset" class="nav-link" data-scroll-target="#making-predictions-on-the-test-dataset"><span class="header-section-number">14</span> Making predictions on the test dataset</a>
   <ul class="collapse">
-  <li><a href="#making-an-app-file" id="toc-making-an-app-file" class="nav-link" data-scroll-target="#making-an-app-file"><span class="header-section-number">17.1</span> Making an app file</a></li>
-  <li><a href="#making-a-requirements-file" id="toc-making-a-requirements-file" class="nav-link" data-scroll-target="#making-a-requirements-file"><span class="header-section-number">17.2</span> Making a requirements file</a></li>
-  <li><a href="#making-a-readme-file" id="toc-making-a-readme-file" class="nav-link" data-scroll-target="#making-a-readme-file"><span class="header-section-number">17.3</span> Making a README file</a></li>
-  <li><a href="#making-an-examples-folder" id="toc-making-an-examples-folder" class="nav-link" data-scroll-target="#making-an-examples-folder"><span class="header-section-number">17.4</span> Making an examples folder</a></li>
-  <li><a href="#uploading-our-demo-to-hugging-face-spaces" id="toc-uploading-our-demo-to-hugging-face-spaces" class="nav-link" data-scroll-target="#uploading-our-demo-to-hugging-face-spaces"><span class="header-section-number">17.5</span> Uploading our demo to Hugging Face Spaces</a></li>
-  <li><a href="#testing-the-hosted-demo" id="toc-testing-the-hosted-demo" class="nav-link" data-scroll-target="#testing-the-hosted-demo"><span class="header-section-number">17.6</span> Testing the hosted demo</a></li>
+  <li><a href="#evaluating-our-test-predictions" id="toc-evaluating-our-test-predictions" class="nav-link" data-scroll-target="#evaluating-our-test-predictions"><span class="header-section-number">14.1</span> Evaluating our test predictions</a></li>
+  <li><a href="#visualizing-our-test-dataset-evaluation-mertics" id="toc-visualizing-our-test-dataset-evaluation-mertics" class="nav-link" data-scroll-target="#visualizing-our-test-dataset-evaluation-mertics"><span class="header-section-number">14.2</span> Visualizing our test dataset evaluation mertics</a></li>
+  <li><a href="#evaluating-and-visualizing-predictions-one-by-one" id="toc-evaluating-and-visualizing-predictions-one-by-one" class="nav-link" data-scroll-target="#evaluating-and-visualizing-predictions-one-by-one"><span class="header-section-number">14.3</span> Evaluating and visualizing predictions one by one</a></li>
+  <li><a href="#comparing-our-models-predicted-boxes-to-the-ground-truth-boxes" id="toc-comparing-our-models-predicted-boxes-to-the-ground-truth-boxes" class="nav-link" data-scroll-target="#comparing-our-models-predicted-boxes-to-the-ground-truth-boxes"><span class="header-section-number">14.4</span> Comparing our model’s predicted boxes to the ground truth boxes</a></li>
+  <li><a href="#predict-on-image-from-the-wild" id="toc-predict-on-image-from-the-wild" class="nav-link" data-scroll-target="#predict-on-image-from-the-wild"><span class="header-section-number">14.5</span> Predict on image from the wild</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">18</span> Summary</a>
+  <li><a href="#uploading-our-trained-model-to-hugging-face-hub" id="toc-uploading-our-trained-model-to-hugging-face-hub" class="nav-link" data-scroll-target="#uploading-our-trained-model-to-hugging-face-hub"><span class="header-section-number">15</span> Uploading our trained model to Hugging Face Hub</a></li>
+  <li><a href="#creating-a-demo-of-our-model-with-gradio" id="toc-creating-a-demo-of-our-model-with-gradio" class="nav-link" data-scroll-target="#creating-a-demo-of-our-model-with-gradio"><span class="header-section-number">16</span> Creating a demo of our model with Gradio</a>
   <ul class="collapse">
-  <li><a href="#extensions" id="toc-extensions" class="nav-link" data-scroll-target="#extensions"><span class="header-section-number">18.1</span> Extensions</a></li>
-  <li><a href="#extra-curriculum" id="toc-extra-curriculum" class="nav-link" data-scroll-target="#extra-curriculum"><span class="header-section-number">18.2</span> Extra-Curriculum</a></li>
-  <li><a href="#extra-resources" id="toc-extra-resources" class="nav-link" data-scroll-target="#extra-resources"><span class="header-section-number">18.3</span> Extra resources</a></li>
+  <li><a href="#making-an-app-file" id="toc-making-an-app-file" class="nav-link" data-scroll-target="#making-an-app-file"><span class="header-section-number">16.1</span> Making an app file</a></li>
+  <li><a href="#making-a-requirements-file" id="toc-making-a-requirements-file" class="nav-link" data-scroll-target="#making-a-requirements-file"><span class="header-section-number">16.2</span> Making a requirements file</a></li>
+  <li><a href="#making-a-readme-file" id="toc-making-a-readme-file" class="nav-link" data-scroll-target="#making-a-readme-file"><span class="header-section-number">16.3</span> Making a README file</a></li>
+  <li><a href="#making-an-examples-folder" id="toc-making-an-examples-folder" class="nav-link" data-scroll-target="#making-an-examples-folder"><span class="header-section-number">16.4</span> Making an examples folder</a></li>
+  <li><a href="#uploading-our-demo-to-hugging-face-spaces" id="toc-uploading-our-demo-to-hugging-face-spaces" class="nav-link" data-scroll-target="#uploading-our-demo-to-hugging-face-spaces"><span class="header-section-number">16.5</span> Uploading our demo to Hugging Face Spaces</a></li>
+  <li><a href="#testing-the-hosted-demo" id="toc-testing-the-hosted-demo" class="nav-link" data-scroll-target="#testing-the-hosted-demo"><span class="header-section-number">16.6</span> Testing the hosted demo</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">17</span> Summary</a>
+  <ul class="collapse">
+  <li><a href="#extensions" id="toc-extensions" class="nav-link" data-scroll-target="#extensions"><span class="header-section-number">17.1</span> Extensions</a></li>
+  <li><a href="#extra-curriculum" id="toc-extra-curriculum" class="nav-link" data-scroll-target="#extra-curriculum"><span class="header-section-number">17.2</span> Extra-Curriculum</a></li>
+  <li><a href="#extra-resources" id="toc-extra-resources" class="nav-link" data-scroll-target="#extra-resources"><span class="header-section-number">17.3</span> Extra resources</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/mrdbourke/learn-huggingface/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
@@ -2048,7 +2049,7 @@ Workflow we’ll follow to create our own custom object detection model. We’ll
 <p>We’ll use this to prepare our input images for the model.</p>
 <p>To do so, we’ll use <a href="https://huggingface.co/docs/transformers/en/model_doc/auto#transformers.AutoImageProcessor"><code>transformers.AutoImageProcessor</code></a> and pass our target model name to the <code>from_pretrained</code> method.</p>
 <p>We can set <code>use_fast=True</code> so the fast version of the processor is loaded (see more in the docs under <a href="https://huggingface.co/docs/transformers/en/model_doc/rt_detr#transformers.RTDetrImageProcessorFast"><code>transformers.RTDetrImageProcessorFast</code></a>).</p>
-<div id="cell-65" class="cell">
+<div id="cell-66" class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoImageProcessor</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>MODEL_NAME <span class="op">=</span> <span class="st">"PekingU/rtdetr_v2_r50vd"</span></span>
@@ -2136,7 +2137,7 @@ Note
 <p>But this is another thing that is open to experimentation.</p>
 </div>
 </div>
-<div id="cell-67" class="cell">
+<div id="cell-68" class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set image size</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>IMAGE_SIZE <span class="op">=</span> <span class="dv">640</span> <span class="co"># we could try other sizes here: 300x300, 480x480, 512x512, 640x640, 800x800 (best to experiment and see which works best)</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2166,7 +2167,7 @@ Note
 <p>How about we try to preprocess our <code>random_sample</code>?</p>
 <p>To do so, we can pass its <code>"image"</code> key and <code>"annotations"</code> key to our <code>image_processor</code>’s <a href="https://huggingface.co/docs/transformers/en/model_doc/conditional_detr#transformers.ConditionalDetrImageProcessor.preprocess"><code>preprocess</code></a> method (we can also just called <code>image_processor</code> directly as it will call <code>preprocess</code> via the <code>__call__</code> method).</p>
 <p>Let’s try!</p>
-<div id="cell-69" class="cell">
+<div id="cell-70" class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>image_processor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>RTDetrImageProcessorFast {
@@ -2206,7 +2207,7 @@ Note
 }</code></pre>
 </div>
 </div>
-<div id="cell-70" class="cell">
+<div id="cell-71" class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Try to process a single image and annotation pair (spoiler: this will error)</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>random_sample_preprocessed <span class="op">=</span> image_processor.preprocess(images<span class="op">=</span>random_sample[<span class="st">"image"</span>],</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>                                                        annotations<span class="op">=</span>random_sample[<span class="st">"annotations"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2272,7 +2273,7 @@ File <span class="ansi-green-fg">~/miniconda3/envs/ai/lib/python3.11/site-packag
 <p>Since our pre-trained model was trained on the COCO dataset, the <code>preprocess</code> method expects input data to be in line with the COCO format.</p>
 <p>We can fix this later on by adjusting our annotations.</p>
 <p>How about we try to preprocess just a single image instead?</p>
-<div id="cell-73" class="cell">
+<div id="cell-74" class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preprocess our target sample</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>random_sample_preprocessed_image_only <span class="op">=</span> image_processor(images<span class="op">=</span>random_sample[<span class="st">"image"</span>],</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                                                        annotations<span class="op">=</span><span class="va">None</span>, <span class="co"># no annotations this time </span></span>
@@ -2296,7 +2297,7 @@ File <span class="ansi-green-fg">~/miniconda3/envs/ai/lib/python3.11/site-packag
 </ul>
 <p>Beautiful!</p>
 <p>Now how about we inspect our processed image’s shape?</p>
-<div id="cell-76" class="cell">
+<div id="cell-77" class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncomment to inspect all preprocessed pixel values</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(random_sample_preprocessed_image_only["pixel_values"][0])</span></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2334,7 +2335,7 @@ Note
 <p>We’ve processed an image into the format our model is expecting.</p>
 <p>How about we try another forward by calling <code>model.forward(pixel_values, pixel_mask)</code>?</p>
 <p>Which is the same as calling <code>model(pixel_values, pixel_mask)</code>.</p>
-<div id="cell-79" class="cell">
+<div id="cell-80" class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Do a single forward pass with the model</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>random_sample_outputs <span class="op">=</span> model(</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    pixel_values<span class="op">=</span>random_sample_preprocessed_image_only[<span class="st">"pixel_values"</span>], <span class="co"># model expects input [batch_size, color_channels, height, width]</span></span>
@@ -2804,7 +2805,7 @@ Full output of <code>random_sample_outputs</code>:
 <p>It looks like it worked!</p>
 <p>Our model processed our <code>random_sample_preprocessed_image_only["pixel_values"]</code> and returned a <a href="https://huggingface.co/docs/transformers/main/en/model_doc/rt_detr_v2#transformers.RTDetrV2ForObjectDetection.forward"><code>RTDetrV2ObjectDetectionOutput</code></a> object as output.</p>
 <p>Let’s inspect the <code>keys()</code> method of this output and see what they are.</p>
-<div id="cell-81" class="cell">
+<div id="cell-82" class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the keys of the output</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>random_sample_outputs.keys()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
@@ -2819,7 +2820,7 @@ Full output of <code>random_sample_outputs</code>:
 <li><code>encoder_last_hidden_state</code> - Last hidden state of the last encoder layer of the model.</li>
 </ul>
 <p>How about we inspect the <code>shape</code> attribute of the <code>logits</code>?</p>
-<div id="cell-84" class="cell">
+<div id="cell-85" class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect logits output shape</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>output_logits <span class="op">=</span> random_sample_outputs.logits</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Output logits shape: </span><span class="sc">{</span>output_logits<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> -&gt; [1 image, 300 boxes, 7 classes]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2831,7 +2832,7 @@ Full output of <code>random_sample_outputs</code>:
 <p>We get an output from our model that coincides with the shape of our data.</p>
 <p>The final value of <code>7</code> in the <code>output_logits</code> tensor is equivalent to the number of classes we have.</p>
 <p>And the <code>300</code> is the number of boxes our model predicts for each image (this is defined by the <code>num_queries</code> parameter of the <a href="https://huggingface.co/docs/transformers/main/en/model_doc/rt_detr_v2#transformers.RTDetrV2Config"><code>transformers.RTDetrV2Config</code></a>, where <code>num_queries=300</code> is the default).</p>
-<div id="cell-86" class="cell">
+<div id="cell-87" class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect predicted boxes output shape</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>output_pred_boxes <span class="op">=</span> random_sample_outputs.pred_boxes</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Output predicted boxes shape: </span><span class="sc">{</span>output_pred_boxes<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> -&gt; [1 image, 300 boxes, 4 coordinates (center_x, center_y, width, height)]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2847,7 +2848,7 @@ Full output of <code>random_sample_outputs</code>:
 <p>This is good to know!</p>
 <p>It means that the raw output boxes from our model come in normalized <code>CXCYWH</code> format (see <a href="#tbl-bbox-formats" class="quarto-xref">Table&nbsp;1</a> for more).</p>
 <p>How about we inspect a single box?</p>
-<div id="cell-88" class="cell">
+<div id="cell-89" class="cell">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Single example predicted bounding box coordinates</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Example output box: </span><span class="sc">{</span>output_pred_boxes[:, <span class="dv">0</span>, :][<span class="dv">0</span>]<span class="sc">.</span>detach()<span class="sc">}</span><span class="ss"> -&gt; (center_x, center_y, width, height)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2869,7 +2870,7 @@ Full output of <code>random_sample_outputs</code>:
 <p>Recall in a previous section we tried to preprocess a single image and its annotation.</p>
 <p>And we got an error.</p>
 <p>Let’s make sure we’re not crazy and this is still the case.</p>
-<div id="cell-92" class="cell">
+<div id="cell-93" class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preprocess a single image and annotation pair</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>image_processor.preprocess(</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    images<span class="op">=</span>random_sample[<span class="st">"image"</span>], </span>
@@ -3100,7 +3101,7 @@ Note
 <li>Helpful built-in methods - we can use methods such as <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict"><code>asdict</code></a> to convert our <code>@dataclass</code> into a dictionary (COCO wants lists of dictionaries).</li>
 <li>Data validation - we can use methods such as <a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.__post_init__"><code>__post_init__</code></a> to run checks on our <code>@dataclass</code> as it’s initialized, for example, we always want the length of <code>bbox</code> to be 4 (bounding box coordinates in <code>XYWH</code> format).</li>
 </ul>
-<div id="cell-96" class="cell">
+<div id="cell-97" class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass, asdict</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3147,7 +3148,7 @@ Note
 <p>Beautiful!</p>
 <p>Let’s now inspect our <code>SingleCOCOAnnotation</code> dataclass.</p>
 <p>We can use the <code>SingleCOCOAnnotation?</code> syntax to view the docstring of the class.</p>
-<div id="cell-98" class="cell">
+<div id="cell-99" class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One of the benefits of using a dataclass is that we can inspect the attributes with the `?` syntax</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>SingleCOCOAnnotation?</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3201,7 +3202,7 @@ Attributes:
 </div>
 </div>
 <p>We can also see the error handling of our <code>__post_init__</code> method in action by trying to create an instance of <code>SingleCOCOAnnotation</code> with an incorrect number of bbox values.</p>
-<div id="cell-100" class="cell">
+<div id="cell-101" class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's try our SingleCOCOAnnotation dataclass (this will error since the bbox doesn't have 4 values)</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>SingleCOCOAnnotation(image_id<span class="op">=</span><span class="dv">42</span>, </span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>                     category_id<span class="op">=</span><span class="dv">0</span>, </span>
@@ -3228,7 +3229,7 @@ Cell <span class="ansi-green-fg">In[33], line 29</span>, in <span class="ansi-cy
 </div>
 </div>
 <p>And now if we pass the correct number of values to our <code>SingleCOCOAnnotation</code>, it should work.</p>
-<div id="cell-102" class="cell">
+<div id="cell-103" class="cell">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>SingleCOCOAnnotation(image_id<span class="op">=</span><span class="dv">42</span>, </span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>                     category_id<span class="op">=</span><span class="dv">0</span>, </span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>                     bbox<span class="op">=</span>[<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">100</span>]) <span class="co"># correct number of values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3249,7 +3250,7 @@ Cell <span class="ansi-green-fg">In[33], line 29</span>, in <span class="ansi-cy
 <p>Why does our function take in lists of categories, areas and bounding boxes?</p>
 <p>Because that’s the current format our existing annotations are in (how we downloaded them from Hugging Face in the beginning).</p>
 <p>Let’s do it!</p>
-<div id="cell-104" class="cell">
+<div id="cell-105" class="cell">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Take in a unique image_id as well as lists of categories, areas, and bounding boxes</span></span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_image_annotations_as_coco(</span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>        image_id: <span class="bu">int</span>,</span>
@@ -3308,7 +3309,7 @@ Cell <span class="ansi-green-fg">In[33], line 29</span>, in <span class="ansi-cy
 <p>Having those pre-built dataclasses makes everything else fall into place.</p>
 <p>Now let’s try our <code>format_image_annotations_as_coco</code> function on a new <em>not so</em> <code>random_sample</code> (we’ll make a <code>random_sample</code> with a known index for reproducibility).</p>
 <p>First, we’ll remind ourselves what our <code>random_sample</code> looks like.</p>
-<div id="cell-106" class="cell">
+<div id="cell-107" class="cell">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a not so random sample and inspect it </span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>random_sample <span class="op">=</span> dataset[<span class="st">"train"</span>][<span class="dv">77</span>]</span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>random_sample</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3331,7 +3332,7 @@ Cell <span class="ansi-green-fg">In[33], line 29</span>, in <span class="ansi-cy
 </div>
 <p>Ok wonderful, looks like we can extract the <code>image_id</code>, <code>category_id</code> <code>bbox</code> and <code>area</code> fields from our <code>random_sample</code> to get the required inputs to our <code>format_image_annotations_as_coco</code> function.</p>
 <p>Let’s try it out.</p>
-<div id="cell-108" class="cell">
+<div id="cell-109" class="cell">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract image_id, categories, areas, and bboxes from the random sample</span></span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>random_sample_image_id <span class="op">=</span> random_sample[<span class="st">"image_id"</span>]</span>
 <span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>random_sample_categories <span class="op">=</span> random_sample[<span class="st">"annotations"</span>][<span class="st">"category_id"</span>]</span>
@@ -3390,7 +3391,7 @@ Note
 <p>Whenever you perform adjustments or preprocessing steps on your annotations, it’s always good to keep track of the format that they are in, otherwise it can lead to unexpected bugs later on.</p>
 </div>
 </div>
-<div id="cell-111" class="cell">
+<div id="cell-112" class="cell">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preprocess random sample image and assosciated annotations</span></span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>random_sample_preprocessed <span class="op">=</span> image_processor.preprocess(images<span class="op">=</span>random_sample[<span class="st">"image"</span>],</span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>                                                        annotations<span class="op">=</span>random_sample_coco_annotations,</span>
@@ -3415,7 +3416,7 @@ Note
 <p>If you are not using the <code>max_size</code> parameter and are using a version of <code>transformers</code> &gt; 4.26, you can ignore this or disable it (as shown below).</p>
 </div>
 </div>
-<div id="cell-113" class="cell">
+<div id="cell-114" class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: Disable warnings about `max_size` parameter being deprecated</span></span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3424,7 +3425,7 @@ Note
 <p>Excellent!</p>
 <p>It looks like the <code>preprocess</code> method worked on our single sample.</p>
 <p>Let’s inspect the <code>keys()</code> method of our <code>random_sample_preprocessed</code>.</p>
-<div id="cell-115" class="cell">
+<div id="cell-116" class="cell">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the keys of our preprocessed example</span></span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>random_sample_preprocessed.keys()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="42">
@@ -3437,7 +3438,7 @@ Note
 <li>(Optional) <code>pixel_mask</code> = whether or not to mask the pixels (e.g.&nbsp;0 = mask, 1 = no mask, in our case, all values will be <code>1</code> since we want the model to see all pixels).</li>
 <li><code>labels</code> = preprocessed labels (the preprocessed annotations).</li>
 </ul>
-<div id="cell-117" class="cell">
+<div id="cell-118" class="cell">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect preprocessed image shape</span></span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Preprocessed image shape: </span><span class="sc">{</span>random_sample_preprocessed[<span class="st">'pixel_values'</span>]<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> -&gt; [batch_size, colour_channels, height, width]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3446,7 +3447,7 @@ Note
 </div>
 <p>Since we only passed a single sample to <code>preprocess</code>, we get back a batch size of 1.</p>
 <p>Now how do our labels look?</p>
-<div id="cell-119" class="cell">
+<div id="cell-120" class="cell">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the preprocessed labels (our boxes and other metadata)</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>pprint(random_sample_preprocessed[<span class="st">"labels"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3478,21 +3479,29 @@ Note
 <p>For now, let’s see what it looks like postprocessing a single output.</p>
 </section>
 </section>
-<section id="postprocessing-a-single-output" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="postprocessing-a-single-output"><span class="header-section-number">10</span> Postprocessing a single output</h2>
+<section id="post-processing-a-single-output" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="post-processing-a-single-output"><span class="header-section-number">10</span> Post processing a single output</h2>
 <p>We’ve got our inputs processed and successfully passed them through our model.</p>
 <p>How about we postprocess the outputs of our model?</p>
 <p>Doing so will make our model’s outputs far more usable.</p>
-</section>
-<section id="going-end-to-end-on-a-single-sample" class="level2 {callout-tip}" data-number="11">
-<h2 data-number="11" class="anchored" data-anchor-id="going-end-to-end-on-a-single-sample"><span class="header-section-number">11</span> Going end-to-end on a single sample</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Going end-to-end on a single sample
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>When working on a new problem or with a custom dataset and an existing model, it’s good practice to go end-to-end on a single sample.</p>
 <p>For example, preprocess one of your samples, pass it through the model and then postprocess it (just like we’re in the middle of doing here).</p>
 <p>Being able to go end-to-end on a single sample will help you see the overall process and discover any bugs that may hinder you later on.</p>
-</section>
+</div>
+</div>
 <p>To postprocess the outputs of our model we can use the <a href="https://huggingface.co/docs/transformers/en/model_doc/rt_detr#transformers.RTDetrImageProcessor.post_process_object_detection"><code>transformers.RTDetrImageProcessor.post_process_object_detection()</code></a> method (see the <a href="https://github.com/huggingface/transformers/blob/237c7c356cce5f8a6befc0a5f71bc952bb5adc9a/src/transformers/models/rt_detr/image_processing_rt_detr.py#L1029">source code on GitHub</a>, this is what we’ll reproduce by hand).</p>
 <p>Let’s frist recompute the model’s outputs for our preprocessed single sample.</p>
-<div id="cell-122" class="cell">
+<div id="cell-123" class="cell">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recompute the random sample outputs with our preprocessed sample</span></span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>random_sample_outputs <span class="op">=</span> model(</span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>    pixel_values<span class="op">=</span>random_sample_preprocessed[<span class="st">"pixel_values"</span>], <span class="co"># model expects input [batch_size, color_channels, height, width]</span></span>
@@ -3515,7 +3524,7 @@ Note
 <li><code>top_k</code> - Integer defining the number of boxes you’d like to prepare for postprocessing before thresholding. Defaults to <code>100</code>. For example, <code>top_k=100</code> and <code>threshold=0.3</code> means sample 100 boxes and then of those 100 boxes, only keep those with a score over 0.3.</li>
 </ul>
 <p>You can see what happens behind the scenes of <code>post_process_object_detection</code> in the <a href="https://github.com/huggingface/transformers/blob/5f4ecf2d9f867a1255131d2461d75793c0cf1db2/src/transformers/models/rt_detr/image_processing_rt_detr_fast.py#L533">source code</a>.</p>
-<div id="cell-124" class="cell">
+<div id="cell-125" class="cell">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the score threshold for postprocessing</span></span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>THRESHOLD <span class="op">=</span> <span class="fl">0.4</span> <span class="co"># adjust this where necessary to get a handful of outputs below (note: if it's too high, e.g. 0.5+, you might not see any outputs, try lowering to 0.3</span></span>
 <span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3652,8 +3661,8 @@ Note
 <li><code>labels</code> - The predicted classification label values for each box. These will be random as our model hasn’t been trained for our dataset. We can turn these into class names by mapping them to the <code>id2label</code> dictionary.</li>
 <li><code>boxes</code> - The predicted bounding boxes whose scores are above the <code>threshold</code> parameter. These are normalized and in the format <code>XYXY</code> or <code>(x_top_left, y_top_left, x_bottom_right, y_bottom_right)</code>.</li>
 </ul>
-<section id="reproducing-our-postprocessed-box-scores-by-hand" class="level3" data-number="11.1">
-<h3 data-number="11.1" class="anchored" data-anchor-id="reproducing-our-postprocessed-box-scores-by-hand"><span class="header-section-number">11.1</span> Reproducing our postprocessed box scores by hand</h3>
+<section id="reproducing-our-postprocessed-box-scores-by-hand" class="level3" data-number="10.1">
+<h3 data-number="10.1" class="anchored" data-anchor-id="reproducing-our-postprocessed-box-scores-by-hand"><span class="header-section-number">10.1</span> Reproducing our postprocessed box scores by hand</h3>
 <p>When a raw prediction output from our model goes through the <code>post_process_object_detection</code> method, a few steps happen.</p>
 <p>One of them is that the raw logits from our model get converted into prediction probabilities.</p>
 <p>This happens by:</p>
@@ -3685,7 +3694,7 @@ Note
 </div>
 </div>
 <p>To see this happen, let’s reproduce the <code>"scores"</code> key in <code>random_sample_outputs_post_processed</code> by hand.</p>
-<div id="cell-127" class="cell">
+<div id="cell-128" class="cell">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the output scores from our post processed single output</span></span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>output_scores <span class="op">=</span> random_sample_outputs_post_processed[<span class="dv">0</span>][<span class="st">"scores"</span>]</span>
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(output_scores), output_scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3706,7 +3715,7 @@ Note
 </div>
 </div>
 <p>And we can reproduce these scores by following the steps outlined above.</p>
-<div id="cell-129" class="cell">
+<div id="cell-130" class="cell">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Original input logits shape: </span><span class="sc">{</span>random_sample_outputs<span class="sc">.</span>logits<span class="sc">.</span>shape<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>) </span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Perform sigmoid on the logits to get prediction probabilities and take the max value for each prediction</span></span>
@@ -3749,7 +3758,7 @@ tensor([0.0792, 0.2543, 0.1580, 0.5757, 0.2654, 0.1171, 0.0330, 0.0410, 0.1540,
 </div>
 <p>Now we’ve got our own <code>output_scores_manual_filtered</code>, how about we compare it to <code>output_scores</code>?</p>
 <p>We can see if they’re close to each other with <a href="https://pytorch.org/docs/stable/generated/torch.isclose.html"><code>torch.isclose()</code></a>.</p>
-<div id="cell-131" class="cell">
+<div id="cell-132" class="cell">
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the original output scores to our own manual version</span></span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>torch.isclose(<span class="bu">input</span><span class="op">=</span>output_scores[:<span class="bu">len</span>(output_scores_manual_filtered)], </span>
 <span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>              other<span class="op">=</span>output_scores_manual_filtered, </span>
@@ -3769,12 +3778,12 @@ tensor([0.0792, 0.2543, 0.1580, 0.5757, 0.2654, 0.1171, 0.0330, 0.0410, 0.1540,
 <p>We managed to reproduce our postprocessed output scores values by hand.</p>
 <p>How about the labels?</p>
 </section>
-<section id="reproducing-our-postprocessed-box-labels-by-hand" class="level3" data-number="11.2">
-<h3 data-number="11.2" class="anchored" data-anchor-id="reproducing-our-postprocessed-box-labels-by-hand"><span class="header-section-number">11.2</span> Reproducing our postprocessed box labels by hand</h3>
+<section id="reproducing-our-postprocessed-box-labels-by-hand" class="level3" data-number="10.2">
+<h3 data-number="10.2" class="anchored" data-anchor-id="reproducing-our-postprocessed-box-labels-by-hand"><span class="header-section-number">10.2</span> Reproducing our postprocessed box labels by hand</h3>
 <p>We’ve reproduce our postprocessed model prediction scores by hand.</p>
 <p>Now let’s do the same with the labels.</p>
 <p>First, we’ll get the output labels from our postprocessed object.</p>
-<div id="cell-134" class="cell">
+<div id="cell-135" class="cell">
 <div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the model's predicted labels </span></span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>output_labels <span class="op">=</span> random_sample_outputs_post_processed[<span class="dv">0</span>][<span class="st">"labels"</span>]</span>
 <span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Output labels shape: </span><span class="sc">{</span><span class="bu">len</span>(output_labels)<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -3795,7 +3804,7 @@ tensor([3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 <li>Modulo the <code>output_scores_manual_top_100_indices</code> by the number of classes to get the predicted labels (e.g.&nbsp;index % num_classes = predicted label -&gt; 747 % 7 = 5).</li>
 <li>Filter the remaining labels for predictions which pass the threshold using <code>output_scores_manual_filtered_indices</code>.</li>
 </ol>
-<div id="cell-136" class="cell">
+<div id="cell-137" class="cell">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Get the number of classes</span></span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>num_classes <span class="op">=</span> random_sample_outputs.logits.shape[<span class="dv">2</span>]</span>
 <span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Found total number of classes: </span><span class="sc">{</span>num_classes<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -3815,7 +3824,7 @@ tensor([3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 </div>
 </div>
 <p>Excellent, now let’s make sure these labels are equivalent to the postprocessed labels.</p>
-<div id="cell-138" class="cell">
+<div id="cell-139" class="cell">
 <div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>output_labels[:<span class="bu">len</span>(output_labels_manual_filtered)] <span class="op">==</span> output_labels_manual_filtered</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="52">
 <pre><code>tensor([True, True, True, True, True, True, True, True, True, True, True, True,
@@ -3831,12 +3840,12 @@ tensor([3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 <p>Perfect!</p>
 <p>How about we repeat the same for our model’s postprocessed predicted boxes?</p>
 </section>
-<section id="reproducing-our-postprocessed-box-coordinates-by-hand" class="level3" data-number="11.3">
-<h3 data-number="11.3" class="anchored" data-anchor-id="reproducing-our-postprocessed-box-coordinates-by-hand"><span class="header-section-number">11.3</span> Reproducing our postprocessed box coordinates by hand</h3>
+<section id="reproducing-our-postprocessed-box-coordinates-by-hand" class="level3" data-number="10.3">
+<h3 data-number="10.3" class="anchored" data-anchor-id="reproducing-our-postprocessed-box-coordinates-by-hand"><span class="header-section-number">10.3</span> Reproducing our postprocessed box coordinates by hand</h3>
 <p>Our postprocessed boxes are in absolute <code>XYXY</code> format.</p>
 <p>And the raw boxes out of the model are in normalized <code>CXCYWH</code> format.</p>
 <p>First, let’s get the postprocessed predicted boxes we’re trying to reproduce.</p>
-<div id="cell-141" class="cell">
+<div id="cell-142" class="cell">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These are in absolute XYXY (x_top_left, y_top_left, x_bottom_right, y_bottom_right) format</span></span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>output_boxes <span class="op">=</span> random_sample_outputs_post_processed[<span class="dv">0</span>][<span class="st">"boxes"</span>]</span>
 <span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Output boxes shape: </span><span class="sc">{</span>output_boxes<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -3860,7 +3869,7 @@ tensor([[ 5.0105e+02,  4.5203e-01,  7.3708e+02,  2.4250e+02],
 <p>Beautiful!</p>
 <p>These are the boxes we’d like to reproduce.</p>
 <p>Let’s now get the raw predicted box coordinates from our model.</p>
-<div id="cell-143" class="cell">
+<div id="cell-144" class="cell">
 <div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get model output raw boxes</span></span>
 <span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="co"># These are in format: normalized CXCYWH (center_x, center_y, width, height) format</span></span>
 <span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>output_boxes_manual_cxcywh <span class="op">=</span> random_sample_outputs.pred_boxes[<span class="dv">0</span>]</span>
@@ -3892,7 +3901,7 @@ tensor([[0.0400, 0.2540, 0.0281, 0.0325],
 <li>Sort the bounding box coordinates in the same order as the scores (descending).</li>
 <li>Check for equivalence between original postprocessed boxes and our manually processed boxes</li>
 </ol>
-<div id="cell-145" class="cell">
+<div id="cell-146" class="cell">
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Normalize the indices by dividing by the number of classes (this is because we flattened our logits tensor in a previous step) </span></span>
 <span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>output_scores_manual_top_100_indicies_normalized <span class="op">=</span> output_scores_manual_top_100_indices[<span class="dv">0</span>] <span class="op">//</span> num_classes</span>
 <span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>output_scores_manual_top_100_indicies_normalized</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3907,7 +3916,7 @@ tensor([[0.0400, 0.2540, 0.0281, 0.0325],
          89, 139])</code></pre>
 </div>
 </div>
-<div id="cell-146" class="cell">
+<div id="cell-147" class="cell">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Filter boxes for top 100 above the target threshold</span></span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>output_boxes_manual_above_threshold_cxcywh <span class="op">=</span> output_boxes_manual_cxcywh[output_scores_manual_top_100_indicies_normalized]</span>
 <span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3931,7 +3940,7 @@ tensor([[0.6449, 0.0949, 0.2459, 0.1891],
 </div>
 <p>Nice!</p>
 <p>Okay, now let’s convert the boxes from normalized <code>CXCYWH</code> to normalized <code>XYXY</code> format using <code>torchvision.ops.box_convert</code>.</p>
-<div id="cell-148" class="cell">
+<div id="cell-149" class="cell">
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision.ops <span class="im">import</span> box_convert</span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Convert the model's predicted boxes from CXCYWH to XYXY format</span></span>
@@ -3960,7 +3969,7 @@ tensor([[ 5.2193e-01,  3.5315e-04,  7.6779e-01,  1.8945e-01],
 <p>Absolute format conversion will depend on the target size of image we’d like to use.</p>
 <p>For example, if we’d like to convert our boxes to the original dimensions of our input image so we can plot them on that image, we can use the image’s original dimensions.</p>
 <p>To get the original dimensions of our image we can access the <code>orig_size</code> attribute of our preprocessed sample.</p>
-<div id="cell-150" class="cell">
+<div id="cell-151" class="cell">
 <div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Get the original input image size (required for box conversion)</span></span>
 <span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>random_sample_image_original_size<span class="op">=</span> random_sample_preprocessed[<span class="st">"labels"</span>][<span class="dv">0</span>][<span class="st">"orig_size"</span>]</span>
 <span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Image original size: </span><span class="sc">{</span>random_sample_image_original_size<span class="sc">}</span><span class="ss"> (height, width)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3969,7 +3978,7 @@ tensor([[ 5.2193e-01,  3.5315e-04,  7.6779e-01,  1.8945e-01],
 </div>
 </div>
 <p>Now to convert our normalized coordinates to absolute coordinates we can multiply <code>x</code> coordinates by the target width and <code>y</code> coordinates by the target height.</p>
-<div id="cell-152" class="cell">
+<div id="cell-153" class="cell">
 <div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Convert normalized box coordinates to absolute pixel values</span></span>
 <span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get image original height and width</span></span>
@@ -4000,7 +4009,7 @@ tensor([[ 5.2193e-01,  3.5315e-04,  7.6779e-01,  1.8945e-01],
 </div>
 <p>Absolute <code>XYXY</code> coordinates acquired!</p>
 <p>Time to order them in the same order as our descending scores.</p>
-<div id="cell-154" class="cell">
+<div id="cell-155" class="cell">
 <div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Order boxes in same order as labels and scores (descending based on score)</span></span>
 <span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>output_boxes_manual_sorted <span class="op">=</span> output_boxes_manual_above_threshold_xyxy_absolute[output_scores_manual_filtered_indices]</span>
 <span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>output_boxes_manual_sorted[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4020,7 +4029,7 @@ tensor([[ 5.2193e-01,  3.5315e-04,  7.6779e-01,  1.8945e-01],
 </div>
 <p>Finally, we can check to see if our manually postprocessed boxes are equivalent to original post processed boxes.</p>
 <p>Because we have 100 boxes, we’ll use <a href="https://docs.pytorch.org/docs/stable/generated/torch.all.html"><code>torch.all()</code></a> which checks if all elements in an <code>input</code> evaluate to <code>True</code> to make sure they’re all the same.</p>
-<div id="cell-156" class="cell">
+<div id="cell-157" class="cell">
 <div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Check for equivalence between original postprocessed boxes and our manually processed boxes</span></span>
 <span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>torch.<span class="bu">all</span>(<span class="bu">input</span><span class="op">=</span>output_boxes[:<span class="dv">100</span>] <span class="op">==</span> output_boxes_manual_sorted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="61">
@@ -4032,8 +4041,8 @@ tensor([[ 5.2193e-01,  3.5315e-04,  7.6779e-01,  1.8945e-01],
 <p>Taking the time to do steps like this helps us understand the steps taken behind the scenes for in-built postprocessing methods.</p>
 <p>Knowing how to do these conversion steps can also help use troubleshoot errors we may come across in the future.</p>
 </section>
-<section id="plotting-our-models-first-box-predictions-on-an-image" class="level3" data-number="11.4">
-<h3 data-number="11.4" class="anchored" data-anchor-id="plotting-our-models-first-box-predictions-on-an-image"><span class="header-section-number">11.4</span> Plotting our model’s first box predictions on an image</h3>
+<section id="plotting-our-models-first-box-predictions-on-an-image" class="level3" data-number="10.4">
+<h3 data-number="10.4" class="anchored" data-anchor-id="plotting-our-models-first-box-predictions-on-an-image"><span class="header-section-number">10.4</span> Plotting our model’s first box predictions on an image</h3>
 <p>We’ve got some predictions, time to follow the data explorer’s motto and <em>visualize, visualize, visualize!</em></p>
 <p>To do so we’ll:</p>
 <ol type="1">
@@ -4042,7 +4051,7 @@ tensor([[ 5.2193e-01,  3.5315e-04,  7.6779e-01,  1.8945e-01],
 <li>Draw boxes on the image with a combination of <code>torchvision</code>’s <a href="https://pytorch.org/vision/main/generated/torchvision.transforms.functional.pil_to_tensor.html"><code>pil_to_tensor</code></a>, <a href="https://pytorch.org/vision/main/generated/torchvision.utils.draw_bounding_boxes.html"><code>draw_bounding_boxes</code></a> and <a href="https://pytorch.org/vision/main/generated/torchvision.transforms.functional.to_pil_image.html"><code>to_pil_image</code></a>.</li>
 </ol>
 <p>We’ll halve the image as well as the box coordinates using <code>half_image</code> and <code>half_boxes</code> to save space in our notebook (this is not 100% necessary, just for convenience).</p>
-<div id="cell-159" class="cell">
+<div id="cell-160" class="cell">
 <div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Extract scores, labels and boxes</span></span>
 <span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>random_sample_pred_scores <span class="op">=</span> random_sample_outputs_post_processed[<span class="dv">0</span>][<span class="st">"scores"</span>]</span>
 <span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>random_sample_pred_labels <span class="op">=</span> random_sample_outputs_post_processed[<span class="dv">0</span>][<span class="st">"labels"</span>]</span>
@@ -4072,7 +4081,7 @@ tensor([[ 5.2193e-01,  3.5315e-04,  7.6779e-01,  1.8945e-01],
 <div class="cell-output cell-output-display" data-execution_count="62">
 <div>
 <figure class="figure">
-<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-62-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-63-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -4082,8 +4091,9 @@ tensor([[ 5.2193e-01,  3.5315e-04,  7.6779e-01,  1.8945e-01],
 <p>While our model has been pretrained on the COCO dataset, it hasn’t been trained on our specific data.</p>
 <p>The good news is we can hopefully (there are no guarantees in machine learning) improve our model’s box predictions by fine-tuning it on our dataset.</p>
 </section>
-<section id="aside-bounding-box-formats-in-and-out-of-our-model" class="level2" data-number="12">
-<h2 data-number="12" class="anchored" data-anchor-id="aside-bounding-box-formats-in-and-out-of-our-model"><span class="header-section-number">12</span> Aside: Bounding box formats in and out of our model</h2>
+</section>
+<section id="aside-bounding-box-formats-in-and-out-of-our-model" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="aside-bounding-box-formats-in-and-out-of-our-model"><span class="header-section-number">11</span> Aside: Bounding box formats in and out of our model</h2>
 <p>We’ve done a fair bit of data transformation to get our data ready to go into our model and we’ve also taken a fair few steps to postprocess it into a usable format.</p>
 <p>This is often a standard practice in many machine learning workflows.</p>
 <p>Much of the work before ever training a model is preparing the data for the model.</p>
@@ -4135,8 +4145,8 @@ Our bounding boxes go through a series of format changes from input to final out
 <p>But remember, just because our current workflow is like this, doesn’t mean all future workflows you work on will have the same transformation steps.</p>
 <p>For more on different bounding box formats, see the <a href="https://www.learnml.io/posts/a-guide-to-bounding-box-formats/">bounding box formats guide</a>.</p>
 </section>
-<section id="preparing-data-at-scale" class="level2" data-number="13">
-<h2 data-number="13" class="anchored" data-anchor-id="preparing-data-at-scale"><span class="header-section-number">13</span> Preparing data at scale</h2>
+<section id="preparing-data-at-scale" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="preparing-data-at-scale"><span class="header-section-number">12</span> Preparing data at scale</h2>
 <p>We’ve performed preprocessing and postprocessing steps on a single data sample.</p>
 <p>However, in practice, we’ll likely want to work with many more samples.</p>
 <p>Our model is hungry for more data.</p>
@@ -4148,8 +4158,8 @@ Our bounding boxes go through a series of format changes from input to final out
 <li><strong>Collate samples into batches</strong> so our model can view multiple samples simultaneously. Rather than performing a forward pass on a single sample at a time, we’ll pass <strong>batches</strong> of data to the model. For example, we may pass 32 samples (image and label pairs) at a time to our model for it to try and learn the patterns between them. We use batches of data rather than the whole dataset as it’s often much more memory efficient. If you have a <em>really</em> large dataset, all of your samples may not fit into memory at once, so in practice, you break it up into smaller batches of samples.</li>
 </ol>
 <p>Let’s start by splitting the data into different sets.</p>
-<section id="splitting-the-data-into-training-and-test-sets" class="level3" data-number="13.1">
-<h3 data-number="13.1" class="anchored" data-anchor-id="splitting-the-data-into-training-and-test-sets"><span class="header-section-number">13.1</span> Splitting the data into training and test sets</h3>
+<section id="splitting-the-data-into-training-and-test-sets" class="level3" data-number="12.1">
+<h3 data-number="12.1" class="anchored" data-anchor-id="splitting-the-data-into-training-and-test-sets"><span class="header-section-number">12.1</span> Splitting the data into training and test sets</h3>
 <p>Right now our data is all in one big group.</p>
 <p>However, it’s best practice to split our data into two (or three) different sets:</p>
 <ol type="1">
@@ -4162,7 +4172,7 @@ Our bounding boxes go through a series of format changes from input to final out
 <p>This is similar to our machine learning workflow.</p>
 <p>In an ideal world, the samples in the training set are sufficiently representative of those in the test set and in turn, sufficiently representative of samples in the wild.</p>
 <p>Before we split our dataset into different sets, let’s remind ourselves of what it looks like.</p>
-<div id="cell-164" class="cell">
+<div id="cell-165" class="cell">
 <div class="sourceCode cell-code" id="cb124"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Original dataset (only a "train" split)</span></span>
 <span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> load_dataset(path<span class="op">=</span><span class="st">"mrdbourke/trashify_manual_labelled_images"</span>)</span>
 <span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>original_dataset_length <span class="op">=</span> <span class="bu">len</span>(dataset[<span class="st">"train"</span>])</span>
@@ -4199,7 +4209,7 @@ An approximate breakdown of the different dataset splits we’re going to create
 <p>Once we’ve done this, we’ll reassign all of the splits back to our original <code>dataset</code>.</p>
 <p>We’ll also set <code>seed=42</code> for reproducibility.</p>
 <p>Let’s do it!</p>
-<div id="cell-166" class="cell">
+<div id="cell-167" class="cell">
 <div class="sourceCode cell-code" id="cb126"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: Be careful of running this cell multiple times, if you do, the dataset size will get smaller. </span></span>
 <span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a><span class="co"># If this happens, just reload the whole `dataset` as above.</span></span>
 <span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4242,12 +4252,12 @@ An approximate breakdown of the different dataset splits we’re going to create
 <p>Now we’ve got three splits of our dataset to work with.</p>
 <p>We’ll make sure our model never sees the <code>validation</code> and <code>test</code> splits during training, so when evaluate it we know that it’s only seeing new samples.</p>
 </section>
-<section id="writing-a-function-for-preprocessing-multiple-samples-at-a-time" class="level3" data-number="13.2">
-<h3 data-number="13.2" class="anchored" data-anchor-id="writing-a-function-for-preprocessing-multiple-samples-at-a-time"><span class="header-section-number">13.2</span> Writing a function for preprocessing multiple samples at a time</h3>
+<section id="writing-a-function-for-preprocessing-multiple-samples-at-a-time" class="level3" data-number="12.2">
+<h3 data-number="12.2" class="anchored" data-anchor-id="writing-a-function-for-preprocessing-multiple-samples-at-a-time"><span class="header-section-number">12.2</span> Writing a function for preprocessing multiple samples at a time</h3>
 <p>We’ve preprocessed and passed one sample through our model, new let’s do the same for multiple samples.</p>
 <p>We’re going to work towards having a function that can go from a group or batch of samples (images and their annotations) and return them in preprocessed form (via <a href="https://huggingface.co/docs/transformers/en/model_doc/rt_detr#transformers.RTDetrImageProcessor.preprocess"><code>transformers.RTDetrImageProcessor.preprocess</code></a>) ready to be used with our model.</p>
 <p>Let’s first remind ourselves of what a single unprocessed sample looks like.</p>
-<div id="cell-169" class="cell">
+<div id="cell-170" class="cell">
 <div class="sourceCode cell-code" id="cb128"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get one sample from the training dataset </span></span>
 <span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>one_sample <span class="op">=</span> dataset[<span class="st">"train"</span>][<span class="dv">42</span>]</span>
 <span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>one_sample</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4271,7 +4281,7 @@ An approximate breakdown of the different dataset splits we’re going to create
 </div>
 <p>Awesome, we get an <code>image</code> in <code>PIL.Image.Image</code> form as well as a single dictionary of <code>annotations</code>.</p>
 <p>How about if we were to inspect a group of three samples?</p>
-<div id="cell-171" class="cell">
+<div id="cell-172" class="cell">
 <div class="sourceCode cell-code" id="cb130"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get three samples from the training set</span></span>
 <span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>group_of_samples <span class="op">=</span> dataset[<span class="st">"train"</span>][<span class="dv">0</span>:<span class="dv">3</span>]</span>
 <span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4421,7 +4431,7 @@ Note
 <li>Return the preprocessed batch.</li>
 </ol>
 <p>Let’s do it!</p>
-<div id="cell-173" class="cell">
+<div id="cell-174" class="cell">
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Take in a list of examples, image processor and optional transforms</span></span>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> preprocess_batch(examples, </span>
 <span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a>                     image_processor,</span>
@@ -4505,7 +4515,7 @@ Note
 </div>
 <p>Nice!</p>
 <p>Now how about we test it out on our <code>group_of_samples</code>?</p>
-<div id="cell-175" class="cell">
+<div id="cell-176" class="cell">
 <div class="sourceCode cell-code" id="cb134"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>preprocessed_samples <span class="op">=</span> preprocess_batch(examples<span class="op">=</span>group_of_samples,</span>
 <span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>                                        image_processor<span class="op">=</span>image_processor)</span>
 <span id="cb134-3"><a href="#cb134-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4516,7 +4526,7 @@ Note
 </div>
 <p>Perfect, we get the same <code>keys()</code> as with our single sample.</p>
 <p>Except this time, we’ve got multiple samples, let’s check the shape.</p>
-<div id="cell-177" class="cell">
+<div id="cell-178" class="cell">
 <div class="sourceCode cell-code" id="cb136"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the shape of our preprocessed samples</span></span>
 <span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Shape of preprocessed samples: </span><span class="sc">{</span>preprocessed_samples[<span class="st">'pixel_values'</span>]<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> -&gt; [batch_size, colour_channels, height, width]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -4525,15 +4535,15 @@ Note
 </div>
 <p>Wonderful, our batch of three samples have been preprocessed and are ready for input to our model.</p>
 </section>
-<section id="applying-our-preprocessing-function-to-each-data-split" class="level3" data-number="13.3">
-<h3 data-number="13.3" class="anchored" data-anchor-id="applying-our-preprocessing-function-to-each-data-split"><span class="header-section-number">13.3</span> Applying our preprocessing function to each data split</h3>
+<section id="applying-our-preprocessing-function-to-each-data-split" class="level3" data-number="12.3">
+<h3 data-number="12.3" class="anchored" data-anchor-id="applying-our-preprocessing-function-to-each-data-split"><span class="header-section-number">12.3</span> Applying our preprocessing function to each data split</h3>
 <p>We’ve seen our <code>preprocess_batch</code> function in action on a small group of samples.</p>
 <p>Now let’s apply it to our different data splits.</p>
 <p>To do so, we can call the <a href="https://huggingface.co/docs/datasets/en/package_reference/main_classes#datasets.Dataset.with_transform"><code>with_transform()</code></a> method on our target dataset split and pass it our desired <code>transform</code>.</p>
 <p>Using <code>with_transform()</code> means our transformations will be applied on-the-fly when we call on our split datasets.</p>
 <p>Because the <code>with_transform()</code> method expects a callable with a single argument (the input examples), we’ll turn our <code>preprocess_batch</code> into a <a href="https://docs.python.org/3/library/functools.html#functools.partial">Python partial function</a>.</p>
 <p>Doing this will mean we can prefill the <code>image_processor</code> and optionally the <code>transforms</code> parameter of our <code>preprocess_batch</code> function meaning it will only take <code>examples</code> as input, this is inline with the <code>with_transform()</code> method.</p>
-<div id="cell-180" class="cell">
+<div id="cell-181" class="cell">
 <div class="sourceCode cell-code" id="cb138"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a partial function for preprocessing</span></span>
 <span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> partial</span>
 <span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4547,7 +4557,7 @@ Note
 <span id="cb138-11"><a href="#cb138-11" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocess_batch_partial</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Beautiful, now let’s pass the <code>preprocess_batch_partial</code> function to the <code>with_transform()</code> method on each of our data splits.</p>
-<div id="cell-182" class="cell">
+<div id="cell-183" class="cell">
 <div class="sourceCode cell-code" id="cb139"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a copy of the original dataset </span></span>
 <span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (we don't need to do this, this is just so we can inspect the original dataset later on)</span></span>
 <span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a>processed_dataset <span class="op">=</span> dataset.copy()</span>
@@ -4558,7 +4568,7 @@ Note
 <span id="cb139-8"><a href="#cb139-8" aria-hidden="true" tabindex="-1"></a>processed_dataset[<span class="st">"test"</span>] <span class="op">=</span> dataset[<span class="st">"test"</span>].with_transform(transform<span class="op">=</span>preprocess_batch_partial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now when we get (via <code>__getitem__</code>) one of our samples from a <code>processed_dataset</code> split, it will be preprocessed on the fly.</p>
-<div id="cell-184" class="cell">
+<div id="cell-185" class="cell">
 <div class="sourceCode cell-code" id="cb140"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get an item from the dataset (in will be preprocessed as we get it)</span></span>
 <span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>processed_dataset[<span class="st">"train"</span>][<span class="dv">42</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="72">
@@ -4597,7 +4607,7 @@ Note
 </div>
 </div>
 <p>And the same happens when we get multiple (a batch) samples!</p>
-<div id="cell-186" class="cell">
+<div id="cell-187" class="cell">
 <div class="sourceCode cell-code" id="cb142"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now when we call one or more of our samples, the preprocessing will take place</span></span>
 <span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>batch_size_to_get <span class="op">=</span> <span class="dv">32</span></span>
 <span id="cb142-3"><a href="#cb142-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Shape of preprocessed images: </span><span class="sc">{</span>processed_dataset[<span class="st">'train'</span>][:batch_size_to_get][<span class="st">'pixel_values'</span>]<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> -&gt; [batch_size, colour_channels, height, width]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4605,13 +4615,13 @@ Note
 <pre><code>[INFO] Shape of preprocessed images: torch.Size([32, 3, 640, 480]) -&gt; [batch_size, colour_channels, height, width]</code></pre>
 </div>
 </div>
-<div id="cell-187" class="cell">
+<div id="cell-188" class="cell">
 <div class="sourceCode cell-code" id="cb144"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can pass these straight to our model! (note: may take a while if it's on CPU)</span></span>
 <span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="co"># model(processed_dataset["train"][:batch_size_to_get]["pixel_values"]) # uncomment to view output</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="creating-a-collation-function" class="level3" data-number="13.4">
-<h3 data-number="13.4" class="anchored" data-anchor-id="creating-a-collation-function"><span class="header-section-number">13.4</span> Creating a collation function</h3>
+<section id="creating-a-collation-function" class="level3" data-number="12.4">
+<h3 data-number="12.4" class="anchored" data-anchor-id="creating-a-collation-function"><span class="header-section-number">12.4</span> Creating a collation function</h3>
 <p>We now preprocess multiple samples at once.</p>
 <p>Time to create a collation function which will tell our model trainer how to stack these samples together into batches.</p>
 <p>We do this because processing more samples at once (e.g.&nbsp;32 samples in a batch) in a batch is generally more efficient than one sample at a time or trying to process all samples at once.</p>
@@ -4634,7 +4644,7 @@ Note
 <p>The ideal batch size for a given dataset/model/hardware is often discovered in an iterative process.</p>
 </div>
 </div>
-<div id="cell-189" class="cell">
+<div id="cell-190" class="cell">
 <div class="sourceCode cell-code" id="cb145"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Any</span>
 <span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> data_collate_function(preprocessed_batch: List[Dict[<span class="bu">str</span>, Any]]) <span class="op">-&gt;</span> Dict[<span class="bu">str</span>, Any]:</span>
@@ -4667,7 +4677,7 @@ Note
 <span id="cb145-30"><a href="#cb145-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> collated_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Excellent! Now let’s try out our data collation function.</p>
-<div id="cell-191" class="cell">
+<div id="cell-192" class="cell">
 <div class="sourceCode cell-code" id="cb146"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
 <span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb146-3"><a href="#cb146-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Try data_collate_function </span></span>
@@ -4683,7 +4693,7 @@ Wall time: 865 ms</code></pre>
 </div>
 <p>Perfect! Looks like it worked. We’ve now got a batch of preprocessed images and label pairs.</p>
 <p>Let’s check the shapes.</p>
-<div id="cell-193" class="cell">
+<div id="cell-194" class="cell">
 <div class="sourceCode cell-code" id="cb149"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check shapes of batched preprocessed samples</span></span>
 <span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Batch of pixel value shapes: </span><span class="sc">{</span>example_collated_data_batch[<span class="st">'pixel_values'</span>]<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Batch of labels: </span><span class="sc">{</span>example_collated_data_batch[<span class="st">'labels'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -4781,7 +4791,7 @@ Wall time: 865 ms</code></pre>
 </div>
 </div>
 <p>Now let’s try to pass the <code>"pixel_values"</code> through our model.</p>
-<div id="cell-195" class="cell">
+<div id="cell-196" class="cell">
 <div class="sourceCode cell-code" id="cb151"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time </span>
 <span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb151-3"><a href="#cb151-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Try pass a batch through our model (note: this will be relatively slow if our model is on the CPU)</span></span>
@@ -4818,7 +4828,7 @@ Wall time: 14.2 s</code></pre>
 <pre><code>odict_keys(['logits', 'pred_boxes', 'last_hidden_state', 'intermediate_hidden_states', 'intermediate_logits', 'intermediate_reference_points', 'encoder_last_hidden_state', 'init_reference_points', 'enc_topk_logits', 'enc_topk_bboxes', 'enc_outputs_class', 'enc_outputs_coord_logits'])</code></pre>
 </div>
 </div>
-<div id="cell-196" class="cell">
+<div id="cell-197" class="cell">
 <div class="sourceCode cell-code" id="cb155"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We get 300 predictions per image in our batch, each with a logit value for each of the classes in our dataset </span></span>
 <span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>example_batch_outputs.logits.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="79">
@@ -4833,8 +4843,8 @@ Wall time: 14.2 s</code></pre>
 </ol>
 </section>
 </section>
-<section id="setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" class="level2" data-number="14">
-<h2 data-number="14" class="anchored" data-anchor-id="setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model"><span class="header-section-number">14</span> Setting up TrainingArguments and a Trainer instance to train our model</h2>
+<section id="setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="setting-up-trainingarguments-and-a-trainer-instance-to-train-our-model"><span class="header-section-number">13</span> Setting up TrainingArguments and a Trainer instance to train our model</h2>
 <p>Data ready and prepared, time to train a model!</p>
 <p>We’ll use <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.TrainingArguments"><code>transformers.TrainingArguments</code></a> to set various hyperparameters for our model (many of these will be set by default, however, we can tweak them to our liking).</p>
 <p>We’ll also create an instance of <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer"><code>transformers.Trainer</code></a> which we can pass our preprocessed datasets for it to train/evaluate on.</p>
@@ -4848,7 +4858,7 @@ Wall time: 14.2 s</code></pre>
 <li>Call <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.train"><code>transformers.Trainer.train()</code></a> to train the model from 1 on our own data.</li>
 </ol>
 <p>Let’s do it!</p>
-<div id="cell-199" class="cell">
+<div id="cell-200" class="cell">
 <div class="sourceCode cell-code" id="cb157"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Create a model instance </span></span>
 <span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> create_model()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -4872,7 +4882,7 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 </div>
 </div>
 <p>Model ready, let’s now create a folder where we can save our trained models to.</p>
-<div id="cell-201" class="cell">
+<div id="cell-202" class="cell">
 <div class="sourceCode cell-code" id="cb159"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Make a models directory for saving models</span></span>
@@ -4880,8 +4890,8 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 <span id="cb159-5"><a href="#cb159-5" aria-hidden="true" tabindex="-1"></a>models_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Perfect! Time to setup our model’s hyperparameters with <code>transformers.TrainingArguments</code>.</p>
-<section id="setting-up-our-trainingarguments" class="level3" data-number="14.1">
-<h3 data-number="14.1" class="anchored" data-anchor-id="setting-up-our-trainingarguments"><span class="header-section-number">14.1</span> Setting up our TrainingArguments</h3>
+<section id="setting-up-our-trainingarguments" class="level3" data-number="13.1">
+<h3 data-number="13.1" class="anchored" data-anchor-id="setting-up-our-trainingarguments"><span class="header-section-number">13.1</span> Setting up our TrainingArguments</h3>
 <p>The <code>transformers.TrainingArguments</code> class holds many of the hyperparameters/settings for training our model.</p>
 <p>Many of them are set by default in the <a href="https://huggingface.co/docs/transformers/main/en/model_doc/rt_detr_v2#transformers.RTDetrV2Config"><code>transformers.RTDetrV2Config</code></a> class.</p>
 <p>However, we can tweak any of them to our own liking.</p>
@@ -4945,7 +4955,7 @@ Different hyperparameter settings from the official papers for the <a href="http
 <p>For example, all the mentioned research papers tend to focus on training a model from scratch on the COCO dataset (330k images, 80 classes).</p>
 <p>Which is a much larger dataset with more classes than our dataset (1k images, 7 classes) which we are trying to fine-tune an existing model on rather than train from scratch.</p>
 <p>There are many more possible arguments/settings we’ve left out in the above table but if you’d like to explore these, I’d encourage you to check out the documentation for <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.TrainingArguments"><code>transformers.TrainingArguments</code></a>.</p>
-<div id="cell-204" class="cell">
+<div id="cell-205" class="cell">
 <div class="sourceCode cell-code" id="cb160"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Create an instance of TrainingArguments to pass to Trainer</span></span>
 <span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> TrainingArguments</span>
 <span id="cb160-3"><a href="#cb160-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5001,8 +5011,8 @@ Different hyperparameter settings from the official papers for the <a href="http
 </div>
 </div>
 </section>
-<section id="optional-setting-up-an-optimizer-for-multiple-learning-rates" class="level3" data-number="14.2">
-<h3 data-number="14.2" class="anchored" data-anchor-id="optional-setting-up-an-optimizer-for-multiple-learning-rates"><span class="header-section-number">14.2</span> Optional: Setting up an optimizer for multiple learning rates</h3>
+<section id="optional-setting-up-an-optimizer-for-multiple-learning-rates" class="level3" data-number="13.2">
+<h3 data-number="13.2" class="anchored" data-anchor-id="optional-setting-up-an-optimizer-for-multiple-learning-rates"><span class="header-section-number">13.2</span> Optional: Setting up an optimizer for multiple learning rates</h3>
 <p>In the papers that mentioned the DETR model we’re using (see Table 1 in the <a href="https://arxiv.org/abs/2407.17140">RT-DETRv2 paper</a>), they state that they used a different learning rate value for the backbone (<code>learning_rate=1e-5</code>) as well as the object detection head (<code>learning_rate=1e-4</code>).</p>
 <figure style="text-align: center;" class="figure">
 <img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/06-table-1-rt-detrv2-paper.png" alt="A table, titled 'Table 1: The hyperparameters of RT-DETRv2,' lists four model variants: 'RT-DETRv2-S,' 'RT-DETRv2-M,' 'RT-DETRv2-L,' and 'RT-DETRv2-X,' along with their respective 'Backbone' architectures ('ResNet18,' 'ResNet34,' 'ResNet50,' and 'ResNet101'), and their learning rates for the backbone ('lr_backbone': '1e-4,' '5e-5,' '1e-5,' '1e-6') and the detector head ('lr_det': all '1e-4')" style="width: 100%; max-width: 600px; height: auto;" class="figure-img">
@@ -5030,7 +5040,7 @@ Note
 </div>
 </div>
 <p>We can then subclass <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer"><code>transformers.Trainer</code></a> and update the method <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.create_optimizer"><code>create_optimizer()</code></a> to use our custom optimizer.</p>
-<div id="cell-206" class="cell">
+<div id="cell-207" class="cell">
 <div class="sourceCode cell-code" id="cb162"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> Trainer</span>
 <span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb162-3"><a href="#cb162-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create lists for different kinds of parameters</span></span>
@@ -5065,8 +5075,8 @@ Note
 <p>Awesome!</p>
 <p>Now if we wanted to use our custom optimizer, we could use <code>CustomTrainer</code> instead of <code>Trainer</code>.</p>
 </section>
-<section id="creating-an-evaluation-function" class="level3" data-number="14.3">
-<h3 data-number="14.3" class="anchored" data-anchor-id="creating-an-evaluation-function"><span class="header-section-number">14.3</span> Creating an evaluation function</h3>
+<section id="creating-an-evaluation-function" class="level3" data-number="13.3">
+<h3 data-number="13.3" class="anchored" data-anchor-id="creating-an-evaluation-function"><span class="header-section-number">13.3</span> Creating an evaluation function</h3>
 <p>Evaluating a model’s performance is just as important as training a model.</p>
 <p>After all, if you don’t know how well your model is performing, how can you be confident in deploying it or using it in the real world?</p>
 <p>In this section, let’s create an evaluation function we can pass to <code>transformers.Trainer</code>’s <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.compute_metrics"><code>compute_metrics</code> parameter</a>.</p>
@@ -5092,7 +5102,7 @@ Note
 <p>But nothing we can’t handle.</p>
 <p>Let’s create our function.</p>
 <p>We’ll start by making a small helper function to convert bounding boxes from CXCYWH normalized format to XYXY absolute format.</p>
-<div id="cell-209" class="cell">
+<div id="cell-210" class="cell">
 <div class="sourceCode cell-code" id="cb164"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_bbox_cxcywh_to_xyxy_absolute(boxes, </span>
 <span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a>                                         image_size_target):</span>
 <span id="cb164-3"><a href="#cb164-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -5142,7 +5152,7 @@ Note
 </ol>
 <p>Easy.</p>
 <p>We’ve got this.</p>
-<div id="cell-211" class="cell">
+<div id="cell-212" class="cell">
 <div class="sourceCode cell-code" id="cb165"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an evaluation function to test our model's performance</span></span>
 <span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5284,8 +5294,8 @@ Note
 <span id="cb165-139"><a href="#cb165-139" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="training-our-model-with-trainer" class="level3" data-number="14.4">
-<h3 data-number="14.4" class="anchored" data-anchor-id="training-our-model-with-trainer"><span class="header-section-number">14.4</span> Training our model with Trainer</h3>
+<section id="training-our-model-with-trainer" class="level3" data-number="13.4">
+<h3 data-number="13.4" class="anchored" data-anchor-id="training-our-model-with-trainer"><span class="header-section-number">13.4</span> Training our model with Trainer</h3>
 <p>We’ve now got all the ingredients needed to train our model!</p>
 <p>The good news is since we’ve put so much effort into preparing our dataset, creating an evaluation function and setting up our training arguments, we can train our model in a few lines of code.</p>
 <p>To train our model, we’ll set up an instance of <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer"><code>transformers.Trainer</code></a> and then we’ll pass it the following arguments:</p>
@@ -5298,7 +5308,7 @@ Note
 <li><code>compute_metrics</code> - A <code>Callable</code> which takes in [<code>EvalPrediction</code>] and is able to return a string to metric (<code>{"metric_name": value}</code>) dictionary, these will displayed during training.</li>
 </ul>
 <p>After we’ve done all that, we can start to train our model with by calling <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.train"><code>transformers.Trainer.train()</code></a>.</p>
-<div id="cell-213" class="cell">
+<div id="cell-214" class="cell">
 <div class="sourceCode cell-code" id="cb166"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: Depending on the size/speed of your GPU, this may take a while</span></span>
 <span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> Trainer</span>
 <span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5677,14 +5687,14 @@ Note
 </div>
 </div>
 </section>
-<section id="plotting-our-models-loss-curves" class="level3" data-number="14.5">
-<h3 data-number="14.5" class="anchored" data-anchor-id="plotting-our-models-loss-curves"><span class="header-section-number">14.5</span> Plotting our model’s loss curves</h3>
+<section id="plotting-our-models-loss-curves" class="level3" data-number="13.5">
+<h3 data-number="13.5" class="anchored" data-anchor-id="plotting-our-models-loss-curves"><span class="header-section-number">13.5</span> Plotting our model’s loss curves</h3>
 <p>Looking at the metrics output by our model’s training process, we can see the loss values going down on the training and evaluation datasets.</p>
 <p>As well as the mAP going up almost universally across the board.</p>
 <p>Let’s make things visual by inspecting the loss curves and evaluation metric curves of our model.</p>
 <p>We can extract our model’s training history values via the <code>model_v1_trainer.state.log_history</code> attribute, this will return us a list of dictionaries containing training metrics related to each epoch.</p>
 <p>Once we’ve got these, we can create lists of relevant values based on their keys and then plot them with <code>matplotlib</code>.</p>
-<div id="cell-215" class="cell">
+<div id="cell-216" class="cell">
 <div class="sourceCode cell-code" id="cb168"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb168-2"><a href="#cb168-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb168-3"><a href="#cb168-3" aria-hidden="true" tabindex="-1"></a>log_history <span class="op">=</span> model_v1_trainer.state.log_history</span>
@@ -5713,7 +5723,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-87-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-88-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -5725,14 +5735,14 @@ Note
 <p>I’ll leave this as an extension for you to try.</p>
 </section>
 </section>
-<section id="making-predictions-on-the-test-dataset" class="level2" data-number="15">
-<h2 data-number="15" class="anchored" data-anchor-id="making-predictions-on-the-test-dataset"><span class="header-section-number">15</span> Making predictions on the test dataset</h2>
+<section id="making-predictions-on-the-test-dataset" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="making-predictions-on-the-test-dataset"><span class="header-section-number">14</span> Making predictions on the test dataset</h2>
 <p>We’ve trained a model on our training data (<code>processed_dataset["train"]</code>) and considering the metrics on the validation data (<code>processed_dataset["validation"]</code>) it looks like it’s performing well.</p>
 <p>However, there’s nothing quite like performing predictions on <em>unseen</em> test data and seeing how they go.</p>
 <p>We can make predictions using our trained model by passing it samples formatted in the same way it was trained on.</p>
 <p>Good news is, we’ve already got preprocessed test samples (our model has never seen these) in <code>processed_dataset["test"]</code>.</p>
 <p>Let’s start by inspecting a single processed test sample and then we’ll make predictions on the whole test dataset.</p>
-<div id="cell-218" class="cell">
+<div id="cell-219" class="cell">
 <div class="sourceCode cell-code" id="cb169"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Our dataset is broken into "train", "validation", "test"</span></span>
 <span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a>processed_dataset</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="89">
@@ -5750,7 +5760,7 @@ Note
  })}</code></pre>
 </div>
 </div>
-<div id="cell-219" class="cell">
+<div id="cell-220" class="cell">
 <div class="sourceCode cell-code" id="cb171"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect a single sample of the processed test dataset</span></span>
 <span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a>processed_dataset[<span class="st">"test"</span>][<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="90">
@@ -5792,7 +5802,7 @@ Note
 </div>
 <p>Wonderful, looks like these are ready to go!</p>
 <p>We can make predictions on the test dataset using the <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.predict"><code>transformers.Trainer.predict</code> method</a>, this will output a named tuple of <code>predictions</code> and <code>label_ids</code>.</p>
-<div id="cell-221" class="cell">
+<div id="cell-222" class="cell">
 <div class="sourceCode cell-code" id="cb173"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make predictions with trainer containing trained model</span></span>
 <span id="cb173-2"><a href="#cb173-2" aria-hidden="true" tabindex="-1"></a>test_dataset_preds <span class="op">=</span> model_v1_trainer.predict(test_dataset<span class="op">=</span>processed_dataset[<span class="st">"test"</span>])</span>
 <span id="cb173-3"><a href="#cb173-3" aria-hidden="true" tabindex="-1"></a><span class="co"># test_dataset_preds</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -5802,7 +5812,7 @@ Note
 </div>
 <p>Our predictions come in batches, just like our training was done.</p>
 <p>We can extract the prediction values (logits and predicted bounding boxes) via the <code>.predictions</code> attribute. And the label outputs (the ground truths) via the <code>label_ids</code> attribute.</p>
-<div id="cell-223" class="cell">
+<div id="cell-224" class="cell">
 <div class="sourceCode cell-code" id="cb174"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions come in the same batch size as our training setup</span></span>
 <span id="cb174-2"><a href="#cb174-2" aria-hidden="true" tabindex="-1"></a>test_dataset_prediction_outputs <span class="op">=</span> test_dataset_preds.predictions</span>
 <span id="cb174-3"><a href="#cb174-3" aria-hidden="true" tabindex="-1"></a>test_dataset_label_outputs <span class="op">=</span> test_dataset_preds.label_ids</span>
@@ -5818,7 +5828,7 @@ Note
 <li>Index <code>1</code> - Logits in the form of a NumPy array.</li>
 <li>Index <code>2</code> - Bounding box coordinates in the form of a NumPy array.</li>
 </ul>
-<div id="cell-225" class="cell">
+<div id="cell-226" class="cell">
 <div class="sourceCode cell-code" id="cb176"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the first batch of test prediction samples </span></span>
 <span id="cb176-2"><a href="#cb176-2" aria-hidden="true" tabindex="-1"></a>test_batch_metrics <span class="op">=</span> test_dataset_prediction_outputs[<span class="dv">0</span>][<span class="dv">0</span>] <span class="co"># metrics come at index 0 in the form of a dictionary</span></span>
 <span id="cb176-3"><a href="#cb176-3" aria-hidden="true" tabindex="-1"></a>test_batch_logits <span class="op">=</span> test_dataset_prediction_outputs[<span class="dv">0</span>][<span class="dv">1</span>] <span class="co"># logits come at index 1 in a numpy array</span></span>
@@ -5836,7 +5846,7 @@ Note
 </div>
 </div>
 <p>Let’s concatenate all of the batches of test predictions into one single <code>numpy.ndarray</code>. We’ll then turn them into <code>torch.tensor</code>’s so we can use them with our post-processing methods.</p>
-<div id="cell-227" class="cell">
+<div id="cell-228" class="cell">
 <div class="sourceCode cell-code" id="cb178"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can stack these together to get the full outputs</span></span>
 <span id="cb178-2"><a href="#cb178-2" aria-hidden="true" tabindex="-1"></a>test_dataset_pred_logits <span class="op">=</span> []</span>
 <span id="cb178-3"><a href="#cb178-3" aria-hidden="true" tabindex="-1"></a>test_dataset_pred_boxes <span class="op">=</span> []</span>
@@ -5855,8 +5865,8 @@ Note
 [INFO] Test predictions boxes shape: torch.Size([224, 300, 4]) -&gt; (num_samples, num_predictions, box_coordinates - CXCYWH normalize format)</code></pre>
 </div>
 </div>
-<section id="evaluating-our-test-predictions" class="level3" data-number="15.1">
-<h3 data-number="15.1" class="anchored" data-anchor-id="evaluating-our-test-predictions"><span class="header-section-number">15.1</span> Evaluating our test predictions</h3>
+<section id="evaluating-our-test-predictions" class="level3" data-number="14.1">
+<h3 data-number="14.1" class="anchored" data-anchor-id="evaluating-our-test-predictions"><span class="header-section-number">14.1</span> Evaluating our test predictions</h3>
 <p>Now we’ve got our predicted logits and boxes, we can format them in a way so we can evaluate them with <a href="https://lightning.ai/docs/torchmetrics/stable/detection/mean_average_precision.html"><code>torchmetrics.detection.meap_ap.MeanAveragePrecision</code></a>.</p>
 <p>The <code>MeanAveragePrecision</code> metric wants the following:</p>
 <ul>
@@ -5866,7 +5876,7 @@ Note
 <p>In essence, our <code>preds</code> have scores (prediction probabilities) where as our <code>target</code>s do not.</p>
 <p>Let’s start by collecting a list of dictionaries for our <code>preds</code>.</p>
 <p>We’ll do so by iterating over our <code>test_dataset_pred_logits</code> and <code>test_dataset_pred_boxes</code> and passing the required inputs to <a href="https://huggingface.co/docs/transformers/main/en/model_doc/rt_detr#transformers.RTDetrImageProcessor.post_process_object_detection"><code>transformers.RTDetrImageProcessor.post_process_object_detection</code></a>.</p>
-<div id="cell-229" class="cell">
+<div id="cell-230" class="cell">
 <div class="sourceCode cell-code" id="cb180"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb180-1"><a href="#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an empty list for preds</span></span>
 <span id="cb180-2"><a href="#cb180-2" aria-hidden="true" tabindex="-1"></a>test_dataset_prediction_dicts <span class="op">=</span> []</span>
 <span id="cb180-3"><a href="#cb180-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5969,7 +5979,7 @@ Note
 <p>We’ll iterate through each sample in <code>proecess_dataset["test"]</code> and create a target dictionary for each sample.</p>
 <p>The main difference is that we’ll have to convert the boxes from CXCYWH normalized to XYXY absolute.</p>
 <p>Luckily, we’ve got our handy <code>convert_bbox_cxcywh_to_xyxy_absolute</code> helper function to do just that!</p>
-<div id="cell-231" class="cell">
+<div id="cell-232" class="cell">
 <div class="sourceCode cell-code" id="cb183"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list for targets</span></span>
 <span id="cb183-2"><a href="#cb183-2" aria-hidden="true" tabindex="-1"></a>test_dataset_target_dicts <span class="op">=</span> []</span>
 <span id="cb183-3"><a href="#cb183-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -6014,7 +6024,7 @@ Note
 </div>
 <p>Alright, now we’ve got a list of <code>preds</code> in <code>test_dataset_prediction_dicts</code> and a list of <code>targets</code> in <code>test_dataset_target_dicts</code>, let’s create an instance of <code>MeanAveragePrecision</code> and use to calculate metrics comparing our predictions to the ground truth.</p>
 <p>We’ll set the <code>class_metrics=True</code> parameter so we can get a breakdown of the mAP (Mean Average Precision) and mAR (Mean Average Recall) for each class.</p>
-<div id="cell-233" class="cell">
+<div id="cell-234" class="cell">
 <div class="sourceCode cell-code" id="cb186"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare predictions to targets</span></span>
 <span id="cb186-2"><a href="#cb186-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchmetrics.detection.mean_ap <span class="im">import</span> MeanAveragePrecision</span>
 <span id="cb186-3"><a href="#cb186-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -6053,11 +6063,11 @@ Note
 </div>
 </div>
 </section>
-<section id="visualizing-our-test-dataset-evaluation-mertics" class="level3" data-number="15.2">
-<h3 data-number="15.2" class="anchored" data-anchor-id="visualizing-our-test-dataset-evaluation-mertics"><span class="header-section-number">15.2</span> Visualizing our test dataset evaluation mertics</h3>
+<section id="visualizing-our-test-dataset-evaluation-mertics" class="level3" data-number="14.2">
+<h3 data-number="14.2" class="anchored" data-anchor-id="visualizing-our-test-dataset-evaluation-mertics"><span class="header-section-number">14.2</span> Visualizing our test dataset evaluation mertics</h3>
 <p>We’ve now got some test dataset evaluation metrics, how about we follow the data explorer’s motto and visualize, visualize, visualize!</p>
 <p>Let’s visualize a these in a bar chart.</p>
-<div id="cell-235" class="cell">
+<div id="cell-236" class="cell">
 <div class="sourceCode cell-code" id="cb188"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb188-2"><a href="#cb188-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb188-3"><a href="#cb188-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract mAP and mAR metrics</span></span>
@@ -6088,7 +6098,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-97-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-98-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -6096,7 +6106,7 @@ Note
 <p>Nice! It looks like our model generally has a higher recall than precision, this is most likely because we set our prediction probability threshold to 0.0 (<code>THRESHOLD=0.0</code>).</p>
 <p>This means all possible predictions are allowed through, in turn leading to the highest possible recall metric.</p>
 <p>Let’s now visualize per class values.</p>
-<div id="cell-237" class="cell">
+<div id="cell-238" class="cell">
 <div class="sourceCode cell-code" id="cb189"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map class names to metric values </span></span>
 <span id="cb189-2"><a href="#cb189-2" aria-hidden="true" tabindex="-1"></a>test_map_per_class_dict <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">zip</span>(<span class="bu">list</span>(label2id.keys()), test_map_per_class))</span>
 <span id="cb189-3"><a href="#cb189-3" aria-hidden="true" tabindex="-1"></a>test_mar_per_class_dict <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">zip</span>(<span class="bu">list</span>(label2id.keys()), test_mar_per_class))</span>
@@ -6135,7 +6145,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-98-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-99-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -6164,8 +6174,8 @@ Note
 </div>
 </div>
 </section>
-<section id="evaluating-and-visualizing-predictions-one-by-one" class="level3" data-number="15.3">
-<h3 data-number="15.3" class="anchored" data-anchor-id="evaluating-and-visualizing-predictions-one-by-one"><span class="header-section-number">15.3</span> Evaluating and visualizing predictions one by one</h3>
+<section id="evaluating-and-visualizing-predictions-one-by-one" class="level3" data-number="14.3">
+<h3 data-number="14.3" class="anchored" data-anchor-id="evaluating-and-visualizing-predictions-one-by-one"><span class="header-section-number">14.3</span> Evaluating and visualizing predictions one by one</h3>
 <p>We’ve seen how our model performs on the test dataset in metric form but nothing quite compares to visualizing actual predictions.</p>
 <p>To do so, we’ll extract a random sample from <code>processed_dataset["test"]</code>, pass it to our model, post process the outputs and then plot the predicted boxes on an actual image.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -6182,7 +6192,7 @@ Note
 <p>Ideally, your predictions will be not too dissimiliar.</p>
 </div>
 </div>
-<div id="cell-240" class="cell">
+<div id="cell-241" class="cell">
 <div class="sourceCode cell-code" id="cb190"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb190-2"><a href="#cb190-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb190-3"><a href="#cb190-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get a random sample from the test preds</span></span>
@@ -6244,7 +6254,7 @@ Pred: trash (0.5036)</code></pre>
 <div class="cell-output cell-output-display" data-execution_count="100">
 <div>
 <figure class="figure">
-<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-99-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-100-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -6268,11 +6278,11 @@ Note
 </div>
 </div>
 </section>
-<section id="comparing-our-models-predicted-boxes-to-the-ground-truth-boxes" class="level3" data-number="15.4">
-<h3 data-number="15.4" class="anchored" data-anchor-id="comparing-our-models-predicted-boxes-to-the-ground-truth-boxes"><span class="header-section-number">15.4</span> Comparing our model’s predicted boxes to the ground truth boxes</h3>
+<section id="comparing-our-models-predicted-boxes-to-the-ground-truth-boxes" class="level3" data-number="14.4">
+<h3 data-number="14.4" class="anchored" data-anchor-id="comparing-our-models-predicted-boxes-to-the-ground-truth-boxes"><span class="header-section-number">14.4</span> Comparing our model’s predicted boxes to the ground truth boxes</h3>
 <p>How about we compare our model’s predicted boxes to the ground truth boxes?</p>
 <p>To do so, we’ll extract the same test sample from the test dataset, plot the ground truth boxes on it and then create a side by side comparison of truth versus predictions.</p>
-<div id="cell-243" class="cell">
+<div id="cell-244" class="cell">
 <div class="sourceCode cell-code" id="cb192"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get ground truth image</span></span>
 <span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a>ground_truth_image <span class="op">=</span> half_image(dataset[<span class="st">"test"</span>][random_test_pred_index][<span class="st">"image"</span>])</span>
 <span id="cb192-3"><a href="#cb192-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -6309,7 +6319,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-100-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-101-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -6317,15 +6327,15 @@ Note
 <p>Woah! It looks like our model does fairly well to reproduce boxes that are similar to the ground truth.</p>
 <p>There are some slight mistakes such as where our model predicts more than one of the same box in similar areas (this could be filtered later on with NMS or <a href="https://paperswithcode.com/method/non-maximum-suppression">non-maximum suppression</a> which removes all but the highest prediction probability boxes for each class).</p>
 </section>
-<section id="predict-on-image-from-the-wild" class="level3" data-number="15.5">
-<h3 data-number="15.5" class="anchored" data-anchor-id="predict-on-image-from-the-wild"><span class="header-section-number">15.5</span> Predict on image from the wild</h3>
+<section id="predict-on-image-from-the-wild" class="level3" data-number="14.5">
+<h3 data-number="14.5" class="anchored" data-anchor-id="predict-on-image-from-the-wild"><span class="header-section-number">14.5</span> Predict on image from the wild</h3>
 <p>We’ve seen how our model performs on test data which is similar to our training data.</p>
 <p>But how does it do on an image from the wild?</p>
 <p>For the image below, I searched for “person putting trash in bin” and selected one of the first images to appear.</p>
 <p>You can see it at the URL: <a href="https://images.pexels.com/photos/7565384/pexels-photo-7565384.jpeg"><code>https://images.pexels.com/photos/7565384/pexels-photo-7565384.jpeg</code></a>.</p>
 <p>If this image doesn’t work, we could even try our model on an AI generated image of a person throwing trash in a bin and see how it performs.</p>
 <p>Let’s write some code to download our target image from the URL above and save it to file.</p>
-<div id="cell-246" class="cell">
+<div id="cell-247" class="cell">
 <div class="sourceCode cell-code" id="cb193"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb193-1"><a href="#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb193-2"><a href="#cb193-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
 <span id="cb193-3"><a href="#cb193-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -6351,7 +6361,7 @@ Note
 <div class="cell-output cell-output-display" data-execution_count="102">
 <div>
 <figure class="figure">
-<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-101-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-102-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -6371,7 +6381,7 @@ Note
 <li>Draw our model’s predicted bounding boxes on the target image with <code>draw_bounding_boxes</code> and <code>to_pil_image</code>.</li>
 </ol>
 <p>Let’s do it!</p>
-<div id="cell-248" class="cell">
+<div id="cell-249" class="cell">
 <div class="sourceCode cell-code" id="cb195"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pred on image from pathname</span></span>
 <span id="cb195-2"><a href="#cb195-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb195-3"><a href="#cb195-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
@@ -6455,7 +6465,7 @@ Pred: trash (0.4042)</code></pre>
 <div class="cell-output cell-output-display" data-execution_count="103">
 <div>
 <figure class="figure">
-<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-102-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="hugging_face_object_detection_tutorial_files/figure-html/cell-103-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -6467,12 +6477,12 @@ Pred: trash (0.4042)</code></pre>
 <p>To fix this, we could incorportate more diverse training data into our pipeline.</p>
 </section>
 </section>
-<section id="uploading-our-trained-model-to-hugging-face-hub" class="level2" data-number="16">
-<h2 data-number="16" class="anchored" data-anchor-id="uploading-our-trained-model-to-hugging-face-hub"><span class="header-section-number">16</span> Uploading our trained model to Hugging Face Hub</h2>
+<section id="uploading-our-trained-model-to-hugging-face-hub" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="uploading-our-trained-model-to-hugging-face-hub"><span class="header-section-number">15</span> Uploading our trained model to Hugging Face Hub</h2>
 <p>Since our model looks like it’s working quite well, how about we upload to the Hugging Face Hub to make it accessible to others?</p>
 <p>We’ll first start by creating a path to save the model to locally.</p>
 <p>Then we’ll save the model to file using the <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.save_model"><code>transformers.Trainer.save_model</code></a> method.</p>
-<div id="cell-251" class="cell">
+<div id="cell-252" class="cell">
 <div class="sourceCode cell-code" id="cb197"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the model</span></span>
 <span id="cb197-2"><a href="#cb197-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime <span class="co"># optional: add a date of when we trained our model</span></span>
 <span id="cb197-3"><a href="#cb197-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -6493,7 +6503,7 @@ Pred: trash (0.4042)</code></pre>
 <p>Now let’s make sure we add our model’s <code>image_processor</code> to the our <code>Trainer</code> instance, so when someone loads our model, it automatically knows how to preprocess an input sample.</p>
 <p>This is usually done automatically but I’ve run into some issues in the past where the model doesn’t load the preprocessor.</p>
 <p>To do this we can see the <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.processing_class"><code>processing_class</code></a> attribute of <code>model_v1_trainer</code> to be our <code>image_processor</code>.</p>
-<div id="cell-253" class="cell">
+<div id="cell-254" class="cell">
 <div class="sourceCode cell-code" id="cb199"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure trainer has the processor class (this can sometimes be automatically assigned, however, we'll hard code it just to be safe)</span></span>
 <span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a>model_v1_trainer.processing_class <span class="op">=</span> image_processor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -6513,7 +6523,7 @@ Note
 <p>See the <a href="https://www.learnhuggingface.com/extras/setup">Hugging Face setup guide</a> for a walkthrough of how to do this.</p>
 </div>
 </div>
-<div id="cell-255" class="cell">
+<div id="cell-256" class="cell">
 <div class="sourceCode cell-code" id="cb200"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Push the model to the hub</span></span>
 <span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: this will require you to have your Hugging Face account setup </span></span>
 <span id="cb200-3"><a href="#cb200-3" aria-hidden="true" tabindex="-1"></a>model_on_hub_url <span class="op">=</span> model_v1_trainer.push_to_hub(commit_message<span class="op">=</span><span class="st">"upload fine-tuned RT-DETRv2 trashify object detection model"</span>,</span>
@@ -6541,15 +6551,15 @@ Note
 <p>No files have been modified since last commit. Skipping to prevent empty commit.</p>
 </blockquote>
 <p>Otherwise, we can check the commit URL of our model using the <code>commit_url</code> attribute.</p>
-<div id="cell-257" class="cell">
+<div id="cell-258" class="cell">
 <div class="sourceCode cell-code" id="cb201"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Our model has been uploaded with the following commit URL: </span><span class="sc">{</span>model_on_hub_url<span class="sc">.</span>commit_url<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[INFO] Our model has been uploaded with the following commit URL: https://huggingface.co/mrdbourke/rt_detrv2_finetuned_trashify_box_detector_v1/commit/46003b6b8f8e9855a0d8979ba5cdb1b8ca437646</code></pre>
 </div>
 </div>
 </section>
-<section id="creating-a-demo-of-our-model-with-gradio" class="level2" data-number="17">
-<h2 data-number="17" class="anchored" data-anchor-id="creating-a-demo-of-our-model-with-gradio"><span class="header-section-number">17</span> Creating a demo of our model with Gradio</h2>
+<section id="creating-a-demo-of-our-model-with-gradio" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="creating-a-demo-of-our-model-with-gradio"><span class="header-section-number">16</span> Creating a demo of our model with Gradio</h2>
 <p>One of the best ways to share your machine learning work is by creating a demo application.</p>
 <p>And one of the best places to share your applications is <a href="https://huggingface.co/docs/hub/spaces">Hugging Face Spaces</a>.</p>
 <p>Hugging Face Spaces allows you to host machine learning (and non-machine learning) applications for free (with <a href="https://huggingface.co/docs/hub/spaces-overview#hardware-resources">optional paid hardware upgrades</a>).</p>
@@ -6583,15 +6593,15 @@ Note
 <p>Doing it in the above style means we’ll have a directory which contains all of our demos (<code>demos/</code>) as well as a dedicated directory which contains our Trashify demo application (<code>trashify_object_detector/</code>).</p>
 <p>This way, we’ll be able to upload the whole <code>demos/trashify_object_detector/</code> folder to Hugging Face Spaces.</p>
 <p>Let’s start by making a directory to store our demo application files.</p>
-<div id="cell-259" class="cell">
+<div id="cell-260" class="cell">
 <div class="sourceCode cell-code" id="cb204"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup path to trashify demo folder (we'll store all of our demo requirements in here)</span></span>
 <span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a>demo_path <span class="op">=</span> Path(<span class="st">"../demos/trashify_object_detector"</span>)</span>
 <span id="cb204-3"><a href="#cb204-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb204-4"><a href="#cb204-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the directory</span></span>
 <span id="cb204-5"><a href="#cb204-5" aria-hidden="true" tabindex="-1"></a>demo_path.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="making-an-app-file" class="level3" data-number="17.1">
-<h3 data-number="17.1" class="anchored" data-anchor-id="making-an-app-file"><span class="header-section-number">17.1</span> Making an app file</h3>
+<section id="making-an-app-file" class="level3" data-number="16.1">
+<h3 data-number="16.1" class="anchored" data-anchor-id="making-an-app-file"><span class="header-section-number">16.1</span> Making an app file</h3>
 <p>UPTOHERE - write the steps required for the app.py file</p>
 <p>Our <code>app.py</code> file will be the main part of our Hugging Face Space.</p>
 <p>Inside the <code>app.py</code> file we’ll:</p>
@@ -6616,7 +6626,7 @@ Note
 <p>We can write all of the above in a notebook cell.</p>
 <p>And we can turn it into a file by using the <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html#cellmagic-writefile"><code>%%writefile</code></a> magic command and passing it our target filepath.</p>
 <p>Let’s do it!</p>
-<div id="cell-261" class="cell">
+<div id="cell-262" class="cell">
 <div class="sourceCode cell-code" id="cb205"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>writefile ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span>app.py</span>
 <span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Import the required libraries and packages</span></span>
@@ -6799,8 +6809,8 @@ Note
 </div>
 </div>
 </section>
-<section id="making-a-requirements-file" class="level3" data-number="17.2">
-<h3 data-number="17.2" class="anchored" data-anchor-id="making-a-requirements-file"><span class="header-section-number">17.2</span> Making a requirements file</h3>
+<section id="making-a-requirements-file" class="level3" data-number="16.2">
+<h3 data-number="16.2" class="anchored" data-anchor-id="making-a-requirements-file"><span class="header-section-number">16.2</span> Making a requirements file</h3>
 <p>When you upload an <code>app.py</code> file to Hugging Face Spaces, it will attempt to run it automatically.</p>
 <p>And just like running the file locally, we need to make sure all of the required packages are available.</p>
 <p>Otherwise our Space will produce an error like the following:</p>
@@ -6814,8 +6824,8 @@ ModuleNotFoundError: No module named 'torch'</code></pre>
 <p>Let’s create a <code>requirements.txt</code> file with the packages we need and save it to the same directory as our <code>app.py</code> file.</p>
 <p>%%writefile ../demos/trashify_object_detector/requirements.txt timm gradio torch transformers</p>
 </section>
-<section id="making-a-readme-file" class="level3" data-number="17.3">
-<h3 data-number="17.3" class="anchored" data-anchor-id="making-a-readme-file"><span class="header-section-number">17.3</span> Making a README file</h3>
+<section id="making-a-readme-file" class="level3" data-number="16.3">
+<h3 data-number="16.3" class="anchored" data-anchor-id="making-a-readme-file"><span class="header-section-number">16.3</span> Making a README file</h3>
 <p>Our <code>app.py</code> can contain information about our demo, however, we can also use a <code>README.md</code> file to further communicate our work.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -6861,7 +6871,7 @@ Note
 <p>If you want to see a demo of how one gets created, try making a Hugging Face Space with the “Create new Space” button on the <a href="https://huggingface.co/spaces">https://huggingface.co/spaces</a> page and seeing what the <code>README.md</code> file starts with (that’s how I found out what to do!).</p>
 </div>
 </div>
-<div id="cell-265" class="cell">
+<div id="cell-266" class="cell">
 <div class="sourceCode cell-code" id="cb208"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>writefile ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span>README.md</span>
 <span id="cb208-2"><a href="#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
 <span id="cb208-3"><a href="#cb208-3" aria-hidden="true" tabindex="-1"></a>title: Trashify Demo V4 🚮</span>
@@ -6904,12 +6914,12 @@ Note
 </div>
 </div>
 </section>
-<section id="making-an-examples-folder" class="level3" data-number="17.4">
-<h3 data-number="17.4" class="anchored" data-anchor-id="making-an-examples-folder"><span class="header-section-number">17.4</span> Making an examples folder</h3>
+<section id="making-an-examples-folder" class="level3" data-number="16.4">
+<h3 data-number="16.4" class="anchored" data-anchor-id="making-an-examples-folder"><span class="header-section-number">16.4</span> Making an examples folder</h3>
 <p>When we create our demo application, it’ll be good to show people how to use it.</p>
 <p>To do so, we can add some example images to use with our demo.</p>
 <p>First we’ll create a folder to store the demo images.</p>
-<div id="cell-267" class="cell">
+<div id="cell-268" class="cell">
 <div class="sourceCode cell-code" id="cb210"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a directory to save examples to</span></span>
 <span id="cb210-2"><a href="#cb210-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb210-3"><a href="#cb210-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -6918,7 +6928,7 @@ Note
 </div>
 <p>And now we can download some pre-made examples I’ve added to Hugging Face Datasets (none of these were in the Trashify training data).</p>
 <p>You can find the example Trashify images at <a href="https://huggingface.co/datasets/mrdbourke/trashify_examples"><code>mrdbourke/trashify_examples</code></a>.</p>
-<div id="cell-269" class="cell">
+<div id="cell-270" class="cell">
 <div class="sourceCode cell-code" id="cb211"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the examples from Hugging Face Datasets</span></span>
 <span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
 <span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -6935,7 +6945,7 @@ Note
 </div>
 <p>Perfect!</p>
 <p>Now let’s save each of these images to our target example folder in the Trashify demo directory.</p>
-<div id="cell-271" class="cell">
+<div id="cell-272" class="cell">
 <div class="sourceCode cell-code" id="cb213"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, sample <span class="kw">in</span> <span class="bu">enumerate</span>(trashify_examples[<span class="st">"train"</span>]):</span>
 <span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a>    save_path <span class="op">=</span> Path(demo_example_dir, <span class="ss">f"trashify_example_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">.jpeg"</span>)</span>
 <span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[INFO] Saving image to: </span><span class="sc">{</span>save_path<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -6947,7 +6957,7 @@ Note
 </div>
 </div>
 <p>Now let’s check the demo folder for Trashify.</p>
-<div id="cell-273" class="cell">
+<div id="cell-274" class="cell">
 <div class="sourceCode cell-code" id="cb215"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>README.md  app.py  requirements.txt  trashify_examples</code></pre>
@@ -6957,8 +6967,8 @@ Note
 <p>Looks like we’ve got all the files we need to create our Space.</p>
 <p>Let’s upload them to the Hugging Face Hub.</p>
 </section>
-<section id="uploading-our-demo-to-hugging-face-spaces" class="level3" data-number="17.5">
-<h3 data-number="17.5" class="anchored" data-anchor-id="uploading-our-demo-to-hugging-face-spaces"><span class="header-section-number">17.5</span> Uploading our demo to Hugging Face Spaces</h3>
+<section id="uploading-our-demo-to-hugging-face-spaces" class="level3" data-number="16.5">
+<h3 data-number="16.5" class="anchored" data-anchor-id="uploading-our-demo-to-hugging-face-spaces"><span class="header-section-number">16.5</span> Uploading our demo to Hugging Face Spaces</h3>
 <p>We’ve created all of the files required for our demo, now for the fun part!</p>
 <p>Let’s upload them to Hugging Face Spaces.</p>
 <p>To do so programmatically, we can use the <a href="https://huggingface.co/docs/huggingface_hub/en/package_reference/hf_api">Hugging Face Hub Python API</a>.</p>
@@ -6987,7 +6997,7 @@ Note
 <li>Hope it all works and inspect the results! 🤞</li>
 </ol>
 <p>A fair few steps but we’ve got this!</p>
-<div id="cell-276" class="cell">
+<div id="cell-277" class="cell">
 <div class="sourceCode cell-code" id="cb217"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Import the required methods for uploading to the Hugging Face Hub</span></span>
 <span id="cb217-2"><a href="#cb217-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> (</span>
 <span id="cb217-3"><a href="#cb217-3" aria-hidden="true" tabindex="-1"></a>    create_repo,</span>
@@ -7038,13 +7048,13 @@ Note
 </div>
 <p>Woohoo!! Looks like our demo is now live on the Hugging Face Hub!</p>
 </section>
-<section id="testing-the-hosted-demo" class="level3" data-number="17.6">
-<h3 data-number="17.6" class="anchored" data-anchor-id="testing-the-hosted-demo"><span class="header-section-number">17.6</span> Testing the hosted demo</h3>
+<section id="testing-the-hosted-demo" class="level3" data-number="16.6">
+<h3 data-number="16.6" class="anchored" data-anchor-id="testing-the-hosted-demo"><span class="header-section-number">16.6</span> Testing the hosted demo</h3>
 <p>We are showing Trashify v4 because like Star Wars episodes, I’ve already done a few experiments before launching it.</p>
 <p>One of the cool things about using Hugging Facce Spaces is we can embed the Space in our notebook using HTML.</p>
 <p>To do so, you can click the “…” button (three dots) in the top right hand corner of the Hugging Face Space and choose the option “Embed this Space”.</p>
 <p>To embed it with HTML, you can choose the <code>Iframe</code> option.</p>
-<div id="cell-279" class="cell">
+<div id="cell-280" class="cell">
 <div class="sourceCode cell-code" id="cb219"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
 <span id="cb219-2"><a href="#cb219-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb219-3"><a href="#cb219-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You can get embeddable HTML code for your demo by clicking the "Embed" button on the demo page</span></span>
@@ -7065,14 +7075,14 @@ Note
 <p>Our very our object detection model trained on a custom dataset and now live on the internet for other people to try out!</p>
 </section>
 </section>
-<section id="summary" class="level2" data-number="18">
-<h2 data-number="18" class="anchored" data-anchor-id="summary"><span class="header-section-number">18</span> Summary</h2>
+<section id="summary" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="summary"><span class="header-section-number">17</span> Summary</h2>
 <p>We’ve followed the data, model, demo paradigm and built a custom object detection model on a custom dataset and deployed it into a functional demo.</p>
 <p>Object detection models can be a bit of challenge to begin with as you need coordinate data for items in your images as well as label data.</p>
 <p>However, as we’ve seen, with the right mix of data, model and training techniques we can take an existing object detection model like RT-DETRv2 and tailor it to our own projects.</p>
 <p>The following extensions and extra-curriculum are good follow ups to practice what we’ve learned here.</p>
-<section id="extensions" class="level3" data-number="18.1">
-<h3 data-number="18.1" class="anchored" data-anchor-id="extensions"><span class="header-section-number">18.1</span> Extensions</h3>
+<section id="extensions" class="level3" data-number="17.1">
+<h3 data-number="17.1" class="anchored" data-anchor-id="extensions"><span class="header-section-number">17.1</span> Extensions</h3>
 <ul>
 <li>Can you improve the model by training it for longer? What happens if you double the amount of epochs we did?</li>
 <li>What are some ways to improve the model on differnet kinds of data? Could you take 10-30 photos of your own and add it to the dataset to improve the model?</li>
@@ -7084,16 +7094,16 @@ Note
 <li>Sometimes our model predicts multiple of the same kind of boxes, for example, it will predict 2 boxes for “hand” when there is only one, a technique to help with this is called NMS (<a href="https://paperswithcode.com/method/non-maximum-suppression">Non Maximum Suppression</a>), how might you implement this into our post processing pipeline?</li>
 </ul>
 </section>
-<section id="extra-curriculum" class="level3" data-number="18.2">
-<h3 data-number="18.2" class="anchored" data-anchor-id="extra-curriculum"><span class="header-section-number">18.2</span> Extra-Curriculum</h3>
+<section id="extra-curriculum" class="level3" data-number="17.2">
+<h3 data-number="17.2" class="anchored" data-anchor-id="extra-curriculum"><span class="header-section-number">17.2</span> Extra-Curriculum</h3>
 <ul>
 <li>“But what if I have images but no box labels?” Great questions. One way to acquire labels is to use a zero-shot detection model such as <a href="https://huggingface.co/omlab/omdet-turbo-swin-tiny-hf">OmDet Turbo</a> or <a href="https://huggingface.co/docs/transformers/en/model_doc/grounding-dino">Grounding DINO</a> which are capable of producing box labels on images given a text input. You could use these to bootstrap a labelled dataset and then train a custom model on them/improve them by reviewing.</li>
 <li>Another way to get high quality labels is to manually annotate images, you can do with tools such as <a href="https://labelstud.io">Label Studio</a> and <a href="https://prodi.gy/">Prodigy</a>.</li>
 <li>For more on the RT-DETRv2 model, I’d encourage you to read the original paper where it was introduced, <a href="https://huggingface.co/papers/2407.17140"><em>RT-DETRv2: Improved Baseline with Bag-of-Freebies for Real-Time Detection Transformer</em></a>.</li>
 </ul>
 </section>
-<section id="extra-resources" class="level3" data-number="18.3">
-<h3 data-number="18.3" class="anchored" data-anchor-id="extra-resources"><span class="header-section-number">18.3</span> Extra resources</h3>
+<section id="extra-resources" class="level3" data-number="17.3">
+<h3 data-number="17.3" class="anchored" data-anchor-id="extra-resources"><span class="header-section-number">17.3</span> Extra resources</h3>
 <ul>
 <li><a href="https://www.learnml.io/posts/apache-object-detection-models/">Apache 2.0 object detector models</a> - For a list of high-performing Apache 2.0 (permissive open-source licence which enables commercial use) object detection models, I’ve created a short guide which collects them.</li>
 <li><a href="https://github.com/roboflow/supervision"><code>supervision</code> library</a> - An excellent open-source library with plenty of visualization utilities for computer vision projects.</li>
