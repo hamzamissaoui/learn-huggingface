@@ -2101,8 +2101,8 @@ Workflow we’ll follow to create our own custom object detection model. We’ll
 </div>
 <p>Ok, a few things going on here.</p>
 <p>These parameters will transform our input images before we pass them to our model.</p>
-<p>One of the first things to see is the <code>image_processor</code> is expecting our bounding boxes to be in <a href="https://cocodataset.org/#format-data">COCO (or <code>coco_detection</code>) format</a> (this is the default).</p>
-<p>We’ll see what this looks like later on but our processor wants this format because that’s the format our model has been trained on (it’s generally best practice to input data to a model in the same way its been trained on, otherwise you might get poor results).</p>
+<p>One of the first things to see is the <code>image_processor</code> is expecting our bounding boxes to be in <a href="https://cocodataset.org/#format-data">COCO format</a> (see the <code>"format": coco_detection</code> field, this is the default).</p>
+<p>We’ll see what this looks like later on but our processor wants this format because that’s the format our model has been trained on (it’s generally best practice to input data to a model in the same way its been trained on, otherwise you’ll likely get poor results).</p>
 <p>Another thing to notice is that our input images will be resized to the values of the <code>size</code> parameter.</p>
 <p>In our case, it’s currently:</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">"size"</span>: {</span>
@@ -2116,6 +2116,7 @@ Workflow we’ll follow to create our own custom object detection model. We’ll
 <ul>
 <li><code>do_convert_annotations=True</code> - This is the default and it will convert our boxes to the format <code>CXCYWH</code> or <code>(center_x, center_y, width, height)</code> (see <a href="#tbl-bbox-formats" class="quarto-xref">Table&nbsp;1</a>) in the range <code>[0, 1]</code>.</li>
 <li><code>size</code> - We’ll update the <code>size</code> dictionary so all of our images have <code>"longest_edge": 640</code> and <code>"shortest_edge: 640"</code>. We’ll use a value of <code>640</code> which is a common size in world of object detection. But there are also other sizes such as <code>300x300</code>, <code>480x480</code>, <code>512x512</code>, <code>800x800</code> and more.</li>
+<li><code>do_pad=True</code> - We’ll make sure to pad our images with <code>0</code> pixels so that all images in the same batch have the same size. For example if an image has the dimensions <code>image_1 = (640, 480)</code> but the largest image in the batch is <code>(640, 640)</code>, <code>image_1</code> will be padded with <code>0</code> to have its dimensions equal <code>(640, 640)</code>. This will only happen during batch processing rather than individual image processing. See the <a href="https://huggingface.co/docs/transformers/en/model_doc/rt_detr#transformers.RTDetrImageProcessor.preprocess.do_pad"><code>do_pad</code> parameter documentation</a> for more.</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2128,7 +2129,7 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>Depending on what task you’re working on, you might want to tweak the image resolution you’re working with.</p>
-<p>For example, I like this quote from <a href="https://lucasb.eyer.be/articles/vit_cnn_speed.html">Lucas Beyer</a>, a former research scientist at DeepMind and engineer at OpenAI:</p>
+<p>For example, I like this quote from <a href="https://lucasb.eyer.be/articles/vit_cnn_speed.html">Lucas Beyer</a>, a former research scientist at DeepMind and current researcher at Meta:</p>
 <blockquote class="blockquote">
 <p>My conservative claim is that you can always stretch to a square, and for:</p>
 <p>natural images, meaning most photos, 224px² is enough; text in photos, phone screens, diagrams and charts, 448px² is enough; desktop screens and single-page documents, 896px² is enough.</p>
