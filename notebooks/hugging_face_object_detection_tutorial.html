@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-236d90495073fb2ac8939117e3e83141.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-3758b6d30a804f3605fb59b6f8c383d4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-5936d0de211f2d67cd5b076c2211713f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -3658,6 +3658,24 @@ Going end-to-end on a single sample
 <li><code>boxes</code> - The predicted bounding boxes whose scores are above the <code>threshold</code> parameter. These are normalized and in the format <code>XYXY</code> or <code>(x_top_left, y_top_left, x_bottom_right, y_bottom_right)</code>.</li>
 </ul>
 <p>Let’s see what these predictions look like when plotted.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Don’t worry too much if your boxes output different values to the below.</p>
+<p>They likely will.</p>
+<p>This is due to the inherit randomness in machine learning.</p>
+<p>Since we initialized our model with a random output head, it is currently outputting random predictions.</p>
+<p>This means every time we run the following cell with a different image, we’ll likely get different predictions.</p>
+<p>We can make the random predictions “less random” or “consistently random” using a <a href="https://en.wikipedia.org/wiki/Random_seed">random seed</a> via <a href="https://huggingface.co/docs/transformers/en/internal/trainer_utils#transformers.set_seed"><code>transformers.set_seed</code></a>.</p>
+</div>
+</div>
 <div id="cell-126" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get target image and boxes (half them for display purposes in the notebook)</span></span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>image_to_plot <span class="op">=</span> half_image(random_sample[<span class="st">"image"</span>])</span>
@@ -3936,7 +3954,7 @@ tensor([[0.0400, 0.2540, 0.0281, 0.0325],
 <p>Ok, so we’ve got 300 boxes here, let’s filter these down to only the boxes which have a score above the target <code>threshold</code> using our <code>output_scores_manual_mask</code> tensor.</p>
 <p>If we want to go from raw boxes out of the model to the same format as our postprocessed boxes or from normalized <code>CXCYWH</code> to absolute <code>XYXY</code>, we’ll have to:</p>
 <ol type="1">
-<li>Normalize the <code>output_scores_manual_top_100_indices</code> by dividing them by the number of classes, for example, <code>top_100_index // num_classes = top_box_index</code> -&gt; <code>763 // 7 = 763</code>.</li>
+<li>Normalize the <code>output_scores_manual_top_100_indices</code> by dividing them by the number of classes, for example, <code>top_100_index // num_classes = top_box_index</code> -&gt; <code>763 // 7 = 109</code>.</li>
 <li>Filter for the top 100 scoring boxes coordinates which make it over the <code>threshold</code> using the <code>output_scores_manual_mask</code>.</li>
 <li>Convert the filtered box coordinates from normalized <code>CXCYWH</code> to normalized <code>XYXY</code> using <a href="https://pytorch.org/vision/main/generated/torchvision.ops.box_convert.html"><code>torchvision.ops.box_convert</code></a>.</li>
 <li>Get the original input image size (required for box conversion).</li>
