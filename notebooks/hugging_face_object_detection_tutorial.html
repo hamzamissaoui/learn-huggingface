@@ -920,13 +920,13 @@ Note
 </div>
 </div>
 <p>Let’s access the class names in our dataset and save them to a variable <code>categories</code>.</p>
-<div id="cell-23" class="cell" data-execution_count="6">
+<div id="cell-23" class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the categories from the dataset</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: This requires the dataset to have been uploaded with this information setup, not all datasets will have this available.</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> dataset[<span class="st">"train"</span>].features[<span class="st">"annotations"</span>].feature[<span class="st">"category_id"</span>]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> dataset[<span class="st">"train"</span>].features[<span class="st">"annotations"</span>][<span class="st">"category_id"</span>]</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the names attribute</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>categories.names</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>categories.feature.names</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>['bin', 'hand', 'not_bin', 'not_hand', 'not_trash', 'trash', 'trash_arm']</code></pre>
 </div>
@@ -948,9 +948,9 @@ Note
 <h3 data-number="3.4" class="anchored" data-anchor-id="creating-a-mapping-from-numbers-to-labels"><span class="header-section-number">3.4</span> Creating a mapping from numbers to labels</h3>
 <p>Now we’ve got our text-based class names, let’s create a mapping from label to ID and ID to label.</p>
 <p>For each of these, Hugging Face use the terminology <code>label2id</code> and <code>id2label</code> respectively.</p>
-<div id="cell-26" class="cell" data-execution_count="7">
+<div id="cell-26" class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map ID's to class names and vice versa</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>id2label <span class="op">=</span> {i: class_name <span class="cf">for</span> i, class_name <span class="kw">in</span> <span class="bu">enumerate</span>(categories.names)}</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>id2label <span class="op">=</span> {i: class_name <span class="cf">for</span> i, class_name <span class="kw">in</span> <span class="bu">enumerate</span>(categories.feature.names)}</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>label2id <span class="op">=</span> {value: key <span class="cf">for</span> key, value <span class="kw">in</span> id2label.items()}</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Label to ID mapping:</span><span class="ch">\n</span><span class="sc">{</span>label2id<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
@@ -3585,6 +3585,24 @@ Going end-to-end on a single sample
 <li><code>top_k</code> - Integer defining the number of boxes you’d like to prepare for postprocessing before thresholding. Defaults to <code>100</code>. For example, <code>top_k=100</code> and <code>threshold=0.3</code> means sample 100 boxes and then of those 100 boxes, only keep those with a score over 0.3.</li>
 </ul>
 <p>You can see what happens behind the scenes of <code>post_process_object_detection</code> in the <a href="https://github.com/huggingface/transformers/blob/5f4ecf2d9f867a1255131d2461d75793c0cf1db2/src/transformers/models/rt_detr/image_processing_rt_detr_fast.py#L533">source code</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Don’t worry too much if your boxes output different values to the below.</p>
+<p>They likely will.</p>
+<p>This is due to the inherit randomness in machine learning.</p>
+<p>Since we initialized our model with a random output head, it is currently outputting random predictions.</p>
+<p>This means every time we run the following cell with a different image, we’ll likely get different predictions.</p>
+<p>We can make the random predictions “less random” or “consistently random” using a <a href="https://en.wikipedia.org/wiki/Random_seed">random seed</a> via <a href="https://huggingface.co/docs/transformers/en/internal/trainer_utils#transformers.set_seed"><code>transformers.set_seed</code></a>.</p>
+</div>
+</div>
 <div id="cell-124" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the score threshold for postprocessing</span></span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>THRESHOLD <span class="op">=</span> <span class="fl">0.4</span> <span class="co"># adjust this where necessary to get a handful of outputs below (note: if it's too high, e.g. 0.5+, you might not see any outputs, try lowering to 0.3</span></span>
@@ -3658,24 +3676,6 @@ Going end-to-end on a single sample
 <li><code>boxes</code> - The predicted bounding boxes whose scores are above the <code>threshold</code> parameter. These are normalized and in the format <code>XYXY</code> or <code>(x_top_left, y_top_left, x_bottom_right, y_bottom_right)</code>.</li>
 </ul>
 <p>Let’s see what these predictions look like when plotted.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Don’t worry too much if your boxes output different values to the below.</p>
-<p>They likely will.</p>
-<p>This is due to the inherit randomness in machine learning.</p>
-<p>Since we initialized our model with a random output head, it is currently outputting random predictions.</p>
-<p>This means every time we run the following cell with a different image, we’ll likely get different predictions.</p>
-<p>We can make the random predictions “less random” or “consistently random” using a <a href="https://en.wikipedia.org/wiki/Random_seed">random seed</a> via <a href="https://huggingface.co/docs/transformers/en/internal/trainer_utils#transformers.set_seed"><code>transformers.set_seed</code></a>.</p>
-</div>
-</div>
 <div id="cell-126" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get target image and boxes (half them for display purposes in the notebook)</span></span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>image_to_plot <span class="op">=</span> half_image(random_sample[<span class="st">"image"</span>])</span>
@@ -7153,6 +7153,7 @@ Note
 </ul></li>
 <li>So far the RT-DETRv2 model we used seemed to work pretty well, what happens if you try the <a href="https://huggingface.co/docs/transformers/main/model_doc/d_fine">D-FINE model</a>?</li>
 <li>Sometimes our model predicts multiple of the same kind of boxes, for example, it will predict 2 boxes for “hand” when there is only one, a technique to help with this is called NMS (<a href="https://paperswithcode.com/method/non-maximum-suppression">Non Maximum Suppression</a>), how might you implement this into our post processing pipeline?</li>
+<li>How does our model perform when removing the <code>"not_X"</code> classes? For example, only have the positive classes (<code>"bin", "trash", "hand"</code>) in the training data. Does the model naturally learn what is <code>"not_bin", "not_hand", "not_trash"</code>? For example, distinguishing background items from non-background items?</li>
 </ul>
 </section>
 <section id="extra-curriculum" class="level3" data-number="17.2">
