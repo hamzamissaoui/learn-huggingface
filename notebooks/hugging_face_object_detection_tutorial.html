@@ -4478,13 +4478,14 @@ Note
 <p>So instead of our dataset being represented as many rows (list of dictionaries), it is represented as many columns (dictionary of lists).</p>
 </div>
 </div>
-<p>The <code>preprocess</code> method expects a list of images as well as COCO formatted annotations as input.</p>
-<p>So to create our <code>preprocess_batch</code> function we’ll:</p>
+<p>The <a href="https://huggingface.co/docs/transformers/en/model_doc/rt_detr#transformers.RTDetrImageProcessorFast.preprocess"><code>transformers.RTDetrImageProcessor.preprocess</code></a> method expects a list of images as well as COCO formatted annotations as input.</p>
+<p>So we’ll create a function called <code>preprocess_batch</code> which will take a list of our raw examples and format them into a list of images and COCO formatted annotations.</p>
+<p>To do so we’ll:</p>
 <ol type="1">
-<li>Take in a list of examples (these will be in the format above), an <code>image_processor</code> and optional <code>transforms</code> (we don’t need to pass these in for now but it’s good to have the option).</li>
+<li>Take in a list of examples (these will be in the format above), an <code>image_processor</code> and optional <code>transforms</code> for data augmentation (we don’t need to pass these in for now but it’s good to have the option).</li>
 <li>Create empty lists of <code>images</code> and <code>coco_annotations</code> we’ll fill throughout the rest of the function.</li>
 <li>Extract the <code>image</code>, <code>image_id</code> and <code>annotations_dict</code> from our list of input examples.</li>
-<li>Create lists of annotations attributes such as <code>bbox</code>, <code>category_id</code> and <code>area</code> (these are required for our <code>format_image_annotations_as_coco</code> function.</li>
+<li>Create lists of annotations attributes such as <code>bbox</code>, <code>category_id</code> and <code>area</code> (these are required for our <code>format_image_annotations_as_coco</code> function).</li>
 <li>Optionally perform transforms/augmentations on the image and related boxes (because in object detection if you transform an image, should transform the related boxes as well).</li>
 <li>Convert the annotations into COCO format using the <code>format_image_annotations_as_coco</code> helper function we created earlier.</li>
 <li>Append the images and COCO formatted annotations to the empty lists created in 2.</li>
@@ -4550,29 +4551,30 @@ Note
 <span id="cb134-55"><a href="#cb134-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb134-56"><a href="#cb134-56" aria-hidden="true" tabindex="-1"></a>        <span class="co">###</span></span>
 <span id="cb134-57"><a href="#cb134-57" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 5. Note: Could optionally apply a transform/augmentation here.</span></span>
-<span id="cb134-58"><a href="#cb134-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> transforms:</span>
-<span id="cb134-59"><a href="#cb134-59" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Perform transform on image/boxes</span></span>
-<span id="cb134-60"><a href="#cb134-60" aria-hidden="true" tabindex="-1"></a>            <span class="cf">pass</span></span>
-<span id="cb134-61"><a href="#cb134-61" aria-hidden="true" tabindex="-1"></a>        <span class="co">###</span></span>
-<span id="cb134-62"><a href="#cb134-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb134-63"><a href="#cb134-63" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 6. Format the annotations into COCO format</span></span>
-<span id="cb134-64"><a href="#cb134-64" aria-hidden="true" tabindex="-1"></a>        cooc_format_annotations <span class="op">=</span> format_image_annotations_as_coco(image_id<span class="op">=</span>image_id,</span>
-<span id="cb134-65"><a href="#cb134-65" aria-hidden="true" tabindex="-1"></a>                                                                   categories<span class="op">=</span>category_list,</span>
-<span id="cb134-66"><a href="#cb134-66" aria-hidden="true" tabindex="-1"></a>                                                                   areas<span class="op">=</span>area_list,</span>
-<span id="cb134-67"><a href="#cb134-67" aria-hidden="true" tabindex="-1"></a>                                                                   bboxes<span class="op">=</span>bbox_list)</span>
-<span id="cb134-68"><a href="#cb134-68" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb134-69"><a href="#cb134-69" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 7. Add images/annotations to their respective lists</span></span>
-<span id="cb134-70"><a href="#cb134-70" aria-hidden="true" tabindex="-1"></a>        images.append(image) <span class="co"># Note: may need to open image if it is an image path rather than PIL.Image</span></span>
-<span id="cb134-71"><a href="#cb134-71" aria-hidden="true" tabindex="-1"></a>        coco_annotations.append(cooc_format_annotations)</span>
-<span id="cb134-72"><a href="#cb134-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb134-73"><a href="#cb134-73" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb134-74"><a href="#cb134-74" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Apply the image processor to lists of images and annotations</span></span>
-<span id="cb134-75"><a href="#cb134-75" aria-hidden="true" tabindex="-1"></a>    preprocessed_batch <span class="op">=</span> image_processor.preprocess(images<span class="op">=</span>images,</span>
-<span id="cb134-76"><a href="#cb134-76" aria-hidden="true" tabindex="-1"></a>                                                    annotations<span class="op">=</span>coco_annotations,</span>
-<span id="cb134-77"><a href="#cb134-77" aria-hidden="true" tabindex="-1"></a>                                                    return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
-<span id="cb134-78"><a href="#cb134-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb134-79"><a href="#cb134-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 9. Return the preprocessed batch</span></span>
-<span id="cb134-80"><a href="#cb134-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> preprocessed_batch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb134-58"><a href="#cb134-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># See PyTorch docs for more: https://docs.pytorch.org/vision/main/auto_examples/transforms/plot_transforms_e2e.html</span></span>
+<span id="cb134-59"><a href="#cb134-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> transforms:</span>
+<span id="cb134-60"><a href="#cb134-60" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Perform transform on image/boxes</span></span>
+<span id="cb134-61"><a href="#cb134-61" aria-hidden="true" tabindex="-1"></a>            <span class="cf">pass</span></span>
+<span id="cb134-62"><a href="#cb134-62" aria-hidden="true" tabindex="-1"></a>        <span class="co">###</span></span>
+<span id="cb134-63"><a href="#cb134-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb134-64"><a href="#cb134-64" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 6. Format the annotations into COCO format</span></span>
+<span id="cb134-65"><a href="#cb134-65" aria-hidden="true" tabindex="-1"></a>        cooc_format_annotations <span class="op">=</span> format_image_annotations_as_coco(image_id<span class="op">=</span>image_id,</span>
+<span id="cb134-66"><a href="#cb134-66" aria-hidden="true" tabindex="-1"></a>                                                                   categories<span class="op">=</span>category_list,</span>
+<span id="cb134-67"><a href="#cb134-67" aria-hidden="true" tabindex="-1"></a>                                                                   areas<span class="op">=</span>area_list,</span>
+<span id="cb134-68"><a href="#cb134-68" aria-hidden="true" tabindex="-1"></a>                                                                   bboxes<span class="op">=</span>bbox_list)</span>
+<span id="cb134-69"><a href="#cb134-69" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb134-70"><a href="#cb134-70" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 7. Add images/annotations to their respective lists</span></span>
+<span id="cb134-71"><a href="#cb134-71" aria-hidden="true" tabindex="-1"></a>        images.append(image) <span class="co"># Note: may need to open image if it is an image path rather than PIL.Image</span></span>
+<span id="cb134-72"><a href="#cb134-72" aria-hidden="true" tabindex="-1"></a>        coco_annotations.append(cooc_format_annotations)</span>
+<span id="cb134-73"><a href="#cb134-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb134-74"><a href="#cb134-74" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb134-75"><a href="#cb134-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Apply the image processor to lists of images and annotations</span></span>
+<span id="cb134-76"><a href="#cb134-76" aria-hidden="true" tabindex="-1"></a>    preprocessed_batch <span class="op">=</span> image_processor.preprocess(images<span class="op">=</span>images,</span>
+<span id="cb134-77"><a href="#cb134-77" aria-hidden="true" tabindex="-1"></a>                                                    annotations<span class="op">=</span>coco_annotations,</span>
+<span id="cb134-78"><a href="#cb134-78" aria-hidden="true" tabindex="-1"></a>                                                    return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb134-79"><a href="#cb134-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb134-80"><a href="#cb134-80" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 9. Return the preprocessed batch</span></span>
+<span id="cb134-81"><a href="#cb134-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> preprocessed_batch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nice!</p>
 <p>Now how about we test it out on our <code>group_of_samples</code>?</p>
@@ -4600,7 +4602,7 @@ Note
 <h3 data-number="12.3" class="anchored" data-anchor-id="applying-our-preprocessing-function-to-each-data-split"><span class="header-section-number">12.3</span> Applying our preprocessing function to each data split</h3>
 <p>We’ve seen our <code>preprocess_batch</code> function in action on a small group of samples.</p>
 <p>Now let’s apply it to our different data splits.</p>
-<p>To do so, we can call the <a href="https://huggingface.co/docs/datasets/en/package_reference/main_classes#datasets.Dataset.with_transform"><code>with_transform()</code></a> method on our target dataset split and pass it our desired <code>transform</code>.</p>
+<p>To do so, we can call the <a href="https://huggingface.co/docs/datasets/en/package_reference/main_classes#datasets.Dataset.with_transform"><code>datasets.Dataset.with_transform()</code></a> method on our target dataset split and pass it our desired <code>transform</code>.</p>
 <p>Using <code>with_transform()</code> means our transformations will be applied on-the-fly when we call on our split datasets.</p>
 <p>Because the <code>with_transform()</code> method expects a callable with a single argument (the input examples), we’ll turn our <code>preprocess_batch</code> into a <a href="https://docs.python.org/3/library/functools.html#functools.partial">Python partial function</a>.</p>
 <p>Doing this will mean we can prefill the <code>image_processor</code> and optionally the <code>transforms</code> parameter of our <code>preprocess_batch</code> function meaning it will only take <code>examples</code> as input, this is inline with the <code>with_transform()</code> method.</p>
@@ -4615,7 +4617,7 @@ Note
 <span id="cb139-8"><a href="#cb139-8" aria-hidden="true" tabindex="-1"></a>                                   transforms<span class="op">=</span><span class="va">None</span>) <span class="co"># could use transforms here if wanted</span></span>
 <span id="cb139-9"><a href="#cb139-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb139-10"><a href="#cb139-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the preprocess_batch_partial function</span></span>
-<span id="cb139-11"><a href="#cb139-11" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocess_batch_partial</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb139-11"><a href="#cb139-11" aria-hidden="true" tabindex="-1"></a>preprocess_batch_partial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Beautiful, now let’s pass the <code>preprocess_batch_partial</code> function to the <code>with_transform()</code> method on each of our data splits.</p>
 <div id="cell-184" class="cell">
