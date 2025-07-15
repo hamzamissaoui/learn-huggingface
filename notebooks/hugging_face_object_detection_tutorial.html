@@ -4919,6 +4919,7 @@ Wall time: 14.2 s</code></pre>
 <li>Create an evaluation function we can pass to our <code>transformers.Trainer</code> instance as the <code>compute_metrics</code> parameter to evaluate our model.</li>
 <li>Create an instance of <code>transformers.Trainer</code> and pass it our training arguments from 2 as well as our preprocessed data.</li>
 <li>Call <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.train"><code>transformers.Trainer.train()</code></a> to train the model from 1 on our own data.</li>
+<li>Plot our model’s loss curves to see how it performed throughout training (ideally our model’s loss goes down and its evaluation metric goes up).</li>
 </ol>
 <p>Let’s do it!</p>
 <div id="cell-201" class="cell">
@@ -5758,31 +5759,32 @@ Note
 <p>We can extract our model’s training history values via the <code>model_v1_trainer.state.log_history</code> attribute, this will return us a list of dictionaries containing training metrics related to each epoch.</p>
 <p>Once we’ve got these, we can create lists of relevant values based on their keys and then plot them with <code>matplotlib</code>.</p>
 <div id="cell-217" class="cell">
-<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a>log_history <span class="op">=</span> model_v1_trainer.state.log_history</span>
-<span id="cb169-4"><a href="#cb169-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-5"><a href="#cb169-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract loss values</span></span>
-<span id="cb169-6"><a href="#cb169-6" aria-hidden="true" tabindex="-1"></a>train_loss <span class="op">=</span> [item[<span class="st">"loss"</span>] <span class="cf">for</span> item <span class="kw">in</span> log_history <span class="cf">if</span> <span class="st">"loss"</span> <span class="kw">in</span> item]</span>
-<span id="cb169-7"><a href="#cb169-7" aria-hidden="true" tabindex="-1"></a>eval_loss <span class="op">=</span> [item[<span class="st">"eval_loss"</span>] <span class="cf">for</span> item <span class="kw">in</span> log_history <span class="cf">if</span> <span class="st">"eval_loss"</span> <span class="kw">in</span> item]</span>
-<span id="cb169-8"><a href="#cb169-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-9"><a href="#cb169-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract mAP values</span></span>
-<span id="cb169-10"><a href="#cb169-10" aria-hidden="true" tabindex="-1"></a>eval_map <span class="op">=</span> [item[<span class="st">"eval_map"</span>] <span class="cf">for</span> item <span class="kw">in</span> log_history <span class="cf">if</span> <span class="st">"eval_map"</span> <span class="kw">in</span> item]</span>
-<span id="cb169-11"><a href="#cb169-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-12"><a href="#cb169-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot loss curves and mAP</span></span>
-<span id="cb169-13"><a href="#cb169-13" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">7</span>))</span>
-<span id="cb169-14"><a href="#cb169-14" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].plot(train_loss, label<span class="op">=</span><span class="st">"Train loss"</span>)</span>
-<span id="cb169-15"><a href="#cb169-15" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].plot(eval_loss, label<span class="op">=</span><span class="st">"Eval loss"</span>)</span>
-<span id="cb169-16"><a href="#cb169-16" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"Loss Curves (lower is better)"</span>)</span>
-<span id="cb169-17"><a href="#cb169-17" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_ylabel(<span class="st">"Loss Value"</span>)</span>
-<span id="cb169-18"><a href="#cb169-18" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_xlabel(<span class="st">"Epochs"</span>)</span>
-<span id="cb169-19"><a href="#cb169-19" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].legend()</span>
-<span id="cb169-20"><a href="#cb169-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-21"><a href="#cb169-21" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].plot(eval_map, label<span class="op">=</span><span class="st">"Eval mAP"</span>)</span>
-<span id="cb169-22"><a href="#cb169-22" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">"Eval mAP (higher is better)"</span>)</span>
-<span id="cb169-23"><a href="#cb169-23" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_ylabel(<span class="st">"mAP (Mean Average Precision)"</span>)</span>
-<span id="cb169-24"><a href="#cb169-24" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_xlabel(<span class="st">"Epochs"</span>)</span>
-<span id="cb169-25"><a href="#cb169-25" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Plotting our model's loss curves</span></span>
+<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-4"><a href="#cb169-4" aria-hidden="true" tabindex="-1"></a>log_history <span class="op">=</span> model_v1_trainer.state.log_history</span>
+<span id="cb169-5"><a href="#cb169-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-6"><a href="#cb169-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract loss values</span></span>
+<span id="cb169-7"><a href="#cb169-7" aria-hidden="true" tabindex="-1"></a>train_loss <span class="op">=</span> [item[<span class="st">"loss"</span>] <span class="cf">for</span> item <span class="kw">in</span> log_history <span class="cf">if</span> <span class="st">"loss"</span> <span class="kw">in</span> item]</span>
+<span id="cb169-8"><a href="#cb169-8" aria-hidden="true" tabindex="-1"></a>eval_loss <span class="op">=</span> [item[<span class="st">"eval_loss"</span>] <span class="cf">for</span> item <span class="kw">in</span> log_history <span class="cf">if</span> <span class="st">"eval_loss"</span> <span class="kw">in</span> item]</span>
+<span id="cb169-9"><a href="#cb169-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-10"><a href="#cb169-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract mAP values</span></span>
+<span id="cb169-11"><a href="#cb169-11" aria-hidden="true" tabindex="-1"></a>eval_map <span class="op">=</span> [item[<span class="st">"eval_map"</span>] <span class="cf">for</span> item <span class="kw">in</span> log_history <span class="cf">if</span> <span class="st">"eval_map"</span> <span class="kw">in</span> item]</span>
+<span id="cb169-12"><a href="#cb169-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-13"><a href="#cb169-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot loss curves and mAP</span></span>
+<span id="cb169-14"><a href="#cb169-14" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">7</span>))</span>
+<span id="cb169-15"><a href="#cb169-15" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].plot(train_loss, label<span class="op">=</span><span class="st">"Train loss"</span>)</span>
+<span id="cb169-16"><a href="#cb169-16" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].plot(eval_loss, label<span class="op">=</span><span class="st">"Eval loss"</span>)</span>
+<span id="cb169-17"><a href="#cb169-17" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"Loss Curves (lower is better)"</span>)</span>
+<span id="cb169-18"><a href="#cb169-18" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_ylabel(<span class="st">"Loss Value"</span>)</span>
+<span id="cb169-19"><a href="#cb169-19" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_xlabel(<span class="st">"Epochs"</span>)</span>
+<span id="cb169-20"><a href="#cb169-20" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].legend()</span>
+<span id="cb169-21"><a href="#cb169-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-22"><a href="#cb169-22" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].plot(eval_map, label<span class="op">=</span><span class="st">"Eval mAP"</span>)</span>
+<span id="cb169-23"><a href="#cb169-23" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">"Eval mAP (higher is better)"</span>)</span>
+<span id="cb169-24"><a href="#cb169-24" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_ylabel(<span class="st">"mAP (Mean Average Precision)"</span>)</span>
+<span id="cb169-25"><a href="#cb169-25" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_xlabel(<span class="st">"Epochs"</span>)</span>
+<span id="cb169-26"><a href="#cb169-26" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
