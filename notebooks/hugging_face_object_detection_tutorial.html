@@ -4558,14 +4558,14 @@ Note
 <span id="cb134-62"><a href="#cb134-62" aria-hidden="true" tabindex="-1"></a>        <span class="co">###</span></span>
 <span id="cb134-63"><a href="#cb134-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb134-64"><a href="#cb134-64" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 6. Format the annotations into COCO format</span></span>
-<span id="cb134-65"><a href="#cb134-65" aria-hidden="true" tabindex="-1"></a>        cooc_format_annotations <span class="op">=</span> format_image_annotations_as_coco(image_id<span class="op">=</span>image_id,</span>
+<span id="cb134-65"><a href="#cb134-65" aria-hidden="true" tabindex="-1"></a>        coco_format_annotations <span class="op">=</span> format_image_annotations_as_coco(image_id<span class="op">=</span>image_id,</span>
 <span id="cb134-66"><a href="#cb134-66" aria-hidden="true" tabindex="-1"></a>                                                                   categories<span class="op">=</span>category_list,</span>
 <span id="cb134-67"><a href="#cb134-67" aria-hidden="true" tabindex="-1"></a>                                                                   areas<span class="op">=</span>area_list,</span>
 <span id="cb134-68"><a href="#cb134-68" aria-hidden="true" tabindex="-1"></a>                                                                   bboxes<span class="op">=</span>bbox_list)</span>
 <span id="cb134-69"><a href="#cb134-69" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb134-70"><a href="#cb134-70" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 7. Add images/annotations to their respective lists</span></span>
 <span id="cb134-71"><a href="#cb134-71" aria-hidden="true" tabindex="-1"></a>        images.append(image) <span class="co"># Note: may need to open image if it is an image path rather than PIL.Image</span></span>
-<span id="cb134-72"><a href="#cb134-72" aria-hidden="true" tabindex="-1"></a>        coco_annotations.append(cooc_format_annotations)</span>
+<span id="cb134-72"><a href="#cb134-72" aria-hidden="true" tabindex="-1"></a>        coco_annotations.append(coco_format_annotations)</span>
 <span id="cb134-73"><a href="#cb134-73" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb134-74"><a href="#cb134-74" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb134-75"><a href="#cb134-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Apply the image processor to lists of images and annotations</span></span>
@@ -4685,7 +4685,7 @@ Note
 </section>
 <section id="creating-a-collation-function" class="level3" data-number="12.4">
 <h3 data-number="12.4" class="anchored" data-anchor-id="creating-a-collation-function"><span class="header-section-number">12.4</span> Creating a collation function</h3>
-<p>We now preprocess multiple samples at once.</p>
+<p>We can now preprocess multiple samples at once.</p>
 <p>Time to create a collation function which will tell our model trainer how to stack these samples together into batches.</p>
 <p>We do this because processing more samples at once (e.g.&nbsp;16, 32 or 128 samples in a batch) in a batch is generally more efficient than one sample at a time or trying to process all samples at once.</p>
 <p>Our collation function will be used for the <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.data_collator"><code>data_collator</code> parameter</a> in our <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer"><code>transformers.Trainer</code></a> instance later on.</p>
