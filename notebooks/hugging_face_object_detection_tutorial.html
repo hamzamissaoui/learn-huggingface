@@ -4916,6 +4916,7 @@ Wall time: 14.2 s</code></pre>
 <li>Create a fresh instance of our model using the <code>create_model()</code> function.</li>
 <li>Make a directory for saving our trained models to.</li>
 <li>Define our model’s hyperparameters using <code>transformers.TrainingArguments</code>, we’ll take many of these settings from the assosciated research papers that introduced our model.</li>
+<li>Optional: Create a custom instance of <code>transformers.Trainer</code> to use a custom optimizer with different learning rates for different parameters (similar to the research papers).</li>
 <li>Create an evaluation function we can pass to our <code>transformers.Trainer</code> instance as the <code>compute_metrics</code> parameter to evaluate our model.</li>
 <li>Create an instance of <code>transformers.Trainer</code> and pass it our training arguments from 2 as well as our preprocessed data.</li>
 <li>Call <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.train"><code>transformers.Trainer.train()</code></a> to train the model from 1 on our own data.</li>
