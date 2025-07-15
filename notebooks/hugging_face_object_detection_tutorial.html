@@ -5078,14 +5078,14 @@ Different hyperparameter settings from the official papers for the <a href="http
 </section>
 <section id="optional-setting-up-an-optimizer-for-multiple-learning-rates" class="level3" data-number="13.2">
 <h3 data-number="13.2" class="anchored" data-anchor-id="optional-setting-up-an-optimizer-for-multiple-learning-rates"><span class="header-section-number">13.2</span> Optional: Setting up an optimizer for multiple learning rates</h3>
-<p>In the papers that mentioned the DETR model we’re using (see Table 1 in the <a href="https://arxiv.org/abs/2407.17140">RT-DETRv2 paper</a>), they state that they used a different learning rate value for the backbone (<code>learning_rate=1e-5</code>) as well as the object detection head (<code>learning_rate=1e-4</code>).</p>
+<p>We’re using <a href="https://huggingface.co/PekingU/rtdetr_v2_r50vd"><code>PekingU/rtdetr_v2_r50vd</code></a> from Hugging Face and in the paper that introduced it, they state that they used a different learning rate value for the backbone, <code>learning_rate=1e-5</code>, as well as the object detection head, <code>learning_rate=1e-4</code> (see Table 1 for RT-DETRv2-L with the ResNet50 backbone in the <a href="https://arxiv.org/abs/2407.17140">RT-DETRv2 paper</a>).</p>
 <figure style="text-align: center;" class="figure">
 <img src="https://huggingface.co/datasets/mrdbourke/learn-hf-images/resolve/main/learn-hf-trashify-object-detection/06-table-1-rt-detrv2-paper.png" alt="A table, titled 'Table 1: The hyperparameters of RT-DETRv2,' lists four model variants: 'RT-DETRv2-S,' 'RT-DETRv2-M,' 'RT-DETRv2-L,' and 'RT-DETRv2-X,' along with their respective 'Backbone' architectures ('ResNet18,' 'ResNet34,' 'ResNet50,' and 'ResNet101'), and their learning rates for the backbone ('lr_backbone': '1e-4,' '5e-5,' '1e-5,' '1e-6') and the detector head ('lr_det': all '1e-4')" style="width: 100%; max-width: 600px; height: auto;" class="figure-img">
 <figcaption>
-Different learning rates used for different sections of the model from the <a href="https://arxiv.org/pdf/2407.17140">RT-DETRv2 paper</a>. The backbone uses a slightly lower learning rate than the detection head.
+Different learning rates used for different sections of the model from the <a href="https://arxiv.org/pdf/2407.17140">RT-DETRv2 paper</a>. The backbone uses a slightly lower learning rate than the detection head. For more on the ResNet backbones, see the original <a href="https://arxiv.org/abs/1512.03385">ResNet Paper</a>.
 </figcaption>
 </figure>
-<p>To set this up ourselves, we can extract which parameters of our model belong to the <code>backbone</code> as well as which don’t.</p>
+<p>To set this up ourselves, we can extract which parameters of our model belong to the ResNet50 <code>backbone</code> as well as which don’t.</p>
 <p>To find the backbone parameters, we can loop through our model’s <code>named_parameters()</code> method and filter for any which contain the string <code>"backbone"</code> in their name.</p>
 <p>We’ll append these to a list called <code>backbone_parameters</code> and assume any that don’t have <code>"backbone"</code> in their name are not part of the model’s backbone.</p>
 <p>We can use these two lists of parameters to pass to <a href="https://pytorch.org/docs/stable/generated/torch.optim.AdamW.html"><code>torch.optim.AdamW</code></a> with different learning rate values for each.</p>
@@ -5124,14 +5124,20 @@ Note
 <span id="cb163-16"><a href="#cb163-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Number of backbone parameter modules: </span><span class="sc">{</span><span class="bu">len</span>(backbone_parameters)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb163-17"><a href="#cb163-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Number of other parameter modules: </span><span class="sc">{</span><span class="bu">len</span>(other_parameters)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb163-18"><a href="#cb163-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb163-19"><a href="#cb163-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup a custom subclass of Trainer to use different learning rates for different parts of the model</span></span>
-<span id="cb163-20"><a href="#cb163-20" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomTrainer(Trainer):</span>
-<span id="cb163-21"><a href="#cb163-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> create_optimizer(<span class="va">self</span>):</span>
-<span id="cb163-22"><a href="#cb163-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.optimizer <span class="op">=</span> torch.optim.AdamW([</span>
-<span id="cb163-23"><a href="#cb163-23" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"params"</span>: backbone_parameters, <span class="st">"lr"</span>: <span class="fl">1e-4</span>},</span>
-<span id="cb163-24"><a href="#cb163-24" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"params"</span>: other_parameters, <span class="st">"lr"</span>: <span class="fl">1e-4</span>}</span>
-<span id="cb163-25"><a href="#cb163-25" aria-hidden="true" tabindex="-1"></a>        ], weight_decay<span class="op">=</span><span class="fl">0.0001</span>)</span>
-<span id="cb163-26"><a href="#cb163-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.optimizer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb163-19"><a href="#cb163-19" aria-hidden="true" tabindex="-1"></a>BACKBONE_LEARNING_RATE <span class="op">=</span> <span class="fl">1e-5</span></span>
+<span id="cb163-20"><a href="#cb163-20" aria-hidden="true" tabindex="-1"></a>DETECTION_HEAD_LEARNING_RATE <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span id="cb163-21"><a href="#cb163-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-22"><a href="#cb163-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Using learning rate for backbone: </span><span class="sc">{</span>BACKBONE_LEARNING_RATE<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb163-23"><a href="#cb163-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Using learning rate for other parameters and detection head: </span><span class="sc">{</span>DETECTION_HEAD_LEARNING_RATE<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb163-24"><a href="#cb163-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-25"><a href="#cb163-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup a custom subclass of Trainer to use different learning rates for different parts of the model</span></span>
+<span id="cb163-26"><a href="#cb163-26" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomTrainer(Trainer):</span>
+<span id="cb163-27"><a href="#cb163-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> create_optimizer(<span class="va">self</span>):</span>
+<span id="cb163-28"><a href="#cb163-28" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.optimizer <span class="op">=</span> torch.optim.AdamW([</span>
+<span id="cb163-29"><a href="#cb163-29" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"params"</span>: backbone_parameters, <span class="st">"lr"</span>: BACKBONE_LEARNING_RATE},</span>
+<span id="cb163-30"><a href="#cb163-30" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"params"</span>: other_parameters, <span class="st">"lr"</span>: DETECTION_HEAD_LEARNING_RATE}</span>
+<span id="cb163-31"><a href="#cb163-31" aria-hidden="true" tabindex="-1"></a>        ], weight_decay<span class="op">=</span><span class="fl">0.0001</span>)</span>
+<span id="cb163-32"><a href="#cb163-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.optimizer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[INFO] Number of backbone parameter modules: 55
 [INFO] Number of other parameter modules: 363</code></pre>
@@ -5159,6 +5165,7 @@ Note
 <li>To evaluate our object detection model we’re going to use the mAP metric (Mean Average Precision, a standard metric used amongst object detection models, see the <a href="https://cocodataset.org/#detection-eval">COCO evaluation section</a> for more details). To do so, we’ll use <a href="https://lightning.ai/docs/torchmetrics/stable/"><code>torchmetrics</code> package</a>, specifically <a href="https://lightning.ai/docs/torchmetrics/stable/detection/mean_average_precision.html"><code>torchmetrics.detection.mean_ap.MeanAveragePrecision</code></a>.
 <ul>
 <li>This method expects boxes in format XYXY absolute format by default.</li>
+<li>In any case, <strong>higher mAP is better</strong>, for example, a model with 65 mAP on a given benchmark is better than a model with 60 mAP on the same benchmark.</li>
 </ul></li>
 <li>Our evaluation function will be an adaptation of the code example in the object detection example <a href="https://github.com/huggingface/transformers/blob/336dc69d63d56f232a183a3e7f52790429b871ef/examples/pytorch/object-detection/run_object_detection.py#L160">on the Hugging Face GitHub</a>.</li>
 <li>For an in-depth overview on object detection metrics, see the <a href="https://blog.roboflow.com/object-detection-metrics/">Roboflow Guide to Object Detection Metrics</a>.</li>
@@ -5168,35 +5175,37 @@ Note
 <p>Let’s create our function.</p>
 <p>We’ll start by making a small helper function to convert bounding boxes from CXCYWH normalized format to XYXY absolute format.</p>
 <div id="cell-211" class="cell">
-<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_bbox_cxcywh_to_xyxy_absolute(boxes, </span>
-<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>                                         image_size_target):</span>
-<span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb165-4"><a href="#cb165-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Converts CXCYWH normalized boxes to XYXY absolute boxes.</span></span>
-<span id="cb165-5"><a href="#cb165-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb165-6"><a href="#cb165-6" aria-hidden="true" tabindex="-1"></a><span class="co">    The output of our preprocess method puts boxes in CXCYWH format.</span></span>
+<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision.ops <span class="im">import</span> box_convert</span>
+<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_bbox_cxcywh_to_xyxy_absolute(boxes, </span>
+<span id="cb165-4"><a href="#cb165-4" aria-hidden="true" tabindex="-1"></a>                                         image_size_target):</span>
+<span id="cb165-5"><a href="#cb165-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb165-6"><a href="#cb165-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Converts CXCYWH normalized boxes to XYXY absolute boxes.</span></span>
 <span id="cb165-7"><a href="#cb165-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb165-8"><a href="#cb165-8" aria-hidden="true" tabindex="-1"></a><span class="co">    But our evaluation metric torchmetrics.detection.mean_ap.MeanAveragePrecision expects</span></span>
-<span id="cb165-9"><a href="#cb165-9" aria-hidden="true" tabindex="-1"></a><span class="co">        boxes in XYXY absolute format.</span></span>
-<span id="cb165-10"><a href="#cb165-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb165-11"><a href="#cb165-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
-<span id="cb165-12"><a href="#cb165-12" aria-hidden="true" tabindex="-1"></a><span class="co">        boxes (torch.Tensor): A tensor of shape (N, 4) where N is the number of boxes and each box is in CXCYWH format.</span></span>
-<span id="cb165-13"><a href="#cb165-13" aria-hidden="true" tabindex="-1"></a><span class="co">        image_size_target (tuple): A tuple containing the target image size as (height, width).</span></span>
-<span id="cb165-14"><a href="#cb165-14" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb165-15"><a href="#cb165-15" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
-<span id="cb165-16"><a href="#cb165-16" aria-hidden="true" tabindex="-1"></a><span class="co">        torch.Tensor: A tensor of shape (N, 4) where each box is converted to XYXY absolute format.</span></span>
-<span id="cb165-17"><a href="#cb165-17" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb165-18"><a href="#cb165-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert normalized CXCYWH (output of model) -&gt; absolute XYXY format (required for evaluation)</span></span>
-<span id="cb165-19"><a href="#cb165-19" aria-hidden="true" tabindex="-1"></a>    boxes <span class="op">=</span> box_convert(boxes<span class="op">=</span>boxes, in_fmt<span class="op">=</span><span class="st">"cxcywh"</span>, out_fmt<span class="op">=</span><span class="st">"xyxy"</span>)</span>
-<span id="cb165-20"><a href="#cb165-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb165-21"><a href="#cb165-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert normalized box coordinates to absolute pixel values based on the target size </span></span>
-<span id="cb165-22"><a href="#cb165-22" aria-hidden="true" tabindex="-1"></a>    image_size_target_height <span class="op">=</span> image_size_target[<span class="dv">0</span>]</span>
-<span id="cb165-23"><a href="#cb165-23" aria-hidden="true" tabindex="-1"></a>    image_size_target_width <span class="op">=</span> image_size_target[<span class="dv">1</span>]</span>
-<span id="cb165-24"><a href="#cb165-24" aria-hidden="true" tabindex="-1"></a>    boxes <span class="op">=</span> boxes <span class="op">*</span> torch.tensor([image_size_target_width, </span>
-<span id="cb165-25"><a href="#cb165-25" aria-hidden="true" tabindex="-1"></a>                                  image_size_target_height, </span>
-<span id="cb165-26"><a href="#cb165-26" aria-hidden="true" tabindex="-1"></a>                                  image_size_target_width, </span>
-<span id="cb165-27"><a href="#cb165-27" aria-hidden="true" tabindex="-1"></a>                                  image_size_target_height]) <span class="co"># Multiply X coordinates by the width and Y coordinates by the height</span></span>
-<span id="cb165-28"><a href="#cb165-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb165-29"><a href="#cb165-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> boxes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb165-8"><a href="#cb165-8" aria-hidden="true" tabindex="-1"></a><span class="co">    The output of our preprocess method puts boxes in CXCYWH format.</span></span>
+<span id="cb165-9"><a href="#cb165-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-10"><a href="#cb165-10" aria-hidden="true" tabindex="-1"></a><span class="co">    But our evaluation metric torchmetrics.detection.mean_ap.MeanAveragePrecision expects</span></span>
+<span id="cb165-11"><a href="#cb165-11" aria-hidden="true" tabindex="-1"></a><span class="co">        boxes in XYXY absolute format.</span></span>
+<span id="cb165-12"><a href="#cb165-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-13"><a href="#cb165-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb165-14"><a href="#cb165-14" aria-hidden="true" tabindex="-1"></a><span class="co">        boxes (torch.Tensor): A tensor of shape (N, 4) where N is the number of boxes and each box is in CXCYWH format.</span></span>
+<span id="cb165-15"><a href="#cb165-15" aria-hidden="true" tabindex="-1"></a><span class="co">        image_size_target (tuple): A tuple containing the target image size as (height, width).</span></span>
+<span id="cb165-16"><a href="#cb165-16" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb165-17"><a href="#cb165-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb165-18"><a href="#cb165-18" aria-hidden="true" tabindex="-1"></a><span class="co">        torch.Tensor: A tensor of shape (N, 4) where each box is converted to XYXY absolute format.</span></span>
+<span id="cb165-19"><a href="#cb165-19" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb165-20"><a href="#cb165-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert normalized CXCYWH (output of model) -&gt; absolute XYXY format (required for evaluation)</span></span>
+<span id="cb165-21"><a href="#cb165-21" aria-hidden="true" tabindex="-1"></a>    boxes <span class="op">=</span> box_convert(boxes<span class="op">=</span>boxes, in_fmt<span class="op">=</span><span class="st">"cxcywh"</span>, out_fmt<span class="op">=</span><span class="st">"xyxy"</span>)</span>
+<span id="cb165-22"><a href="#cb165-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-23"><a href="#cb165-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert normalized box coordinates to absolute pixel values based on the target size </span></span>
+<span id="cb165-24"><a href="#cb165-24" aria-hidden="true" tabindex="-1"></a>    image_size_target_height <span class="op">=</span> image_size_target[<span class="dv">0</span>]</span>
+<span id="cb165-25"><a href="#cb165-25" aria-hidden="true" tabindex="-1"></a>    image_size_target_width <span class="op">=</span> image_size_target[<span class="dv">1</span>]</span>
+<span id="cb165-26"><a href="#cb165-26" aria-hidden="true" tabindex="-1"></a>    boxes <span class="op">=</span> boxes <span class="op">*</span> torch.tensor([image_size_target_width, </span>
+<span id="cb165-27"><a href="#cb165-27" aria-hidden="true" tabindex="-1"></a>                                  image_size_target_height, </span>
+<span id="cb165-28"><a href="#cb165-28" aria-hidden="true" tabindex="-1"></a>                                  image_size_target_width, </span>
+<span id="cb165-29"><a href="#cb165-29" aria-hidden="true" tabindex="-1"></a>                                  image_size_target_height]) <span class="co"># Multiply X coordinates by the width and Y coordinates by the height</span></span>
+<span id="cb165-30"><a href="#cb165-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-31"><a href="#cb165-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> boxes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Perfect!</p>
 <p>Time to craft our <code>compute_metrics</code> function.</p>
@@ -5225,138 +5234,136 @@ Note
 <span id="cb166-5"><a href="#cb166-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb166-6"><a href="#cb166-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> EvalPrediction</span>
 <span id="cb166-7"><a href="#cb166-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-8"><a href="#cb166-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision.ops <span class="im">import</span> box_convert</span>
+<span id="cb166-8"><a href="#cb166-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchmetrics.detection.mean_ap <span class="im">import</span> MeanAveragePrecision</span>
 <span id="cb166-9"><a href="#cb166-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-10"><a href="#cb166-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchmetrics.detection.mean_ap <span class="im">import</span> MeanAveragePrecision</span>
-<span id="cb166-11"><a href="#cb166-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-12"><a href="#cb166-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Create a dataclass to hold our model's outputs</span></span>
-<span id="cb166-13"><a href="#cb166-13" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
-<span id="cb166-14"><a href="#cb166-14" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ModelOutput:</span>
-<span id="cb166-15"><a href="#cb166-15" aria-hidden="true" tabindex="-1"></a>    logits: torch.Tensor</span>
-<span id="cb166-16"><a href="#cb166-16" aria-hidden="true" tabindex="-1"></a>    pred_boxes: torch.Tensor</span>
-<span id="cb166-17"><a href="#cb166-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-18"><a href="#cb166-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Create a compute_metrics function which takes in EvalPrediction and other required parameters</span></span>
-<span id="cb166-19"><a href="#cb166-19" aria-hidden="true" tabindex="-1"></a><span class="at">@torch.no_grad</span>()</span>
-<span id="cb166-20"><a href="#cb166-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_metrics(</span>
-<span id="cb166-21"><a href="#cb166-21" aria-hidden="true" tabindex="-1"></a>    evaluation_results: EvalPrediction, <span class="co"># these come out of the Trainer.evaluate method, see: https://huggingface.co/docs/transformers/en/internal/trainer_utils#transformers.EvalPrediction </span></span>
-<span id="cb166-22"><a href="#cb166-22" aria-hidden="true" tabindex="-1"></a>    image_processor: AutoImageProcessor,</span>
-<span id="cb166-23"><a href="#cb166-23" aria-hidden="true" tabindex="-1"></a>    threshold: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.0</span>,</span>
-<span id="cb166-24"><a href="#cb166-24" aria-hidden="true" tabindex="-1"></a>    id2label: Optional[Mapping[<span class="bu">int</span>, <span class="bu">str</span>]] <span class="op">=</span> <span class="va">None</span>,</span>
-<span id="cb166-25"><a href="#cb166-25" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Mapping[<span class="bu">str</span>, <span class="bu">float</span>]:</span>
-<span id="cb166-26"><a href="#cb166-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb166-27"><a href="#cb166-27" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute mean average mAP, mAR and their variants for the object detection task.</span></span>
-<span id="cb166-28"><a href="#cb166-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-29"><a href="#cb166-29" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
-<span id="cb166-30"><a href="#cb166-30" aria-hidden="true" tabindex="-1"></a><span class="co">        evaluation_results (EvalPrediction): Predictions and targets from evaluation.</span></span>
-<span id="cb166-31"><a href="#cb166-31" aria-hidden="true" tabindex="-1"></a><span class="co">        threshold (float, optional): Threshold to filter predicted boxes by confidence. Defaults to 0.0.</span></span>
-<span id="cb166-32"><a href="#cb166-32" aria-hidden="true" tabindex="-1"></a><span class="co">        id2label (Optional[dict], optional): Mapping from class id to class name. Defaults to None.</span></span>
-<span id="cb166-33"><a href="#cb166-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-34"><a href="#cb166-34" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
-<span id="cb166-35"><a href="#cb166-35" aria-hidden="true" tabindex="-1"></a><span class="co">        Mapping[str, float]: Metrics in a form of dictionary {&lt;metric_name&gt;: &lt;metric_value&gt;}</span></span>
-<span id="cb166-36"><a href="#cb166-36" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb166-37"><a href="#cb166-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-38"><a href="#cb166-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Extract predictions and targets from EvalPrediction</span></span>
-<span id="cb166-39"><a href="#cb166-39" aria-hidden="true" tabindex="-1"></a>    predictions, targets <span class="op">=</span> evaluation_results.predictions, evaluation_results.label_ids</span>
-<span id="cb166-40"><a href="#cb166-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-41"><a href="#cb166-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For metric computation we need to provide to MeanAveragePrecision</span></span>
-<span id="cb166-42"><a href="#cb166-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">#  - 'targets' in a form of list of dictionaries with keys "boxes", "labels"</span></span>
-<span id="cb166-43"><a href="#cb166-43" aria-hidden="true" tabindex="-1"></a>    <span class="co">#  - 'predictions' in a form of list of dictionaries with keys "boxes", "scores", "labels"</span></span>
-<span id="cb166-44"><a href="#cb166-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-45"><a href="#cb166-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Get a list of image sizes, processed targets and processed predictions</span></span>
-<span id="cb166-46"><a href="#cb166-46" aria-hidden="true" tabindex="-1"></a>    image_sizes <span class="op">=</span> []</span>
-<span id="cb166-47"><a href="#cb166-47" aria-hidden="true" tabindex="-1"></a>    post_processed_targets <span class="op">=</span> []</span>
-<span id="cb166-48"><a href="#cb166-48" aria-hidden="true" tabindex="-1"></a>    post_processed_predictions <span class="op">=</span> []</span>
+<span id="cb166-10"><a href="#cb166-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Create a dataclass to hold our model's outputs</span></span>
+<span id="cb166-11"><a href="#cb166-11" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
+<span id="cb166-12"><a href="#cb166-12" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ModelOutput:</span>
+<span id="cb166-13"><a href="#cb166-13" aria-hidden="true" tabindex="-1"></a>    logits: torch.Tensor</span>
+<span id="cb166-14"><a href="#cb166-14" aria-hidden="true" tabindex="-1"></a>    pred_boxes: torch.Tensor</span>
+<span id="cb166-15"><a href="#cb166-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-16"><a href="#cb166-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Create a compute_metrics function which takes in EvalPrediction and other required parameters</span></span>
+<span id="cb166-17"><a href="#cb166-17" aria-hidden="true" tabindex="-1"></a><span class="at">@torch.no_grad</span>()</span>
+<span id="cb166-18"><a href="#cb166-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_metrics(</span>
+<span id="cb166-19"><a href="#cb166-19" aria-hidden="true" tabindex="-1"></a>    evaluation_results: EvalPrediction, <span class="co"># these come out of the Trainer.evaluate method, see: https://huggingface.co/docs/transformers/en/internal/trainer_utils#transformers.EvalPrediction </span></span>
+<span id="cb166-20"><a href="#cb166-20" aria-hidden="true" tabindex="-1"></a>    image_processor: AutoImageProcessor,</span>
+<span id="cb166-21"><a href="#cb166-21" aria-hidden="true" tabindex="-1"></a>    threshold: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.0</span>,</span>
+<span id="cb166-22"><a href="#cb166-22" aria-hidden="true" tabindex="-1"></a>    id2label: Optional[Mapping[<span class="bu">int</span>, <span class="bu">str</span>]] <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb166-23"><a href="#cb166-23" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Mapping[<span class="bu">str</span>, <span class="bu">float</span>]:</span>
+<span id="cb166-24"><a href="#cb166-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb166-25"><a href="#cb166-25" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute mean average mAP, mAR and their variants for the object detection task.</span></span>
+<span id="cb166-26"><a href="#cb166-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-27"><a href="#cb166-27" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb166-28"><a href="#cb166-28" aria-hidden="true" tabindex="-1"></a><span class="co">        evaluation_results (EvalPrediction): Predictions and targets from evaluation.</span></span>
+<span id="cb166-29"><a href="#cb166-29" aria-hidden="true" tabindex="-1"></a><span class="co">        threshold (float, optional): Threshold to filter predicted boxes by confidence. Defaults to 0.0.</span></span>
+<span id="cb166-30"><a href="#cb166-30" aria-hidden="true" tabindex="-1"></a><span class="co">        id2label (Optional[dict], optional): Mapping from class id to class name. Defaults to None.</span></span>
+<span id="cb166-31"><a href="#cb166-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-32"><a href="#cb166-32" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb166-33"><a href="#cb166-33" aria-hidden="true" tabindex="-1"></a><span class="co">        Mapping[str, float]: Metrics in a form of dictionary {&lt;metric_name&gt;: &lt;metric_value&gt;}</span></span>
+<span id="cb166-34"><a href="#cb166-34" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb166-35"><a href="#cb166-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-36"><a href="#cb166-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Extract predictions and targets from EvalPrediction</span></span>
+<span id="cb166-37"><a href="#cb166-37" aria-hidden="true" tabindex="-1"></a>    predictions, targets <span class="op">=</span> evaluation_results.predictions, evaluation_results.label_ids</span>
+<span id="cb166-38"><a href="#cb166-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-39"><a href="#cb166-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For metric computation we need to provide to MeanAveragePrecision</span></span>
+<span id="cb166-40"><a href="#cb166-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">#  - 'targets' in a form of list of dictionaries with keys "boxes", "labels"</span></span>
+<span id="cb166-41"><a href="#cb166-41" aria-hidden="true" tabindex="-1"></a>    <span class="co">#  - 'predictions' in a form of list of dictionaries with keys "boxes", "scores", "labels"</span></span>
+<span id="cb166-42"><a href="#cb166-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-43"><a href="#cb166-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Get a list of image sizes, processed targets and processed predictions</span></span>
+<span id="cb166-44"><a href="#cb166-44" aria-hidden="true" tabindex="-1"></a>    image_sizes <span class="op">=</span> []</span>
+<span id="cb166-45"><a href="#cb166-45" aria-hidden="true" tabindex="-1"></a>    post_processed_targets <span class="op">=</span> []</span>
+<span id="cb166-46"><a href="#cb166-46" aria-hidden="true" tabindex="-1"></a>    post_processed_predictions <span class="op">=</span> []</span>
+<span id="cb166-47"><a href="#cb166-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-48"><a href="#cb166-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">### Target collection </span><span class="al">###</span></span>
 <span id="cb166-49"><a href="#cb166-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-50"><a href="#cb166-50" aria-hidden="true" tabindex="-1"></a>    <span class="co">### Target collection </span><span class="al">###</span></span>
-<span id="cb166-51"><a href="#cb166-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-52"><a href="#cb166-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Collect target attributes in the required format for metric computation</span></span>
-<span id="cb166-53"><a href="#cb166-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> batch <span class="kw">in</span> targets:</span>
-<span id="cb166-54"><a href="#cb166-54" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Collect ground truth image sizes, we will need them for predictions post processing</span></span>
-<span id="cb166-55"><a href="#cb166-55" aria-hidden="true" tabindex="-1"></a>        batch_image_sizes <span class="op">=</span> torch.tensor(np.array([x[<span class="st">"orig_size"</span>] <span class="cf">for</span> x <span class="kw">in</span> batch])) <span class="co"># turn into a list of numpy arrays first, then tensors</span></span>
-<span id="cb166-56"><a href="#cb166-56" aria-hidden="true" tabindex="-1"></a>        image_sizes.append(batch_image_sizes)</span>
-<span id="cb166-57"><a href="#cb166-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-58"><a href="#cb166-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Collect targets in the required format for metric computation</span></span>
-<span id="cb166-59"><a href="#cb166-59" aria-hidden="true" tabindex="-1"></a>        <span class="co"># boxes were converted to YOLO format needed for model training</span></span>
-<span id="cb166-60"><a href="#cb166-60" aria-hidden="true" tabindex="-1"></a>        <span class="co"># here we will convert them to Pascal VOC format (x_min, y_min, x_max, y_max) </span></span>
-<span id="cb166-61"><a href="#cb166-61" aria-hidden="true" tabindex="-1"></a>        <span class="co"># or XYXY format. We do this because the boxes out of preprocess() are in </span></span>
-<span id="cb166-62"><a href="#cb166-62" aria-hidden="true" tabindex="-1"></a>        <span class="co"># CXCYWH normalized format.</span></span>
-<span id="cb166-63"><a href="#cb166-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> image_target <span class="kw">in</span> batch:</span>
-<span id="cb166-64"><a href="#cb166-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-65"><a href="#cb166-65" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Get boxes and convert from CXCYWH to XYXY</span></span>
-<span id="cb166-66"><a href="#cb166-66" aria-hidden="true" tabindex="-1"></a>            boxes <span class="op">=</span> torch.tensor(image_target[<span class="st">"boxes"</span>])</span>
-<span id="cb166-67"><a href="#cb166-67" aria-hidden="true" tabindex="-1"></a>            boxes <span class="op">=</span> convert_bbox_cxcywh_to_xyxy_absolute(boxes<span class="op">=</span>boxes, </span>
-<span id="cb166-68"><a href="#cb166-68" aria-hidden="true" tabindex="-1"></a>                                                         image_size_target<span class="op">=</span>image_target[<span class="st">"orig_size"</span>])</span>
-<span id="cb166-69"><a href="#cb166-69" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb166-70"><a href="#cb166-70" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Get labels</span></span>
-<span id="cb166-71"><a href="#cb166-71" aria-hidden="true" tabindex="-1"></a>            labels <span class="op">=</span> torch.tensor(image_target[<span class="st">"class_labels"</span>])</span>
-<span id="cb166-72"><a href="#cb166-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-73"><a href="#cb166-73" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append box and label pairs in format requried for MeanAveragePrecision class</span></span>
-<span id="cb166-74"><a href="#cb166-74" aria-hidden="true" tabindex="-1"></a>            post_processed_targets.append({<span class="st">"boxes"</span>: boxes, </span>
-<span id="cb166-75"><a href="#cb166-75" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"labels"</span>: labels})</span>
-<span id="cb166-76"><a href="#cb166-76" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb166-77"><a href="#cb166-77" aria-hidden="true" tabindex="-1"></a>    <span class="co">### Prediction collection </span><span class="al">###</span></span>
-<span id="cb166-78"><a href="#cb166-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-79"><a href="#cb166-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Collect predictions in the required format for metric computation,</span></span>
-<span id="cb166-80"><a href="#cb166-80" aria-hidden="true" tabindex="-1"></a>    <span class="co"># model produce boxes in YOLO format (CXCYWH), then image_processor.post_process_object_detection to </span></span>
-<span id="cb166-81"><a href="#cb166-81" aria-hidden="true" tabindex="-1"></a>    <span class="co"># convert them to Pascal VOC format (XYXY).</span></span>
-<span id="cb166-82"><a href="#cb166-82" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> batch, target_sizes <span class="kw">in</span> <span class="bu">zip</span>(predictions, image_sizes):</span>
-<span id="cb166-83"><a href="#cb166-83" aria-hidden="true" tabindex="-1"></a>        batch_logits, batch_boxes <span class="op">=</span> batch[<span class="dv">1</span>], batch[<span class="dv">2</span>]</span>
-<span id="cb166-84"><a href="#cb166-84" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> ModelOutput(logits<span class="op">=</span>torch.tensor(batch_logits), </span>
-<span id="cb166-85"><a href="#cb166-85" aria-hidden="true" tabindex="-1"></a>                             pred_boxes<span class="op">=</span>torch.tensor(batch_boxes))</span>
-<span id="cb166-86"><a href="#cb166-86" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb166-87"><a href="#cb166-87" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Post process the model outputs</span></span>
-<span id="cb166-88"><a href="#cb166-88" aria-hidden="true" tabindex="-1"></a>        post_processed_output <span class="op">=</span> image_processor.post_process_object_detection(</span>
-<span id="cb166-89"><a href="#cb166-89" aria-hidden="true" tabindex="-1"></a>                                                    outputs<span class="op">=</span>output, </span>
-<span id="cb166-90"><a href="#cb166-90" aria-hidden="true" tabindex="-1"></a>                                                    threshold<span class="op">=</span>threshold, </span>
-<span id="cb166-91"><a href="#cb166-91" aria-hidden="true" tabindex="-1"></a>                                                    target_sizes<span class="op">=</span>target_sizes) <span class="co"># target sizes required to shape boxes in correct ratio of original image</span></span>
-<span id="cb166-92"><a href="#cb166-92" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb166-93"><a href="#cb166-93" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Append post_processed_output in form `[{"boxes": [...], "labels": [...], "scores": [...]}]`</span></span>
-<span id="cb166-94"><a href="#cb166-94" aria-hidden="true" tabindex="-1"></a>        post_processed_predictions.extend(post_processed_output)</span>
-<span id="cb166-95"><a href="#cb166-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-96"><a href="#cb166-96" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. Compute mAP</span></span>
-<span id="cb166-97"><a href="#cb166-97" aria-hidden="true" tabindex="-1"></a>    max_detection_thresholds <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>] <span class="co"># 1 = mar@1, mar@10, mar@100 (100 = default max total boxes for post processed predictions out of object detection model)</span></span>
-<span id="cb166-98"><a href="#cb166-98" aria-hidden="true" tabindex="-1"></a>    metric <span class="op">=</span> MeanAveragePrecision(box_format<span class="op">=</span><span class="st">"xyxy"</span>, </span>
-<span id="cb166-99"><a href="#cb166-99" aria-hidden="true" tabindex="-1"></a>                                  class_metrics<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb166-100"><a href="#cb166-100" aria-hidden="true" tabindex="-1"></a>                                  max_detection_thresholds<span class="op">=</span>max_detection_thresholds) </span>
-<span id="cb166-101"><a href="#cb166-101" aria-hidden="true" tabindex="-1"></a>    metric.warn_on_many_detections <span class="op">=</span> <span class="va">False</span> <span class="co"># don't output a warning when large amount of detections come out (the sorting handles this anyway)</span></span>
-<span id="cb166-102"><a href="#cb166-102" aria-hidden="true" tabindex="-1"></a>    metric.update(post_processed_predictions, </span>
-<span id="cb166-103"><a href="#cb166-103" aria-hidden="true" tabindex="-1"></a>                  post_processed_targets)</span>
-<span id="cb166-104"><a href="#cb166-104" aria-hidden="true" tabindex="-1"></a>    metrics <span class="op">=</span> metric.compute()</span>
-<span id="cb166-105"><a href="#cb166-105" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb166-106"><a href="#cb166-106" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optional: print metrics dict for troubleshooting</span></span>
-<span id="cb166-107"><a href="#cb166-107" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(metrics)</span></span>
-<span id="cb166-108"><a href="#cb166-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-109"><a href="#cb166-109" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Extract list of per class metrics with separate metric for each class</span></span>
-<span id="cb166-110"><a href="#cb166-110" aria-hidden="true" tabindex="-1"></a>    classes <span class="op">=</span> metrics.pop(<span class="st">"classes"</span>)</span>
-<span id="cb166-111"><a href="#cb166-111" aria-hidden="true" tabindex="-1"></a>    map_per_class <span class="op">=</span> metrics.pop(<span class="st">"map_per_class"</span>)</span>
-<span id="cb166-112"><a href="#cb166-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-113"><a href="#cb166-113" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optional: mAR@N per class (mAR = Mean Average Recall)</span></span>
-<span id="cb166-114"><a href="#cb166-114" aria-hidden="true" tabindex="-1"></a>    mar_per_class <span class="op">=</span> metrics.pop(<span class="st">"mar_100_per_class"</span>)</span>
-<span id="cb166-115"><a href="#cb166-115" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb166-116"><a href="#cb166-116" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 9. Prepare metrics per class in the form of a dict with metric names -&gt; values, e.g. {"metric_name": 42.0, ...}</span></span>
-<span id="cb166-117"><a href="#cb166-117" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for class_id, class_map in zip(classes, map_per_class):</span></span>
-<span id="cb166-118"><a href="#cb166-118" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> class_id, class_map, class_mar <span class="kw">in</span> <span class="bu">zip</span>(classes, map_per_class, mar_per_class):</span>
-<span id="cb166-119"><a href="#cb166-119" aria-hidden="true" tabindex="-1"></a>        class_name <span class="op">=</span> id2label[class_id.item()] <span class="cf">if</span> id2label <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> class_id.item()</span>
-<span id="cb166-120"><a href="#cb166-120" aria-hidden="true" tabindex="-1"></a>        metrics[<span class="ss">f"map_</span><span class="sc">{</span>class_name<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> class_map</span>
-<span id="cb166-121"><a href="#cb166-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-122"><a href="#cb166-122" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Optional: mAR@100 per class</span></span>
-<span id="cb166-123"><a href="#cb166-123" aria-hidden="true" tabindex="-1"></a>        metrics[<span class="ss">f"mar_100_</span><span class="sc">{</span>class_name<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> class_mar</span>
-<span id="cb166-124"><a href="#cb166-124" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb166-125"><a href="#cb166-125" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 10. Round metrics for suitable visual output</span></span>
-<span id="cb166-126"><a href="#cb166-126" aria-hidden="true" tabindex="-1"></a>    metrics <span class="op">=</span> {k: <span class="bu">round</span>(v.item(), <span class="dv">4</span>) <span class="cf">for</span> k, v <span class="kw">in</span> metrics.items()}</span>
-<span id="cb166-127"><a href="#cb166-127" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb166-128"><a href="#cb166-128" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optional: print metrics dict for troubleshooting</span></span>
-<span id="cb166-129"><a href="#cb166-129" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(metrics)</span></span>
+<span id="cb166-50"><a href="#cb166-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Collect target attributes in the required format for metric computation</span></span>
+<span id="cb166-51"><a href="#cb166-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> batch <span class="kw">in</span> targets:</span>
+<span id="cb166-52"><a href="#cb166-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Collect ground truth image sizes, we will need them for predictions post processing</span></span>
+<span id="cb166-53"><a href="#cb166-53" aria-hidden="true" tabindex="-1"></a>        batch_image_sizes <span class="op">=</span> torch.tensor(np.array([x[<span class="st">"orig_size"</span>] <span class="cf">for</span> x <span class="kw">in</span> batch])) <span class="co"># turn into a list of numpy arrays first, then tensors</span></span>
+<span id="cb166-54"><a href="#cb166-54" aria-hidden="true" tabindex="-1"></a>        image_sizes.append(batch_image_sizes)</span>
+<span id="cb166-55"><a href="#cb166-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-56"><a href="#cb166-56" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Collect targets in the required format for metric computation</span></span>
+<span id="cb166-57"><a href="#cb166-57" aria-hidden="true" tabindex="-1"></a>        <span class="co"># boxes were converted to YOLO format needed for model training</span></span>
+<span id="cb166-58"><a href="#cb166-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># here we will convert them to Pascal VOC format (x_min, y_min, x_max, y_max) </span></span>
+<span id="cb166-59"><a href="#cb166-59" aria-hidden="true" tabindex="-1"></a>        <span class="co"># or XYXY format. We do this because the boxes out of preprocess() are in </span></span>
+<span id="cb166-60"><a href="#cb166-60" aria-hidden="true" tabindex="-1"></a>        <span class="co"># CXCYWH normalized format.</span></span>
+<span id="cb166-61"><a href="#cb166-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> image_target <span class="kw">in</span> batch:</span>
+<span id="cb166-62"><a href="#cb166-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-63"><a href="#cb166-63" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Get boxes and convert from CXCYWH to XYXY</span></span>
+<span id="cb166-64"><a href="#cb166-64" aria-hidden="true" tabindex="-1"></a>            boxes <span class="op">=</span> torch.tensor(image_target[<span class="st">"boxes"</span>])</span>
+<span id="cb166-65"><a href="#cb166-65" aria-hidden="true" tabindex="-1"></a>            boxes <span class="op">=</span> convert_bbox_cxcywh_to_xyxy_absolute(boxes<span class="op">=</span>boxes, </span>
+<span id="cb166-66"><a href="#cb166-66" aria-hidden="true" tabindex="-1"></a>                                                         image_size_target<span class="op">=</span>image_target[<span class="st">"orig_size"</span>])</span>
+<span id="cb166-67"><a href="#cb166-67" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb166-68"><a href="#cb166-68" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Get labels</span></span>
+<span id="cb166-69"><a href="#cb166-69" aria-hidden="true" tabindex="-1"></a>            labels <span class="op">=</span> torch.tensor(image_target[<span class="st">"class_labels"</span>])</span>
+<span id="cb166-70"><a href="#cb166-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-71"><a href="#cb166-71" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append box and label pairs in format requried for MeanAveragePrecision class</span></span>
+<span id="cb166-72"><a href="#cb166-72" aria-hidden="true" tabindex="-1"></a>            post_processed_targets.append({<span class="st">"boxes"</span>: boxes, </span>
+<span id="cb166-73"><a href="#cb166-73" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"labels"</span>: labels})</span>
+<span id="cb166-74"><a href="#cb166-74" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb166-75"><a href="#cb166-75" aria-hidden="true" tabindex="-1"></a>    <span class="co">### Prediction collection </span><span class="al">###</span></span>
+<span id="cb166-76"><a href="#cb166-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-77"><a href="#cb166-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6. Collect predictions in the required format for metric computation,</span></span>
+<span id="cb166-78"><a href="#cb166-78" aria-hidden="true" tabindex="-1"></a>    <span class="co"># model produce boxes in YOLO format (CXCYWH), then image_processor.post_process_object_detection to </span></span>
+<span id="cb166-79"><a href="#cb166-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># convert them to Pascal VOC format (XYXY).</span></span>
+<span id="cb166-80"><a href="#cb166-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> batch, target_sizes <span class="kw">in</span> <span class="bu">zip</span>(predictions, image_sizes):</span>
+<span id="cb166-81"><a href="#cb166-81" aria-hidden="true" tabindex="-1"></a>        batch_logits, batch_boxes <span class="op">=</span> batch[<span class="dv">1</span>], batch[<span class="dv">2</span>]</span>
+<span id="cb166-82"><a href="#cb166-82" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> ModelOutput(logits<span class="op">=</span>torch.tensor(batch_logits), </span>
+<span id="cb166-83"><a href="#cb166-83" aria-hidden="true" tabindex="-1"></a>                             pred_boxes<span class="op">=</span>torch.tensor(batch_boxes))</span>
+<span id="cb166-84"><a href="#cb166-84" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb166-85"><a href="#cb166-85" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Post process the model outputs</span></span>
+<span id="cb166-86"><a href="#cb166-86" aria-hidden="true" tabindex="-1"></a>        post_processed_output <span class="op">=</span> image_processor.post_process_object_detection(</span>
+<span id="cb166-87"><a href="#cb166-87" aria-hidden="true" tabindex="-1"></a>                                                    outputs<span class="op">=</span>output, </span>
+<span id="cb166-88"><a href="#cb166-88" aria-hidden="true" tabindex="-1"></a>                                                    threshold<span class="op">=</span>threshold, </span>
+<span id="cb166-89"><a href="#cb166-89" aria-hidden="true" tabindex="-1"></a>                                                    target_sizes<span class="op">=</span>target_sizes) <span class="co"># target sizes required to shape boxes in correct ratio of original image</span></span>
+<span id="cb166-90"><a href="#cb166-90" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb166-91"><a href="#cb166-91" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Append post_processed_output in form `[{"boxes": [...], "labels": [...], "scores": [...]}]`</span></span>
+<span id="cb166-92"><a href="#cb166-92" aria-hidden="true" tabindex="-1"></a>        post_processed_predictions.extend(post_processed_output)</span>
+<span id="cb166-93"><a href="#cb166-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-94"><a href="#cb166-94" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 7. Compute mAP</span></span>
+<span id="cb166-95"><a href="#cb166-95" aria-hidden="true" tabindex="-1"></a>    max_detection_thresholds <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>] <span class="co"># 1 = mar@1, mar@10, mar@100 (100 = default max total boxes for post processed predictions out of object detection model)</span></span>
+<span id="cb166-96"><a href="#cb166-96" aria-hidden="true" tabindex="-1"></a>    metric <span class="op">=</span> MeanAveragePrecision(box_format<span class="op">=</span><span class="st">"xyxy"</span>, </span>
+<span id="cb166-97"><a href="#cb166-97" aria-hidden="true" tabindex="-1"></a>                                  class_metrics<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb166-98"><a href="#cb166-98" aria-hidden="true" tabindex="-1"></a>                                  max_detection_thresholds<span class="op">=</span>max_detection_thresholds) </span>
+<span id="cb166-99"><a href="#cb166-99" aria-hidden="true" tabindex="-1"></a>    metric.warn_on_many_detections <span class="op">=</span> <span class="va">False</span> <span class="co"># don't output a warning when large amount of detections come out (the sorting handles this anyway)</span></span>
+<span id="cb166-100"><a href="#cb166-100" aria-hidden="true" tabindex="-1"></a>    metric.update(post_processed_predictions, </span>
+<span id="cb166-101"><a href="#cb166-101" aria-hidden="true" tabindex="-1"></a>                  post_processed_targets)</span>
+<span id="cb166-102"><a href="#cb166-102" aria-hidden="true" tabindex="-1"></a>    metrics <span class="op">=</span> metric.compute()</span>
+<span id="cb166-103"><a href="#cb166-103" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb166-104"><a href="#cb166-104" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optional: print metrics dict for troubleshooting</span></span>
+<span id="cb166-105"><a href="#cb166-105" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(metrics)</span></span>
+<span id="cb166-106"><a href="#cb166-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-107"><a href="#cb166-107" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 8. Extract list of per class metrics with separate metric for each class</span></span>
+<span id="cb166-108"><a href="#cb166-108" aria-hidden="true" tabindex="-1"></a>    classes <span class="op">=</span> metrics.pop(<span class="st">"classes"</span>)</span>
+<span id="cb166-109"><a href="#cb166-109" aria-hidden="true" tabindex="-1"></a>    map_per_class <span class="op">=</span> metrics.pop(<span class="st">"map_per_class"</span>)</span>
+<span id="cb166-110"><a href="#cb166-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-111"><a href="#cb166-111" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optional: mAR@N per class (mAR = Mean Average Recall)</span></span>
+<span id="cb166-112"><a href="#cb166-112" aria-hidden="true" tabindex="-1"></a>    mar_per_class <span class="op">=</span> metrics.pop(<span class="st">"mar_100_per_class"</span>)</span>
+<span id="cb166-113"><a href="#cb166-113" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb166-114"><a href="#cb166-114" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 9. Prepare metrics per class in the form of a dict with metric names -&gt; values, e.g. {"metric_name": 42.0, ...}</span></span>
+<span id="cb166-115"><a href="#cb166-115" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for class_id, class_map in zip(classes, map_per_class):</span></span>
+<span id="cb166-116"><a href="#cb166-116" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> class_id, class_map, class_mar <span class="kw">in</span> <span class="bu">zip</span>(classes, map_per_class, mar_per_class):</span>
+<span id="cb166-117"><a href="#cb166-117" aria-hidden="true" tabindex="-1"></a>        class_name <span class="op">=</span> id2label[class_id.item()] <span class="cf">if</span> id2label <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> class_id.item()</span>
+<span id="cb166-118"><a href="#cb166-118" aria-hidden="true" tabindex="-1"></a>        metrics[<span class="ss">f"map_</span><span class="sc">{</span>class_name<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> class_map</span>
+<span id="cb166-119"><a href="#cb166-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-120"><a href="#cb166-120" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Optional: mAR@100 per class</span></span>
+<span id="cb166-121"><a href="#cb166-121" aria-hidden="true" tabindex="-1"></a>        metrics[<span class="ss">f"mar_100_</span><span class="sc">{</span>class_name<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> class_mar</span>
+<span id="cb166-122"><a href="#cb166-122" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb166-123"><a href="#cb166-123" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 10. Round metrics for suitable visual output</span></span>
+<span id="cb166-124"><a href="#cb166-124" aria-hidden="true" tabindex="-1"></a>    metrics <span class="op">=</span> {k: <span class="bu">round</span>(v.item(), <span class="dv">4</span>) <span class="cf">for</span> k, v <span class="kw">in</span> metrics.items()}</span>
+<span id="cb166-125"><a href="#cb166-125" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb166-126"><a href="#cb166-126" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optional: print metrics dict for troubleshooting</span></span>
+<span id="cb166-127"><a href="#cb166-127" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(metrics)</span></span>
+<span id="cb166-128"><a href="#cb166-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-129"><a href="#cb166-129" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> metrics</span>
 <span id="cb166-130"><a href="#cb166-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-131"><a href="#cb166-131" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> metrics</span>
-<span id="cb166-132"><a href="#cb166-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-133"><a href="#cb166-133" aria-hidden="true" tabindex="-1"></a><span class="co"># 11. Create a partial function for our compute_metrics function (we'll pass this to compute_metrics in Trainer)</span></span>
-<span id="cb166-134"><a href="#cb166-134" aria-hidden="true" tabindex="-1"></a>eval_compute_metrics_fn <span class="op">=</span> partial(</span>
-<span id="cb166-135"><a href="#cb166-135" aria-hidden="true" tabindex="-1"></a>        compute_metrics, </span>
-<span id="cb166-136"><a href="#cb166-136" aria-hidden="true" tabindex="-1"></a>        image_processor<span class="op">=</span>image_processor, </span>
-<span id="cb166-137"><a href="#cb166-137" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">=</span><span class="fl">0.0</span>,</span>
-<span id="cb166-138"><a href="#cb166-138" aria-hidden="true" tabindex="-1"></a>        id2label<span class="op">=</span>id2label, </span>
-<span id="cb166-139"><a href="#cb166-139" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb166-131"><a href="#cb166-131" aria-hidden="true" tabindex="-1"></a><span class="co"># 11. Create a partial function for our compute_metrics function (we'll pass this to compute_metrics in Trainer)</span></span>
+<span id="cb166-132"><a href="#cb166-132" aria-hidden="true" tabindex="-1"></a>eval_compute_metrics_fn <span class="op">=</span> partial(</span>
+<span id="cb166-133"><a href="#cb166-133" aria-hidden="true" tabindex="-1"></a>        compute_metrics, </span>
+<span id="cb166-134"><a href="#cb166-134" aria-hidden="true" tabindex="-1"></a>        image_processor<span class="op">=</span>image_processor, </span>
+<span id="cb166-135"><a href="#cb166-135" aria-hidden="true" tabindex="-1"></a>        threshold<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb166-136"><a href="#cb166-136" aria-hidden="true" tabindex="-1"></a>        id2label<span class="op">=</span>id2label, </span>
+<span id="cb166-137"><a href="#cb166-137" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="training-our-model-with-trainer" class="level3" data-number="13.4">
