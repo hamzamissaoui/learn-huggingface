@@ -4687,7 +4687,7 @@ Note
 <h3 data-number="12.4" class="anchored" data-anchor-id="creating-a-collation-function"><span class="header-section-number">12.4</span> Creating a collation function</h3>
 <p>We now preprocess multiple samples at once.</p>
 <p>Time to create a collation function which will tell our model trainer how to stack these samples together into batches.</p>
-<p>We do this because processing more samples at once (e.g.&nbsp;32 samples in a batch) in a batch is generally more efficient than one sample at a time or trying to process all samples at once.</p>
+<p>We do this because processing more samples at once (e.g.&nbsp;16, 32 or 128 samples in a batch) in a batch is generally more efficient than one sample at a time or trying to process all samples at once.</p>
 <p>Our collation function will be used for the <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer.data_collator"><code>data_collator</code> parameter</a> in our <a href="https://huggingface.co/docs/transformers/en/main_classes/trainer"><code>transformers.Trainer</code></a> instance later on.</p>
 <p>The input to our data collation function will be the output of <code>image_processor.preprocess()</code> (a preprocessed sample).</p>
 <p>And the output will be passed as a batch (we’ll define the batch size later on) to our model’s <a href="https://huggingface.co/docs/transformers/en/model_doc/conditional_detr#transformers.ConditionalDetrModel.forward"><code>forward()</code> method</a>.</p>
