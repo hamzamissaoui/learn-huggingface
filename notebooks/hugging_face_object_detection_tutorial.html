@@ -4994,7 +4994,7 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 </tr>
 <tr class="odd">
 <td><code>num_train_epochs</code></td>
-<td><code>25</code> (depends on training data and available time)</td>
+<td><code>10</code> (depends on training data and available time)</td>
 <td>Defines how many laps of the data your model will do. For example, setting epochs to 25 means the model will do 25 laps of the training data to learn different patterns. In practice, I’ve found this value to be a good starting point for our dataset and also because we are fine-tuning rather than training from scratch. However, if you had more data you might want to do more epochs (when training from scratch, the papers did 300 epochs).</td>
 </tr>
 <tr class="even">
