@@ -6670,16 +6670,17 @@ Note
 <p>Doing it in the above style means we’ll have a directory which contains all of our demos (<code>demos/</code>) as well as a dedicated directory which contains our Trashify demo application (<code>trashify_object_detector/</code>).</p>
 <p>This way, we’ll be able to upload the whole <code>demos/trashify_object_detector/</code> folder to Hugging Face Spaces.</p>
 <p>Let’s start by making a directory to store our demo application files.</p>
-<div id="cell-261" class="cell">
-<div class="sourceCode cell-code" id="cb205"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup path to trashify demo folder (we'll store all of our demo requirements in here)</span></span>
-<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>demo_path <span class="op">=</span> Path(<span class="st">"../demos/trashify_object_detector"</span>)</span>
-<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb205-4"><a href="#cb205-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the directory</span></span>
-<span id="cb205-5"><a href="#cb205-5" aria-hidden="true" tabindex="-1"></a>demo_path.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-261" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb205"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup path to trashify demo folder (we'll store all of our demo requirements in here)</span></span>
+<span id="cb205-4"><a href="#cb205-4" aria-hidden="true" tabindex="-1"></a>demo_path <span class="op">=</span> Path(<span class="st">"../demos/trashify_object_detector"</span>)</span>
+<span id="cb205-5"><a href="#cb205-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb205-6"><a href="#cb205-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the directory</span></span>
+<span id="cb205-7"><a href="#cb205-7" aria-hidden="true" tabindex="-1"></a>demo_path.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="making-an-app-file" class="level3" data-number="16.1">
 <h3 data-number="16.1" class="anchored" data-anchor-id="making-an-app-file"><span class="header-section-number">16.1</span> Making an app file</h3>
-<p>UPTOHERE - write the steps required for the app.py file</p>
 <p>Our <code>app.py</code> file will be the main part of our Hugging Face Space.</p>
 <p>Inside the <code>app.py</code> file we’ll:</p>
 <ol type="1">
@@ -6703,7 +6704,7 @@ Note
 <p>We can write all of the above in a notebook cell.</p>
 <p>And we can turn it into a file by using the <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html#cellmagic-writefile"><code>%%writefile</code></a> magic command and passing it our target filepath.</p>
 <p>Let’s do it!</p>
-<div id="cell-263" class="cell">
+<div id="cell-263" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb206"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>writefile ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span>app.py</span>
 <span id="cb206-2"><a href="#cb206-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb206-3"><a href="#cb206-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Import the required libraries and packages</span></span>
@@ -6743,144 +6744,136 @@ Note
 <span id="cb206-37"><a href="#cb206-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"not_hand"</span>: <span class="st">"red"</span>,</span>
 <span id="cb206-38"><a href="#cb206-38" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb206-39"><a href="#cb206-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-40"><a href="#cb206-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Create helper functions for seeing if items from one list are in another </span></span>
-<span id="cb206-41"><a href="#cb206-41" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> any_in_list(list_a, list_b):</span>
-<span id="cb206-42"><a href="#cb206-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Returns True if *any* item from list_a is in list_b, otherwise False."</span></span>
-<span id="cb206-43"><a href="#cb206-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">any</span>(item <span class="kw">in</span> list_b <span class="cf">for</span> item <span class="kw">in</span> list_a)</span>
+<span id="cb206-40"><a href="#cb206-40" aria-hidden="true" tabindex="-1"></a><span class="co">### 3. Create function to predict on a given image with a given confidence threshold </span><span class="al">###</span></span>
+<span id="cb206-41"><a href="#cb206-41" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_on_image(image, conf_threshold):</span>
+<span id="cb206-42"><a href="#cb206-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make sure model is in eval mode</span></span>
+<span id="cb206-43"><a href="#cb206-43" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
 <span id="cb206-44"><a href="#cb206-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-45"><a href="#cb206-45" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> all_in_list(list_a, list_b):</span>
-<span id="cb206-46"><a href="#cb206-46" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Returns True if *all* items from list_a are in list_b, otherwise False."</span></span>
-<span id="cb206-47"><a href="#cb206-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">all</span>(item <span class="kw">in</span> list_b <span class="cf">for</span> item <span class="kw">in</span> list_a)</span>
-<span id="cb206-48"><a href="#cb206-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-49"><a href="#cb206-49" aria-hidden="true" tabindex="-1"></a><span class="co">### 3. Create function to predict on a given image with a given confidence threshold </span><span class="al">###</span></span>
-<span id="cb206-50"><a href="#cb206-50" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_on_image(image, conf_threshold):</span>
-<span id="cb206-51"><a href="#cb206-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make sure model is in eval mode</span></span>
-<span id="cb206-52"><a href="#cb206-52" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
-<span id="cb206-53"><a href="#cb206-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-54"><a href="#cb206-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make a prediction on target image </span></span>
-<span id="cb206-55"><a href="#cb206-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
-<span id="cb206-56"><a href="#cb206-56" aria-hidden="true" tabindex="-1"></a>        inputs <span class="op">=</span> image_processor(images<span class="op">=</span>[image], return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
-<span id="cb206-57"><a href="#cb206-57" aria-hidden="true" tabindex="-1"></a>        model_outputs <span class="op">=</span> model(<span class="op">**</span>inputs.to(device))</span>
-<span id="cb206-58"><a href="#cb206-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-59"><a href="#cb206-59" aria-hidden="true" tabindex="-1"></a>        target_sizes <span class="op">=</span> torch.tensor([[image.size[<span class="dv">1</span>], image.size[<span class="dv">0</span>]]]) <span class="co"># -&gt; [batch_size, height, width] </span></span>
-<span id="cb206-60"><a href="#cb206-60" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb206-61"><a href="#cb206-61" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Post process the raw outputs from the model </span></span>
-<span id="cb206-62"><a href="#cb206-62" aria-hidden="true" tabindex="-1"></a>        results <span class="op">=</span> image_processor.post_process_object_detection(model_outputs,</span>
-<span id="cb206-63"><a href="#cb206-63" aria-hidden="true" tabindex="-1"></a>                                                                threshold<span class="op">=</span>conf_threshold,</span>
-<span id="cb206-64"><a href="#cb206-64" aria-hidden="true" tabindex="-1"></a>                                                                target_sizes<span class="op">=</span>target_sizes)[<span class="dv">0</span>]</span>
+<span id="cb206-45"><a href="#cb206-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make a prediction on target image </span></span>
+<span id="cb206-46"><a href="#cb206-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb206-47"><a href="#cb206-47" aria-hidden="true" tabindex="-1"></a>        inputs <span class="op">=</span> image_processor(images<span class="op">=</span>[image], return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb206-48"><a href="#cb206-48" aria-hidden="true" tabindex="-1"></a>        model_outputs <span class="op">=</span> model(<span class="op">**</span>inputs.to(device))</span>
+<span id="cb206-49"><a href="#cb206-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-50"><a href="#cb206-50" aria-hidden="true" tabindex="-1"></a>        target_sizes <span class="op">=</span> torch.tensor([[image.size[<span class="dv">1</span>], image.size[<span class="dv">0</span>]]]) <span class="co"># -&gt; [batch_size, height, width] </span></span>
+<span id="cb206-51"><a href="#cb206-51" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb206-52"><a href="#cb206-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Post process the raw outputs from the model </span></span>
+<span id="cb206-53"><a href="#cb206-53" aria-hidden="true" tabindex="-1"></a>        results <span class="op">=</span> image_processor.post_process_object_detection(model_outputs,</span>
+<span id="cb206-54"><a href="#cb206-54" aria-hidden="true" tabindex="-1"></a>                                                                threshold<span class="op">=</span>conf_threshold,</span>
+<span id="cb206-55"><a href="#cb206-55" aria-hidden="true" tabindex="-1"></a>                                                                target_sizes<span class="op">=</span>target_sizes)[<span class="dv">0</span>]</span>
+<span id="cb206-56"><a href="#cb206-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-57"><a href="#cb206-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return all items in results to CPU (we'll want this for displaying outputs with matplotlib)</span></span>
+<span id="cb206-58"><a href="#cb206-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key, value <span class="kw">in</span> results.items():</span>
+<span id="cb206-59"><a href="#cb206-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb206-60"><a href="#cb206-60" aria-hidden="true" tabindex="-1"></a>            results[key] <span class="op">=</span> value.item().cpu() <span class="co"># can't get scalar as .item() so add try/except block</span></span>
+<span id="cb206-61"><a href="#cb206-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span>:</span>
+<span id="cb206-62"><a href="#cb206-62" aria-hidden="true" tabindex="-1"></a>            results[key] <span class="op">=</span> value.cpu()</span>
+<span id="cb206-63"><a href="#cb206-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-64"><a href="#cb206-64" aria-hidden="true" tabindex="-1"></a>    <span class="co">### 4. Draw the predictions on the target image </span><span class="al">###</span></span>
 <span id="cb206-65"><a href="#cb206-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-66"><a href="#cb206-66" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return all items in results to CPU (we'll want this for displaying outputs with matplotlib)</span></span>
-<span id="cb206-67"><a href="#cb206-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key, value <span class="kw">in</span> results.items():</span>
-<span id="cb206-68"><a href="#cb206-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
-<span id="cb206-69"><a href="#cb206-69" aria-hidden="true" tabindex="-1"></a>            results[key] <span class="op">=</span> value.item().cpu() <span class="co"># can't get scalar as .item() so add try/except block</span></span>
-<span id="cb206-70"><a href="#cb206-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span>:</span>
-<span id="cb206-71"><a href="#cb206-71" aria-hidden="true" tabindex="-1"></a>            results[key] <span class="op">=</span> value.cpu()</span>
-<span id="cb206-72"><a href="#cb206-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-73"><a href="#cb206-73" aria-hidden="true" tabindex="-1"></a>    <span class="co">### 4. Draw the predictions on the target image </span><span class="al">###</span></span>
+<span id="cb206-66"><a href="#cb206-66" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Can return results as plotted on a PIL image (then display the image)</span></span>
+<span id="cb206-67"><a href="#cb206-67" aria-hidden="true" tabindex="-1"></a>    draw <span class="op">=</span> ImageDraw.Draw(image)</span>
+<span id="cb206-68"><a href="#cb206-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-69"><a href="#cb206-69" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get a font from ImageFont</span></span>
+<span id="cb206-70"><a href="#cb206-70" aria-hidden="true" tabindex="-1"></a>    font <span class="op">=</span> ImageFont.load_default(size<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb206-71"><a href="#cb206-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-72"><a href="#cb206-72" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get class names as text for print out</span></span>
+<span id="cb206-73"><a href="#cb206-73" aria-hidden="true" tabindex="-1"></a>    detected_class_name_text_labels <span class="op">=</span> []</span>
 <span id="cb206-74"><a href="#cb206-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-75"><a href="#cb206-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Can return results as plotted on a PIL image (then display the image)</span></span>
-<span id="cb206-76"><a href="#cb206-76" aria-hidden="true" tabindex="-1"></a>    draw <span class="op">=</span> ImageDraw.Draw(image)</span>
-<span id="cb206-77"><a href="#cb206-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-78"><a href="#cb206-78" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get a font from ImageFont</span></span>
-<span id="cb206-79"><a href="#cb206-79" aria-hidden="true" tabindex="-1"></a>    font <span class="op">=</span> ImageFont.load_default(size<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb206-80"><a href="#cb206-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-81"><a href="#cb206-81" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get class names as text for print out</span></span>
-<span id="cb206-82"><a href="#cb206-82" aria-hidden="true" tabindex="-1"></a>    class_name_text_labels <span class="op">=</span> []</span>
-<span id="cb206-83"><a href="#cb206-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-84"><a href="#cb206-84" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate through the predictions of the model and draw them on the target image</span></span>
-<span id="cb206-85"><a href="#cb206-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> box, score, label <span class="kw">in</span> <span class="bu">zip</span>(results[<span class="st">"boxes"</span>], results[<span class="st">"scores"</span>], results[<span class="st">"labels"</span>]):</span>
-<span id="cb206-86"><a href="#cb206-86" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create coordinates</span></span>
-<span id="cb206-87"><a href="#cb206-87" aria-hidden="true" tabindex="-1"></a>        x, y, x2, y2 <span class="op">=</span> <span class="bu">tuple</span>(box.tolist())</span>
-<span id="cb206-88"><a href="#cb206-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-89"><a href="#cb206-89" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get label_name</span></span>
-<span id="cb206-90"><a href="#cb206-90" aria-hidden="true" tabindex="-1"></a>        label_name <span class="op">=</span> id2label[label.item()]</span>
-<span id="cb206-91"><a href="#cb206-91" aria-hidden="true" tabindex="-1"></a>        targ_color <span class="op">=</span> color_dict[label_name]</span>
-<span id="cb206-92"><a href="#cb206-92" aria-hidden="true" tabindex="-1"></a>        class_name_text_labels.append(label_name)</span>
-<span id="cb206-93"><a href="#cb206-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-94"><a href="#cb206-94" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Draw the rectangle</span></span>
-<span id="cb206-95"><a href="#cb206-95" aria-hidden="true" tabindex="-1"></a>        draw.rectangle(xy<span class="op">=</span>(x, y, x2, y2), </span>
-<span id="cb206-96"><a href="#cb206-96" aria-hidden="true" tabindex="-1"></a>                       outline<span class="op">=</span>targ_color,</span>
-<span id="cb206-97"><a href="#cb206-97" aria-hidden="true" tabindex="-1"></a>                       width<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb206-98"><a href="#cb206-98" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb206-99"><a href="#cb206-99" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a text string to display</span></span>
-<span id="cb206-100"><a href="#cb206-100" aria-hidden="true" tabindex="-1"></a>        text_string_to_show <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>label_name<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(score.item(), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb206-75"><a href="#cb206-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate through the predictions of the model and draw them on the target image</span></span>
+<span id="cb206-76"><a href="#cb206-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> box, score, label <span class="kw">in</span> <span class="bu">zip</span>(results[<span class="st">"boxes"</span>], results[<span class="st">"scores"</span>], results[<span class="st">"labels"</span>]):</span>
+<span id="cb206-77"><a href="#cb206-77" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create coordinates</span></span>
+<span id="cb206-78"><a href="#cb206-78" aria-hidden="true" tabindex="-1"></a>        x, y, x2, y2 <span class="op">=</span> <span class="bu">tuple</span>(box.tolist())</span>
+<span id="cb206-79"><a href="#cb206-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-80"><a href="#cb206-80" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get label_name</span></span>
+<span id="cb206-81"><a href="#cb206-81" aria-hidden="true" tabindex="-1"></a>        label_name <span class="op">=</span> id2label[label.item()]</span>
+<span id="cb206-82"><a href="#cb206-82" aria-hidden="true" tabindex="-1"></a>        targ_color <span class="op">=</span> color_dict[label_name]</span>
+<span id="cb206-83"><a href="#cb206-83" aria-hidden="true" tabindex="-1"></a>        detected_class_name_text_labels.append(label_name)</span>
+<span id="cb206-84"><a href="#cb206-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-85"><a href="#cb206-85" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Draw the rectangle</span></span>
+<span id="cb206-86"><a href="#cb206-86" aria-hidden="true" tabindex="-1"></a>        draw.rectangle(xy<span class="op">=</span>(x, y, x2, y2), </span>
+<span id="cb206-87"><a href="#cb206-87" aria-hidden="true" tabindex="-1"></a>                       outline<span class="op">=</span>targ_color,</span>
+<span id="cb206-88"><a href="#cb206-88" aria-hidden="true" tabindex="-1"></a>                       width<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb206-89"><a href="#cb206-89" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb206-90"><a href="#cb206-90" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a text string to display</span></span>
+<span id="cb206-91"><a href="#cb206-91" aria-hidden="true" tabindex="-1"></a>        text_string_to_show <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>label_name<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(score.item(), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb206-92"><a href="#cb206-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-93"><a href="#cb206-93" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Draw the text on the image</span></span>
+<span id="cb206-94"><a href="#cb206-94" aria-hidden="true" tabindex="-1"></a>        draw.text(xy<span class="op">=</span>(x, y),</span>
+<span id="cb206-95"><a href="#cb206-95" aria-hidden="true" tabindex="-1"></a>                  text<span class="op">=</span>text_string_to_show,</span>
+<span id="cb206-96"><a href="#cb206-96" aria-hidden="true" tabindex="-1"></a>                  fill<span class="op">=</span><span class="st">"white"</span>,</span>
+<span id="cb206-97"><a href="#cb206-97" aria-hidden="true" tabindex="-1"></a>                  font<span class="op">=</span>font)</span>
+<span id="cb206-98"><a href="#cb206-98" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb206-99"><a href="#cb206-99" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove the draw each time</span></span>
+<span id="cb206-100"><a href="#cb206-100" aria-hidden="true" tabindex="-1"></a>    <span class="kw">del</span> draw</span>
 <span id="cb206-101"><a href="#cb206-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-102"><a href="#cb206-102" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Draw the text on the image</span></span>
-<span id="cb206-103"><a href="#cb206-103" aria-hidden="true" tabindex="-1"></a>        draw.text(xy<span class="op">=</span>(x, y),</span>
-<span id="cb206-104"><a href="#cb206-104" aria-hidden="true" tabindex="-1"></a>                  text<span class="op">=</span>text_string_to_show,</span>
-<span id="cb206-105"><a href="#cb206-105" aria-hidden="true" tabindex="-1"></a>                  fill<span class="op">=</span><span class="st">"white"</span>,</span>
-<span id="cb206-106"><a href="#cb206-106" aria-hidden="true" tabindex="-1"></a>                  font<span class="op">=</span>font)</span>
-<span id="cb206-107"><a href="#cb206-107" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb206-108"><a href="#cb206-108" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove the draw each time</span></span>
-<span id="cb206-109"><a href="#cb206-109" aria-hidden="true" tabindex="-1"></a>    <span class="kw">del</span> draw</span>
+<span id="cb206-102"><a href="#cb206-102" aria-hidden="true" tabindex="-1"></a>    <span class="co">### 5. Create logic for outputting information message </span><span class="al">###</span><span class="co"> </span></span>
+<span id="cb206-103"><a href="#cb206-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-104"><a href="#cb206-104" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setup blank string to print out</span></span>
+<span id="cb206-105"><a href="#cb206-105" aria-hidden="true" tabindex="-1"></a>    return_string <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb206-106"><a href="#cb206-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-107"><a href="#cb206-107" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setup set of target items to discover</span></span>
+<span id="cb206-108"><a href="#cb206-108" aria-hidden="true" tabindex="-1"></a>    target_items <span class="op">=</span> {<span class="st">"trash"</span>, <span class="st">"bin"</span>, <span class="st">"hand"</span>} </span>
+<span id="cb206-109"><a href="#cb206-109" aria-hidden="true" tabindex="-1"></a>    detected_items <span class="op">=</span> <span class="bu">set</span>(detected_class_name_text_labels)</span>
 <span id="cb206-110"><a href="#cb206-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-111"><a href="#cb206-111" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setup blank string to print out</span></span>
-<span id="cb206-112"><a href="#cb206-112" aria-hidden="true" tabindex="-1"></a>    return_string <span class="op">=</span> <span class="st">""</span></span>
-<span id="cb206-113"><a href="#cb206-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-114"><a href="#cb206-114" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setup list of target items to discover</span></span>
-<span id="cb206-115"><a href="#cb206-115" aria-hidden="true" tabindex="-1"></a>    target_items <span class="op">=</span> [<span class="st">"trash"</span>, <span class="st">"bin"</span>, <span class="st">"hand"</span>]</span>
-<span id="cb206-116"><a href="#cb206-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-117"><a href="#cb206-117" aria-hidden="true" tabindex="-1"></a>    <span class="co">### 5. Create logic for outputting information message </span><span class="al">###</span><span class="co"> </span></span>
-<span id="cb206-118"><a href="#cb206-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-119"><a href="#cb206-119" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no items detected or trash, bin, hand not in list, return notification </span></span>
-<span id="cb206-120"><a href="#cb206-120" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="bu">len</span>(class_name_text_labels) <span class="op">==</span> <span class="dv">0</span>) <span class="kw">or</span> <span class="kw">not</span> (any_in_list(list_a<span class="op">=</span>target_items, list_b<span class="op">=</span>class_name_text_labels)):</span>
-<span id="cb206-121"><a href="#cb206-121" aria-hidden="true" tabindex="-1"></a>        return_string <span class="op">=</span> <span class="ss">f"No trash, bin or hand detected at confidence threshold </span><span class="sc">{</span>conf_threshold<span class="sc">}</span><span class="ss">. Try another image or lowering the confidence threshold."</span></span>
-<span id="cb206-122"><a href="#cb206-122" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> image, return_string</span>
-<span id="cb206-123"><a href="#cb206-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-124"><a href="#cb206-124" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If there are some missing, print the ones which are missing</span></span>
-<span id="cb206-125"><a href="#cb206-125" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">not</span> all_in_list(list_a<span class="op">=</span>target_items, list_b<span class="op">=</span>class_name_text_labels):</span>
-<span id="cb206-126"><a href="#cb206-126" aria-hidden="true" tabindex="-1"></a>        missing_items <span class="op">=</span> []</span>
-<span id="cb206-127"><a href="#cb206-127" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> item <span class="kw">in</span> target_items:</span>
-<span id="cb206-128"><a href="#cb206-128" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> item <span class="kw">not</span> <span class="kw">in</span> class_name_text_labels:</span>
-<span id="cb206-129"><a href="#cb206-129" aria-hidden="true" tabindex="-1"></a>                missing_items.append(item)</span>
-<span id="cb206-130"><a href="#cb206-130" aria-hidden="true" tabindex="-1"></a>        return_string <span class="op">=</span> <span class="ss">f"Detected the following items: </span><span class="sc">{</span>class_name_text_labels<span class="sc">}</span><span class="ss">. But missing the following in order to get +1: </span><span class="sc">{</span>missing_items<span class="sc">}</span><span class="ss">. If this is an error, try another image or altering the confidence threshold. Otherwise, the model may need to be updated with better data."</span></span>
+<span id="cb206-111"><a href="#cb206-111" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no items detected or trash, bin, hand not in detected items, return notification</span></span>
+<span id="cb206-112"><a href="#cb206-112" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> detected_items <span class="op">&amp;</span> target_items:</span>
+<span id="cb206-113"><a href="#cb206-113" aria-hidden="true" tabindex="-1"></a>        return_string <span class="op">=</span> (<span class="ss">f"No trash, bin or hand detected at confidence threshold </span><span class="sc">{</span>conf_threshold<span class="sc">}</span><span class="ss">. "</span></span>
+<span id="cb206-114"><a href="#cb206-114" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Try another image or lowering the confidence threshold."</span>)</span>
+<span id="cb206-115"><a href="#cb206-115" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(return_string)</span>
+<span id="cb206-116"><a href="#cb206-116" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> image, return_string</span>
+<span id="cb206-117"><a href="#cb206-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-118"><a href="#cb206-118" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If there are missing items, say what the missing items are</span></span>
+<span id="cb206-119"><a href="#cb206-119" aria-hidden="true" tabindex="-1"></a>    missing_items <span class="op">=</span> target_items <span class="op">-</span> detected_items</span>
+<span id="cb206-120"><a href="#cb206-120" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> missing_items:</span>
+<span id="cb206-121"><a href="#cb206-121" aria-hidden="true" tabindex="-1"></a>        return_string <span class="op">=</span> (<span class="ss">f"Detected the following items: </span><span class="sc">{</span>detected_class_name_text_labels<span class="sc">}</span><span class="ss">. But missing the following in order to get +1: </span><span class="sc">{</span>missing_items<span class="sc">}</span><span class="ss">. "</span> </span>
+<span id="cb206-122"><a href="#cb206-122" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"If this is an error, try another image or altering the confidence threshold. "</span></span>
+<span id="cb206-123"><a href="#cb206-123" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Otherwise, the model may need to be updated with better data."</span>)</span>
+<span id="cb206-124"><a href="#cb206-124" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(return_string)</span>
+<span id="cb206-125"><a href="#cb206-125" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> image, return_string</span>
+<span id="cb206-126"><a href="#cb206-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-127"><a href="#cb206-127" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If all target items are present (the final remaining case)</span></span>
+<span id="cb206-128"><a href="#cb206-128" aria-hidden="true" tabindex="-1"></a>    return_string <span class="op">=</span> <span class="ss">f"+1! Found the following items: </span><span class="sc">{</span>detected_class_name_text_labels<span class="sc">}</span><span class="ss">, thank you for cleaning up the area!"</span></span>
+<span id="cb206-129"><a href="#cb206-129" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(return_string)</span>
+<span id="cb206-130"><a href="#cb206-130" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image, return_string</span>
 <span id="cb206-131"><a href="#cb206-131" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb206-132"><a href="#cb206-132" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If all 3 trash, bin, hand occur = + 1</span></span>
-<span id="cb206-133"><a href="#cb206-133" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> all_in_list(list_a<span class="op">=</span>target_items, list_b<span class="op">=</span>class_name_text_labels):</span>
-<span id="cb206-134"><a href="#cb206-134" aria-hidden="true" tabindex="-1"></a>        return_string <span class="op">=</span> <span class="ss">f"+1! Found the following items: </span><span class="sc">{</span>class_name_text_labels<span class="sc">}</span><span class="ss">, thank you for cleaning up the area!"</span></span>
-<span id="cb206-135"><a href="#cb206-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-136"><a href="#cb206-136" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(return_string)</span>
-<span id="cb206-137"><a href="#cb206-137" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb206-138"><a href="#cb206-138" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image, return_string</span>
+<span id="cb206-132"><a href="#cb206-132" aria-hidden="true" tabindex="-1"></a><span class="co">### 6. Setup the demo application to take in image, make a prediction with our model, return the image with drawn predicitons </span><span class="al">###</span><span class="co"> </span></span>
+<span id="cb206-133"><a href="#cb206-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-134"><a href="#cb206-134" aria-hidden="true" tabindex="-1"></a><span class="co"># Write description for our demo application</span></span>
+<span id="cb206-135"><a href="#cb206-135" aria-hidden="true" tabindex="-1"></a>description <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb206-136"><a href="#cb206-136" aria-hidden="true" tabindex="-1"></a><span class="st">Help clean up your local area! Upload an image and get +1 if there is all of the following items detected: trash, bin, hand.</span></span>
+<span id="cb206-137"><a href="#cb206-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-138"><a href="#cb206-138" aria-hidden="true" tabindex="-1"></a><span class="st">Model is a fine-tuned version of [RT-DETRv2](https://huggingface.co/docs/transformers/main/en/model_doc/rt_detr_v2#transformers.RTDetrV2Config) on the [Trashify dataset](https://huggingface.co/datasets/mrdbourke/trashify_manual_labelled_images).</span></span>
 <span id="cb206-139"><a href="#cb206-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-140"><a href="#cb206-140" aria-hidden="true" tabindex="-1"></a><span class="co">### 6. Setup the demo application to take in image, make a prediction with our model, return the image with drawn predicitons </span><span class="al">###</span><span class="co"> </span></span>
+<span id="cb206-140"><a href="#cb206-140" aria-hidden="true" tabindex="-1"></a><span class="st">See the full data loading and training code on [learnhuggingface.com](https://www.learnhuggingface.com/notebooks/hugging_face_object_detection_tutorial).</span></span>
 <span id="cb206-141"><a href="#cb206-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-142"><a href="#cb206-142" aria-hidden="true" tabindex="-1"></a><span class="co"># Write description for our demo application</span></span>
-<span id="cb206-143"><a href="#cb206-143" aria-hidden="true" tabindex="-1"></a>description <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb206-144"><a href="#cb206-144" aria-hidden="true" tabindex="-1"></a><span class="st">Help clean up your local area! Upload an image and get +1 if there is all of the following items detected: trash, bin, hand.</span></span>
-<span id="cb206-145"><a href="#cb206-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-146"><a href="#cb206-146" aria-hidden="true" tabindex="-1"></a><span class="st">Model is a fine-tuned version of [RT-DETRv2](https://huggingface.co/docs/transformers/main/en/model_doc/rt_detr_v2#transformers.RTDetrV2Config) on the [Trashify dataset](https://huggingface.co/datasets/mrdbourke/trashify_manual_labelled_images).</span></span>
-<span id="cb206-147"><a href="#cb206-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-148"><a href="#cb206-148" aria-hidden="true" tabindex="-1"></a><span class="st">See the full data loading and training code on [learnhuggingface.com](https://www.learnhuggingface.com/notebooks/hugging_face_object_detection_tutorial).</span></span>
-<span id="cb206-149"><a href="#cb206-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-150"><a href="#cb206-150" aria-hidden="true" tabindex="-1"></a><span class="st">This version is v4 because the first three versions were using a different model and did not perform as well, see the [README](https://huggingface.co/spaces/mrdbourke/trashify_demo_v4/blob/main/README.md) for more.</span></span>
-<span id="cb206-151"><a href="#cb206-151" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb206-152"><a href="#cb206-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-153"><a href="#cb206-153" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the Gradio interface to accept an image and confidence threshold and return an image with drawn prediction boxes</span></span>
-<span id="cb206-154"><a href="#cb206-154" aria-hidden="true" tabindex="-1"></a>demo <span class="op">=</span> gr.Interface(</span>
-<span id="cb206-155"><a href="#cb206-155" aria-hidden="true" tabindex="-1"></a>    fn<span class="op">=</span>predict_on_image,</span>
-<span id="cb206-156"><a href="#cb206-156" aria-hidden="true" tabindex="-1"></a>    inputs<span class="op">=</span>[</span>
-<span id="cb206-157"><a href="#cb206-157" aria-hidden="true" tabindex="-1"></a>        gr.Image(<span class="bu">type</span><span class="op">=</span><span class="st">"pil"</span>, label<span class="op">=</span><span class="st">"Target Image"</span>),</span>
-<span id="cb206-158"><a href="#cb206-158" aria-hidden="true" tabindex="-1"></a>        gr.Slider(minimum<span class="op">=</span><span class="dv">0</span>, maximum<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="fl">0.3</span>, label<span class="op">=</span><span class="st">"Confidence Threshold"</span>)</span>
-<span id="cb206-159"><a href="#cb206-159" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb206-160"><a href="#cb206-160" aria-hidden="true" tabindex="-1"></a>    outputs<span class="op">=</span>[</span>
-<span id="cb206-161"><a href="#cb206-161" aria-hidden="true" tabindex="-1"></a>        gr.Image(<span class="bu">type</span><span class="op">=</span><span class="st">"pil"</span>, label<span class="op">=</span><span class="st">"Image Output"</span>),</span>
-<span id="cb206-162"><a href="#cb206-162" aria-hidden="true" tabindex="-1"></a>        gr.Text(label<span class="op">=</span><span class="st">"Text Output"</span>)</span>
-<span id="cb206-163"><a href="#cb206-163" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb206-164"><a href="#cb206-164" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"🚮 Trashify Object Detection Demo V4"</span>,</span>
-<span id="cb206-165"><a href="#cb206-165" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span>description,</span>
-<span id="cb206-166"><a href="#cb206-166" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Examples come in the form of a list of lists, where each inner list contains elements to prefill the `inputs` parameter with</span></span>
-<span id="cb206-167"><a href="#cb206-167" aria-hidden="true" tabindex="-1"></a>    <span class="co"># See where the examples originate from here: https://huggingface.co/datasets/mrdbourke/trashify_examples/</span></span>
-<span id="cb206-168"><a href="#cb206-168" aria-hidden="true" tabindex="-1"></a>    examples<span class="op">=</span>[</span>
-<span id="cb206-169"><a href="#cb206-169" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_1.jpeg"</span>, <span class="fl">0.3</span>],</span>
-<span id="cb206-170"><a href="#cb206-170" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_2.jpeg"</span>, <span class="fl">0.3</span>], </span>
-<span id="cb206-171"><a href="#cb206-171" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_3.jpeg"</span>, <span class="fl">0.3</span>],</span>
-<span id="cb206-172"><a href="#cb206-172" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb206-173"><a href="#cb206-173" aria-hidden="true" tabindex="-1"></a>    cache_examples<span class="op">=</span><span class="va">True</span></span>
-<span id="cb206-174"><a href="#cb206-174" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb206-175"><a href="#cb206-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-176"><a href="#cb206-176" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch the demo</span></span>
-<span id="cb206-177"><a href="#cb206-177" aria-hidden="true" tabindex="-1"></a>demo.launch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb206-142"><a href="#cb206-142" aria-hidden="true" tabindex="-1"></a><span class="st">This version is v4 because the first three versions were using a different model and did not perform as well, see the [README](https://huggingface.co/spaces/mrdbourke/trashify_demo_v4/blob/main/README.md) for more.</span></span>
+<span id="cb206-143"><a href="#cb206-143" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb206-144"><a href="#cb206-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-145"><a href="#cb206-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the Gradio interface to accept an image and confidence threshold and return an image with drawn prediction boxes</span></span>
+<span id="cb206-146"><a href="#cb206-146" aria-hidden="true" tabindex="-1"></a>demo <span class="op">=</span> gr.Interface(</span>
+<span id="cb206-147"><a href="#cb206-147" aria-hidden="true" tabindex="-1"></a>    fn<span class="op">=</span>predict_on_image,</span>
+<span id="cb206-148"><a href="#cb206-148" aria-hidden="true" tabindex="-1"></a>    inputs<span class="op">=</span>[</span>
+<span id="cb206-149"><a href="#cb206-149" aria-hidden="true" tabindex="-1"></a>        gr.Image(<span class="bu">type</span><span class="op">=</span><span class="st">"pil"</span>, label<span class="op">=</span><span class="st">"Target Image"</span>),</span>
+<span id="cb206-150"><a href="#cb206-150" aria-hidden="true" tabindex="-1"></a>        gr.Slider(minimum<span class="op">=</span><span class="dv">0</span>, maximum<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="fl">0.3</span>, label<span class="op">=</span><span class="st">"Confidence Threshold"</span>)</span>
+<span id="cb206-151"><a href="#cb206-151" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb206-152"><a href="#cb206-152" aria-hidden="true" tabindex="-1"></a>    outputs<span class="op">=</span>[</span>
+<span id="cb206-153"><a href="#cb206-153" aria-hidden="true" tabindex="-1"></a>        gr.Image(<span class="bu">type</span><span class="op">=</span><span class="st">"pil"</span>, label<span class="op">=</span><span class="st">"Image Output"</span>),</span>
+<span id="cb206-154"><a href="#cb206-154" aria-hidden="true" tabindex="-1"></a>        gr.Text(label<span class="op">=</span><span class="st">"Text Output"</span>)</span>
+<span id="cb206-155"><a href="#cb206-155" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb206-156"><a href="#cb206-156" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"🚮 Trashify Object Detection Demo V4"</span>,</span>
+<span id="cb206-157"><a href="#cb206-157" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span>description,</span>
+<span id="cb206-158"><a href="#cb206-158" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Examples come in the form of a list of lists, where each inner list contains elements to prefill the `inputs` parameter with</span></span>
+<span id="cb206-159"><a href="#cb206-159" aria-hidden="true" tabindex="-1"></a>    <span class="co"># See where the examples originate from here: https://huggingface.co/datasets/mrdbourke/trashify_examples/</span></span>
+<span id="cb206-160"><a href="#cb206-160" aria-hidden="true" tabindex="-1"></a>    examples<span class="op">=</span>[</span>
+<span id="cb206-161"><a href="#cb206-161" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_1.jpeg"</span>, <span class="fl">0.3</span>],</span>
+<span id="cb206-162"><a href="#cb206-162" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_2.jpeg"</span>, <span class="fl">0.3</span>], </span>
+<span id="cb206-163"><a href="#cb206-163" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_3.jpeg"</span>, <span class="fl">0.3</span>],</span>
+<span id="cb206-164"><a href="#cb206-164" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb206-165"><a href="#cb206-165" aria-hidden="true" tabindex="-1"></a>    cache_examples<span class="op">=</span><span class="va">True</span></span>
+<span id="cb206-166"><a href="#cb206-166" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb206-167"><a href="#cb206-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-168"><a href="#cb206-168" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch the demo</span></span>
+<span id="cb206-169"><a href="#cb206-169" aria-hidden="true" tabindex="-1"></a>demo.launch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Overwriting ../demos/trashify_object_detector/app.py</code></pre>
 </div>
@@ -6899,7 +6892,16 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'torch'</code></pre>
 <p>Good news is, our demo only has three requirements: <code>gradio</code>, <code>torch</code>, <code>transformers</code>.</p>
 <p>Let’s create a <code>requirements.txt</code> file with the packages we need and save it to the same directory as our <code>app.py</code> file.</p>
-<p>%%writefile ../demos/trashify_object_detector/requirements.txt timm gradio torch transformers</p>
+<div id="cell-265" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb209"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>writefile ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span>requirements.txt</span>
+<span id="cb209-2"><a href="#cb209-2" aria-hidden="true" tabindex="-1"></a>timm</span>
+<span id="cb209-3"><a href="#cb209-3" aria-hidden="true" tabindex="-1"></a>gradio</span>
+<span id="cb209-4"><a href="#cb209-4" aria-hidden="true" tabindex="-1"></a>torch</span>
+<span id="cb209-5"><a href="#cb209-5" aria-hidden="true" tabindex="-1"></a>transformers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Overwriting ../demos/trashify_object_detector/requirements.txt</code></pre>
+</div>
+</div>
 </section>
 <section id="making-a-readme-file" class="level3" data-number="16.3">
 <h3 data-number="16.3" class="anchored" data-anchor-id="making-a-readme-file"><span class="header-section-number">16.3</span> Making a README file</h3>
@@ -6948,44 +6950,44 @@ Note
 <p>If you want to see a demo of how one gets created, try making a Hugging Face Space with the “Create new Space” button on the <a href="https://huggingface.co/spaces">https://huggingface.co/spaces</a> page and seeing what the <code>README.md</code> file starts with (that’s how I found out what to do!).</p>
 </div>
 </div>
-<div id="cell-267" class="cell">
-<div class="sourceCode cell-code" id="cb209"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>writefile ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span>README.md</span>
-<span id="cb209-2"><a href="#cb209-2" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
-<span id="cb209-3"><a href="#cb209-3" aria-hidden="true" tabindex="-1"></a>title: Trashify Demo V4 🚮</span>
-<span id="cb209-4"><a href="#cb209-4" aria-hidden="true" tabindex="-1"></a>emoji: 🗑️</span>
-<span id="cb209-5"><a href="#cb209-5" aria-hidden="true" tabindex="-1"></a>colorFrom: purple</span>
-<span id="cb209-6"><a href="#cb209-6" aria-hidden="true" tabindex="-1"></a>colorTo: blue</span>
-<span id="cb209-7"><a href="#cb209-7" aria-hidden="true" tabindex="-1"></a>sdk: gradio</span>
-<span id="cb209-8"><a href="#cb209-8" aria-hidden="true" tabindex="-1"></a>sdk_version: <span class="fl">5.34.0</span></span>
-<span id="cb209-9"><a href="#cb209-9" aria-hidden="true" tabindex="-1"></a>app_file: app.py</span>
-<span id="cb209-10"><a href="#cb209-10" aria-hidden="true" tabindex="-1"></a>pinned: false</span>
-<span id="cb209-11"><a href="#cb209-11" aria-hidden="true" tabindex="-1"></a>license: apache<span class="op">-</span><span class="fl">2.0</span></span>
-<span id="cb209-12"><a href="#cb209-12" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
-<span id="cb209-13"><a href="#cb209-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-14"><a href="#cb209-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 🚮 Trashify Object Detector V4 </span></span>
-<span id="cb209-15"><a href="#cb209-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-16"><a href="#cb209-16" aria-hidden="true" tabindex="-1"></a>Object detection demo to detect `trash`, `bin`, `hand`, `trash_arm`, `not_trash`, `not_bin`, `not_hand`. </span>
-<span id="cb209-17"><a href="#cb209-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-18"><a href="#cb209-18" aria-hidden="true" tabindex="-1"></a>Used <span class="im">as</span> example <span class="cf">for</span> encouraging people to cleanup their local area.</span>
-<span id="cb209-19"><a href="#cb209-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-20"><a href="#cb209-20" aria-hidden="true" tabindex="-1"></a>If `trash`, `hand`, `bin` <span class="bu">all</span> detected <span class="op">=</span> <span class="op">+</span><span class="dv">1</span> point.</span>
-<span id="cb209-21"><a href="#cb209-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-22"><a href="#cb209-22" aria-hidden="true" tabindex="-1"></a><span class="co">## Dataset</span></span>
-<span id="cb209-23"><a href="#cb209-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-24"><a href="#cb209-24" aria-hidden="true" tabindex="-1"></a>All Trashify models are trained on a custom hand<span class="op">-</span>labelled dataset of people picking up trash <span class="kw">and</span> placing it <span class="kw">in</span> a <span class="bu">bin</span>.</span>
-<span id="cb209-25"><a href="#cb209-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-26"><a href="#cb209-26" aria-hidden="true" tabindex="-1"></a>The dataset can be found on Hugging Face <span class="im">as</span> [`mrdbourke<span class="op">/</span>trashify_manual_labelled_images`](https:<span class="op">//</span>huggingface.co<span class="op">/</span>datasets<span class="op">/</span>mrdbourke<span class="op">/</span>trashify_manual_labelled_images).</span>
-<span id="cb209-27"><a href="#cb209-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-28"><a href="#cb209-28" aria-hidden="true" tabindex="-1"></a><span class="co">## Demos</span></span>
-<span id="cb209-29"><a href="#cb209-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-30"><a href="#cb209-30" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> [V1](https:<span class="op">//</span>huggingface.co<span class="op">/</span>spaces<span class="op">/</span>mrdbourke<span class="op">/</span>trashify_demo_v1) <span class="op">=</span> Fine<span class="op">-</span>tuned [Conditional DETR](https:<span class="op">//</span>huggingface.co<span class="op">/</span>docs<span class="op">/</span>transformers<span class="op">/</span>en<span class="op">/</span>model_doc<span class="op">/</span>conditional_detr) model trained <span class="op">*</span>without<span class="op">*</span> data augmentation.</span>
-<span id="cb209-31"><a href="#cb209-31" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> [V2](https:<span class="op">//</span>huggingface.co<span class="op">/</span>spaces<span class="op">/</span>mrdbourke<span class="op">/</span>trashify_demo_v2) <span class="op">=</span> Fine<span class="op">-</span>tuned Conditional DETR model trained <span class="op">*</span><span class="cf">with</span><span class="op">*</span> data augmentation.</span>
-<span id="cb209-32"><a href="#cb209-32" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> [V3](https:<span class="op">//</span>huggingface.co<span class="op">/</span>spaces<span class="op">/</span>mrdbourke<span class="op">/</span>trashify_demo_v3) <span class="op">=</span> Fine<span class="op">-</span>tuned Conditional DETR model trained <span class="op">*</span><span class="cf">with</span><span class="op">*</span> data augmentation (same <span class="im">as</span> V2) <span class="cf">with</span> an NMS (Non Maximum Suppression) post<span class="op">-</span>processing step.</span>
-<span id="cb209-33"><a href="#cb209-33" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> [V4](https:<span class="op">//</span>huggingface.co<span class="op">/</span>spaces<span class="op">/</span>mrdbourke<span class="op">/</span>trashify_demo_v4) <span class="op">=</span> Fine<span class="op">-</span>tuned [RT<span class="op">-</span>DETRv2](https:<span class="op">//</span>huggingface.co<span class="op">/</span>docs<span class="op">/</span>transformers<span class="op">/</span>main<span class="op">/</span>en<span class="op">/</span>model_doc<span class="op">/</span>rt_detr_v2) model trained <span class="op">*</span>without<span class="op">*</span> data augmentation <span class="kw">or</span> NMS post<span class="op">-</span>processing (current best mAP).</span>
-<span id="cb209-34"><a href="#cb209-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-35"><a href="#cb209-35" aria-hidden="true" tabindex="-1"></a><span class="co">## Learn more</span></span>
-<span id="cb209-36"><a href="#cb209-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-37"><a href="#cb209-37" aria-hidden="true" tabindex="-1"></a>See the full end<span class="op">-</span>to<span class="op">-</span>end code of how this demo was built at [learnhuggingface.com](https:<span class="op">//</span>www.learnhuggingface.com<span class="op">/</span>notebooks<span class="op">/</span>hugging_face_object_detection_tutorial). </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-267" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb211"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>writefile ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span>README.md</span>
+<span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
+<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>title: Trashify Demo V4 🚮</span>
+<span id="cb211-4"><a href="#cb211-4" aria-hidden="true" tabindex="-1"></a>emoji: 🗑️</span>
+<span id="cb211-5"><a href="#cb211-5" aria-hidden="true" tabindex="-1"></a>colorFrom: purple</span>
+<span id="cb211-6"><a href="#cb211-6" aria-hidden="true" tabindex="-1"></a>colorTo: blue</span>
+<span id="cb211-7"><a href="#cb211-7" aria-hidden="true" tabindex="-1"></a>sdk: gradio</span>
+<span id="cb211-8"><a href="#cb211-8" aria-hidden="true" tabindex="-1"></a>sdk_version: <span class="fl">5.34.0</span></span>
+<span id="cb211-9"><a href="#cb211-9" aria-hidden="true" tabindex="-1"></a>app_file: app.py</span>
+<span id="cb211-10"><a href="#cb211-10" aria-hidden="true" tabindex="-1"></a>pinned: false</span>
+<span id="cb211-11"><a href="#cb211-11" aria-hidden="true" tabindex="-1"></a>license: apache<span class="op">-</span><span class="fl">2.0</span></span>
+<span id="cb211-12"><a href="#cb211-12" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
+<span id="cb211-13"><a href="#cb211-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-14"><a href="#cb211-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 🚮 Trashify Object Detector V4 </span></span>
+<span id="cb211-15"><a href="#cb211-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-16"><a href="#cb211-16" aria-hidden="true" tabindex="-1"></a>Object detection demo to detect `trash`, `bin`, `hand`, `trash_arm`, `not_trash`, `not_bin`, `not_hand`. </span>
+<span id="cb211-17"><a href="#cb211-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-18"><a href="#cb211-18" aria-hidden="true" tabindex="-1"></a>Used <span class="im">as</span> example <span class="cf">for</span> encouraging people to cleanup their local area.</span>
+<span id="cb211-19"><a href="#cb211-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-20"><a href="#cb211-20" aria-hidden="true" tabindex="-1"></a>If `trash`, `hand`, `bin` <span class="bu">all</span> detected <span class="op">=</span> <span class="op">+</span><span class="dv">1</span> point.</span>
+<span id="cb211-21"><a href="#cb211-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-22"><a href="#cb211-22" aria-hidden="true" tabindex="-1"></a><span class="co">## Dataset</span></span>
+<span id="cb211-23"><a href="#cb211-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-24"><a href="#cb211-24" aria-hidden="true" tabindex="-1"></a>All Trashify models are trained on a custom hand<span class="op">-</span>labelled dataset of people picking up trash <span class="kw">and</span> placing it <span class="kw">in</span> a <span class="bu">bin</span>.</span>
+<span id="cb211-25"><a href="#cb211-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-26"><a href="#cb211-26" aria-hidden="true" tabindex="-1"></a>The dataset can be found on Hugging Face <span class="im">as</span> [`mrdbourke<span class="op">/</span>trashify_manual_labelled_images`](https:<span class="op">//</span>huggingface.co<span class="op">/</span>datasets<span class="op">/</span>mrdbourke<span class="op">/</span>trashify_manual_labelled_images).</span>
+<span id="cb211-27"><a href="#cb211-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-28"><a href="#cb211-28" aria-hidden="true" tabindex="-1"></a><span class="co">## Demos</span></span>
+<span id="cb211-29"><a href="#cb211-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-30"><a href="#cb211-30" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> [V1](https:<span class="op">//</span>huggingface.co<span class="op">/</span>spaces<span class="op">/</span>mrdbourke<span class="op">/</span>trashify_demo_v1) <span class="op">=</span> Fine<span class="op">-</span>tuned [Conditional DETR](https:<span class="op">//</span>huggingface.co<span class="op">/</span>docs<span class="op">/</span>transformers<span class="op">/</span>en<span class="op">/</span>model_doc<span class="op">/</span>conditional_detr) model trained <span class="op">*</span>without<span class="op">*</span> data augmentation.</span>
+<span id="cb211-31"><a href="#cb211-31" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> [V2](https:<span class="op">//</span>huggingface.co<span class="op">/</span>spaces<span class="op">/</span>mrdbourke<span class="op">/</span>trashify_demo_v2) <span class="op">=</span> Fine<span class="op">-</span>tuned Conditional DETR model trained <span class="op">*</span><span class="cf">with</span><span class="op">*</span> data augmentation.</span>
+<span id="cb211-32"><a href="#cb211-32" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> [V3](https:<span class="op">//</span>huggingface.co<span class="op">/</span>spaces<span class="op">/</span>mrdbourke<span class="op">/</span>trashify_demo_v3) <span class="op">=</span> Fine<span class="op">-</span>tuned Conditional DETR model trained <span class="op">*</span><span class="cf">with</span><span class="op">*</span> data augmentation (same <span class="im">as</span> V2) <span class="cf">with</span> an NMS (Non Maximum Suppression) post<span class="op">-</span>processing step.</span>
+<span id="cb211-33"><a href="#cb211-33" aria-hidden="true" tabindex="-1"></a><span class="op">*</span> [V4](https:<span class="op">//</span>huggingface.co<span class="op">/</span>spaces<span class="op">/</span>mrdbourke<span class="op">/</span>trashify_demo_v4) <span class="op">=</span> Fine<span class="op">-</span>tuned [RT<span class="op">-</span>DETRv2](https:<span class="op">//</span>huggingface.co<span class="op">/</span>docs<span class="op">/</span>transformers<span class="op">/</span>main<span class="op">/</span>en<span class="op">/</span>model_doc<span class="op">/</span>rt_detr_v2) model trained <span class="op">*</span>without<span class="op">*</span> data augmentation <span class="kw">or</span> NMS post<span class="op">-</span>processing (current best mAP).</span>
+<span id="cb211-34"><a href="#cb211-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-35"><a href="#cb211-35" aria-hidden="true" tabindex="-1"></a><span class="co">## Learn more</span></span>
+<span id="cb211-36"><a href="#cb211-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-37"><a href="#cb211-37" aria-hidden="true" tabindex="-1"></a>See the full end<span class="op">-</span>to<span class="op">-</span>end code of how this demo was built at [learnhuggingface.com](https:<span class="op">//</span>www.learnhuggingface.com<span class="op">/</span>notebooks<span class="op">/</span>hugging_face_object_detection_tutorial). </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Overwriting ../demos/trashify_object_detector/README.md</code></pre>
 </div>
@@ -6996,22 +6998,22 @@ Note
 <p>When we create our demo application, it’ll be good to show people how to use it.</p>
 <p>To do so, we can add some example images to use with our demo.</p>
 <p>First we’ll create a folder to store the demo images.</p>
-<div id="cell-269" class="cell">
-<div class="sourceCode cell-code" id="cb211"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a directory to save examples to</span></span>
-<span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb211-4"><a href="#cb211-4" aria-hidden="true" tabindex="-1"></a>demo_example_dir <span class="op">=</span> <span class="st">"../demos/trashify_object_detector/trashify_examples/"</span></span>
-<span id="cb211-5"><a href="#cb211-5" aria-hidden="true" tabindex="-1"></a>Path(demo_example_dir).mkdir(exist_ok<span class="op">=</span><span class="va">True</span>, parents<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-269" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb213"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a directory to save examples to</span></span>
+<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb213-4"><a href="#cb213-4" aria-hidden="true" tabindex="-1"></a>demo_example_dir <span class="op">=</span> <span class="st">"../demos/trashify_object_detector/trashify_examples/"</span></span>
+<span id="cb213-5"><a href="#cb213-5" aria-hidden="true" tabindex="-1"></a>Path(demo_example_dir).mkdir(exist_ok<span class="op">=</span><span class="va">True</span>, parents<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And now we can download some pre-made examples I’ve added to Hugging Face Datasets (none of these were in the Trashify training data).</p>
 <p>You can find the example Trashify images at <a href="https://huggingface.co/datasets/mrdbourke/trashify_examples"><code>mrdbourke/trashify_examples</code></a>.</p>
-<div id="cell-271" class="cell">
-<div class="sourceCode cell-code" id="cb212"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the examples from Hugging Face Datasets</span></span>
-<span id="cb212-2"><a href="#cb212-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
-<span id="cb212-3"><a href="#cb212-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb212-4"><a href="#cb212-4" aria-hidden="true" tabindex="-1"></a>trashify_examples <span class="op">=</span> load_dataset(<span class="st">"mrdbourke/trashify_examples"</span>)</span>
-<span id="cb212-5"><a href="#cb212-5" aria-hidden="true" tabindex="-1"></a>trashify_examples</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="120">
+<div id="cell-271" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb214"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the examples from Hugging Face Datasets</span></span>
+<span id="cb214-2"><a href="#cb214-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb214-3"><a href="#cb214-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb214-4"><a href="#cb214-4" aria-hidden="true" tabindex="-1"></a>trashify_examples <span class="op">=</span> load_dataset(<span class="st">"mrdbourke/trashify_examples"</span>)</span>
+<span id="cb214-5"><a href="#cb214-5" aria-hidden="true" tabindex="-1"></a>trashify_examples</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>DatasetDict({
     train: Dataset({
         features: ['image'],
@@ -7022,11 +7024,11 @@ Note
 </div>
 <p>Perfect!</p>
 <p>Now let’s save each of these images to our target example folder in the Trashify demo directory.</p>
-<div id="cell-273" class="cell">
-<div class="sourceCode cell-code" id="cb214"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, sample <span class="kw">in</span> <span class="bu">enumerate</span>(trashify_examples[<span class="st">"train"</span>]):</span>
-<span id="cb214-2"><a href="#cb214-2" aria-hidden="true" tabindex="-1"></a>    save_path <span class="op">=</span> Path(demo_example_dir, <span class="ss">f"trashify_example_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">.jpeg"</span>)</span>
-<span id="cb214-3"><a href="#cb214-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[INFO] Saving image to: </span><span class="sc">{</span>save_path<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb214-4"><a href="#cb214-4" aria-hidden="true" tabindex="-1"></a>    sample[<span class="st">"image"</span>].save(save_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-273" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb216"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, sample <span class="kw">in</span> <span class="bu">enumerate</span>(trashify_examples[<span class="st">"train"</span>]):</span>
+<span id="cb216-2"><a href="#cb216-2" aria-hidden="true" tabindex="-1"></a>    save_path <span class="op">=</span> Path(demo_example_dir, <span class="ss">f"trashify_example_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">.jpeg"</span>)</span>
+<span id="cb216-3"><a href="#cb216-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[INFO] Saving image to: </span><span class="sc">{</span>save_path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb216-4"><a href="#cb216-4" aria-hidden="true" tabindex="-1"></a>    sample[<span class="st">"image"</span>].save(save_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[INFO] Saving image to: ../demos/trashify_object_detector/trashify_examples/trashify_example_1.jpeg
 [INFO] Saving image to: ../demos/trashify_object_detector/trashify_examples/trashify_example_2.jpeg
@@ -7034,8 +7036,8 @@ Note
 </div>
 </div>
 <p>Now let’s check the demo folder for Trashify.</p>
-<div id="cell-275" class="cell">
-<div class="sourceCode cell-code" id="cb216"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-275" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb218"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>README.md  app.py  requirements.txt  trashify_examples</code></pre>
 </div>
@@ -7074,48 +7076,48 @@ Note
 <li>Hope it all works and inspect the results! 🤞</li>
 </ol>
 <p>A fair few steps but we’ve got this!</p>
-<div id="cell-278" class="cell">
-<div class="sourceCode cell-code" id="cb218"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Import the required methods for uploading to the Hugging Face Hub</span></span>
-<span id="cb218-2"><a href="#cb218-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> (</span>
-<span id="cb218-3"><a href="#cb218-3" aria-hidden="true" tabindex="-1"></a>    create_repo,</span>
-<span id="cb218-4"><a href="#cb218-4" aria-hidden="true" tabindex="-1"></a>    get_full_repo_name,</span>
-<span id="cb218-5"><a href="#cb218-5" aria-hidden="true" tabindex="-1"></a>    upload_file, <span class="co"># for uploading a single file (if necessary)</span></span>
-<span id="cb218-6"><a href="#cb218-6" aria-hidden="true" tabindex="-1"></a>    upload_folder <span class="co"># for uploading multiple files (in a folder)</span></span>
-<span id="cb218-7"><a href="#cb218-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb218-8"><a href="#cb218-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb218-9"><a href="#cb218-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Define the parameters we'd like to use for the upload</span></span>
-<span id="cb218-10"><a href="#cb218-10" aria-hidden="true" tabindex="-1"></a>LOCAL_DEMO_FOLDER_PATH_TO_UPLOAD <span class="op">=</span> <span class="st">"../demos/trashify_object_detector"</span> </span>
-<span id="cb218-11"><a href="#cb218-11" aria-hidden="true" tabindex="-1"></a>HF_TARGET_SPACE_NAME <span class="op">=</span> <span class="st">"trashify_demo_v4"</span></span>
-<span id="cb218-12"><a href="#cb218-12" aria-hidden="true" tabindex="-1"></a>HF_REPO_TYPE <span class="op">=</span> <span class="st">"space"</span> <span class="co"># we're creating a Hugging Face Space</span></span>
-<span id="cb218-13"><a href="#cb218-13" aria-hidden="true" tabindex="-1"></a>HF_SPACE_SDK <span class="op">=</span> <span class="st">"gradio"</span></span>
-<span id="cb218-14"><a href="#cb218-14" aria-hidden="true" tabindex="-1"></a>HF_TOKEN <span class="op">=</span> <span class="st">""</span> <span class="co"># optional: set to your Hugging Face token (but I'd advise storing this as an environment variable as previously discussed)</span></span>
-<span id="cb218-15"><a href="#cb218-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb218-16"><a href="#cb218-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Create a Space repository on Hugging Face Hub </span></span>
-<span id="cb218-17"><a href="#cb218-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Creating repo on Hugging Face Hub with name: </span><span class="sc">{</span>HF_TARGET_SPACE_NAME<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb218-18"><a href="#cb218-18" aria-hidden="true" tabindex="-1"></a>create_repo(</span>
-<span id="cb218-19"><a href="#cb218-19" aria-hidden="true" tabindex="-1"></a>    repo_id<span class="op">=</span>HF_TARGET_SPACE_NAME,</span>
-<span id="cb218-20"><a href="#cb218-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># token=HF_TOKEN, # optional: set token manually (though it will be automatically recognized if it's available as an environment variable)</span></span>
-<span id="cb218-21"><a href="#cb218-21" aria-hidden="true" tabindex="-1"></a>    repo_type<span class="op">=</span>HF_REPO_TYPE,</span>
-<span id="cb218-22"><a href="#cb218-22" aria-hidden="true" tabindex="-1"></a>    private<span class="op">=</span><span class="va">False</span>, <span class="co"># set to True if you don't want your Space to be accessible to others</span></span>
-<span id="cb218-23"><a href="#cb218-23" aria-hidden="true" tabindex="-1"></a>    space_sdk<span class="op">=</span>HF_SPACE_SDK,</span>
-<span id="cb218-24"><a href="#cb218-24" aria-hidden="true" tabindex="-1"></a>    exist_ok<span class="op">=</span><span class="va">True</span>, <span class="co"># set to False if you want an error to raise if the repo_id already exists </span></span>
-<span id="cb218-25"><a href="#cb218-25" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb218-26"><a href="#cb218-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb218-27"><a href="#cb218-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Get the full repository name (e.g. {username}/{model_id} or {username}/{space_name})</span></span>
-<span id="cb218-28"><a href="#cb218-28" aria-hidden="true" tabindex="-1"></a>full_hf_repo_name <span class="op">=</span> get_full_repo_name(model_id<span class="op">=</span>HF_TARGET_SPACE_NAME)</span>
-<span id="cb218-29"><a href="#cb218-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Full Hugging Face Hub repo name: </span><span class="sc">{</span>full_hf_repo_name<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb218-30"><a href="#cb218-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb218-31"><a href="#cb218-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Upload our demo folder</span></span>
-<span id="cb218-32"><a href="#cb218-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Uploading </span><span class="sc">{</span>LOCAL_DEMO_FOLDER_PATH_TO_UPLOAD<span class="sc">}</span><span class="ss"> to repo: </span><span class="sc">{</span>full_hf_repo_name<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb218-33"><a href="#cb218-33" aria-hidden="true" tabindex="-1"></a>folder_upload_url <span class="op">=</span> upload_folder(</span>
-<span id="cb218-34"><a href="#cb218-34" aria-hidden="true" tabindex="-1"></a>    repo_id<span class="op">=</span>full_hf_repo_name,</span>
-<span id="cb218-35"><a href="#cb218-35" aria-hidden="true" tabindex="-1"></a>    folder_path<span class="op">=</span>LOCAL_DEMO_FOLDER_PATH_TO_UPLOAD,</span>
-<span id="cb218-36"><a href="#cb218-36" aria-hidden="true" tabindex="-1"></a>    path_in_repo<span class="op">=</span><span class="st">"."</span>, <span class="co"># upload our folder to the root directory ("." means "base" or "root", this is the default)</span></span>
-<span id="cb218-37"><a href="#cb218-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># token=HF_TOKEN, # optional: set token manually</span></span>
-<span id="cb218-38"><a href="#cb218-38" aria-hidden="true" tabindex="-1"></a>    repo_type<span class="op">=</span>HF_REPO_TYPE,</span>
-<span id="cb218-39"><a href="#cb218-39" aria-hidden="true" tabindex="-1"></a>    commit_message<span class="op">=</span><span class="st">"Uploading Trashify box detection model app.py"</span></span>
-<span id="cb218-40"><a href="#cb218-40" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb218-41"><a href="#cb218-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Demo folder successfully uploaded with commit URL: </span><span class="sc">{</span>folder_upload_url<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-278" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb220"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb220-1"><a href="#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Import the required methods for uploading to the Hugging Face Hub</span></span>
+<span id="cb220-2"><a href="#cb220-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> (</span>
+<span id="cb220-3"><a href="#cb220-3" aria-hidden="true" tabindex="-1"></a>    create_repo,</span>
+<span id="cb220-4"><a href="#cb220-4" aria-hidden="true" tabindex="-1"></a>    get_full_repo_name,</span>
+<span id="cb220-5"><a href="#cb220-5" aria-hidden="true" tabindex="-1"></a>    upload_file, <span class="co"># for uploading a single file (if necessary)</span></span>
+<span id="cb220-6"><a href="#cb220-6" aria-hidden="true" tabindex="-1"></a>    upload_folder <span class="co"># for uploading multiple files (in a folder)</span></span>
+<span id="cb220-7"><a href="#cb220-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb220-8"><a href="#cb220-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb220-9"><a href="#cb220-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Define the parameters we'd like to use for the upload</span></span>
+<span id="cb220-10"><a href="#cb220-10" aria-hidden="true" tabindex="-1"></a>LOCAL_DEMO_FOLDER_PATH_TO_UPLOAD <span class="op">=</span> <span class="st">"../demos/trashify_object_detector"</span> </span>
+<span id="cb220-11"><a href="#cb220-11" aria-hidden="true" tabindex="-1"></a>HF_TARGET_SPACE_NAME <span class="op">=</span> <span class="st">"trashify_demo_v4"</span></span>
+<span id="cb220-12"><a href="#cb220-12" aria-hidden="true" tabindex="-1"></a>HF_REPO_TYPE <span class="op">=</span> <span class="st">"space"</span> <span class="co"># we're creating a Hugging Face Space</span></span>
+<span id="cb220-13"><a href="#cb220-13" aria-hidden="true" tabindex="-1"></a>HF_SPACE_SDK <span class="op">=</span> <span class="st">"gradio"</span></span>
+<span id="cb220-14"><a href="#cb220-14" aria-hidden="true" tabindex="-1"></a>HF_TOKEN <span class="op">=</span> <span class="st">""</span> <span class="co"># optional: set to your Hugging Face token (but I'd advise storing this as an environment variable as previously discussed)</span></span>
+<span id="cb220-15"><a href="#cb220-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb220-16"><a href="#cb220-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Create a Space repository on Hugging Face Hub </span></span>
+<span id="cb220-17"><a href="#cb220-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Creating repo on Hugging Face Hub with name: </span><span class="sc">{</span>HF_TARGET_SPACE_NAME<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb220-18"><a href="#cb220-18" aria-hidden="true" tabindex="-1"></a>create_repo(</span>
+<span id="cb220-19"><a href="#cb220-19" aria-hidden="true" tabindex="-1"></a>    repo_id<span class="op">=</span>HF_TARGET_SPACE_NAME,</span>
+<span id="cb220-20"><a href="#cb220-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># token=HF_TOKEN, # optional: set token manually (though it will be automatically recognized if it's available as an environment variable)</span></span>
+<span id="cb220-21"><a href="#cb220-21" aria-hidden="true" tabindex="-1"></a>    repo_type<span class="op">=</span>HF_REPO_TYPE,</span>
+<span id="cb220-22"><a href="#cb220-22" aria-hidden="true" tabindex="-1"></a>    private<span class="op">=</span><span class="va">False</span>, <span class="co"># set to True if you don't want your Space to be accessible to others</span></span>
+<span id="cb220-23"><a href="#cb220-23" aria-hidden="true" tabindex="-1"></a>    space_sdk<span class="op">=</span>HF_SPACE_SDK,</span>
+<span id="cb220-24"><a href="#cb220-24" aria-hidden="true" tabindex="-1"></a>    exist_ok<span class="op">=</span><span class="va">True</span>, <span class="co"># set to False if you want an error to raise if the repo_id already exists </span></span>
+<span id="cb220-25"><a href="#cb220-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb220-26"><a href="#cb220-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb220-27"><a href="#cb220-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Get the full repository name (e.g. {username}/{model_id} or {username}/{space_name})</span></span>
+<span id="cb220-28"><a href="#cb220-28" aria-hidden="true" tabindex="-1"></a>full_hf_repo_name <span class="op">=</span> get_full_repo_name(model_id<span class="op">=</span>HF_TARGET_SPACE_NAME)</span>
+<span id="cb220-29"><a href="#cb220-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Full Hugging Face Hub repo name: </span><span class="sc">{</span>full_hf_repo_name<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb220-30"><a href="#cb220-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb220-31"><a href="#cb220-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Upload our demo folder</span></span>
+<span id="cb220-32"><a href="#cb220-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Uploading </span><span class="sc">{</span>LOCAL_DEMO_FOLDER_PATH_TO_UPLOAD<span class="sc">}</span><span class="ss"> to repo: </span><span class="sc">{</span>full_hf_repo_name<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb220-33"><a href="#cb220-33" aria-hidden="true" tabindex="-1"></a>folder_upload_url <span class="op">=</span> upload_folder(</span>
+<span id="cb220-34"><a href="#cb220-34" aria-hidden="true" tabindex="-1"></a>    repo_id<span class="op">=</span>full_hf_repo_name,</span>
+<span id="cb220-35"><a href="#cb220-35" aria-hidden="true" tabindex="-1"></a>    folder_path<span class="op">=</span>LOCAL_DEMO_FOLDER_PATH_TO_UPLOAD,</span>
+<span id="cb220-36"><a href="#cb220-36" aria-hidden="true" tabindex="-1"></a>    path_in_repo<span class="op">=</span><span class="st">"."</span>, <span class="co"># upload our folder to the root directory ("." means "base" or "root", this is the default)</span></span>
+<span id="cb220-37"><a href="#cb220-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># token=HF_TOKEN, # optional: set token manually</span></span>
+<span id="cb220-38"><a href="#cb220-38" aria-hidden="true" tabindex="-1"></a>    repo_type<span class="op">=</span>HF_REPO_TYPE,</span>
+<span id="cb220-39"><a href="#cb220-39" aria-hidden="true" tabindex="-1"></a>    commit_message<span class="op">=</span><span class="st">"Uploading Trashify box detection model app.py"</span></span>
+<span id="cb220-40"><a href="#cb220-40" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb220-41"><a href="#cb220-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Demo folder successfully uploaded with commit URL: </span><span class="sc">{</span>folder_upload_url<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[INFO] Creating repo on Hugging Face Hub with name: trashify_demo_v4
 [INFO] Full Hugging Face Hub repo name: mrdbourke/trashify_demo_v4
@@ -7132,17 +7134,17 @@ Note
 <p>To do so, you can click the “…” button (three dots) in the top right hand corner of the Hugging Face Space and choose the option “Embed this Space”.</p>
 <p>To embed it with HTML, you can choose the <code>Iframe</code> option.</p>
 <div id="cell-281" class="cell">
-<div class="sourceCode cell-code" id="cb220"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb220-1"><a href="#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
-<span id="cb220-2"><a href="#cb220-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb220-3"><a href="#cb220-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You can get embeddable HTML code for your demo by clicking the "Embed" button on the demo page</span></span>
-<span id="cb220-4"><a href="#cb220-4" aria-hidden="true" tabindex="-1"></a>HTML(data<span class="op">=</span><span class="st">'''</span></span>
-<span id="cb220-5"><a href="#cb220-5" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;iframe</span></span>
-<span id="cb220-6"><a href="#cb220-6" aria-hidden="true" tabindex="-1"></a><span class="st">    src="https://mrdbourke-trashify-demo-v4.hf.space"</span></span>
-<span id="cb220-7"><a href="#cb220-7" aria-hidden="true" tabindex="-1"></a><span class="st">    frameborder="0"</span></span>
-<span id="cb220-8"><a href="#cb220-8" aria-hidden="true" tabindex="-1"></a><span class="st">    width="850"</span></span>
-<span id="cb220-9"><a href="#cb220-9" aria-hidden="true" tabindex="-1"></a><span class="st">    height="1000"</span></span>
-<span id="cb220-10"><a href="#cb220-10" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;&lt;/iframe&gt;     </span></span>
-<span id="cb220-11"><a href="#cb220-11" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb222"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb222-1"><a href="#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
+<span id="cb222-2"><a href="#cb222-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb222-3"><a href="#cb222-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You can get embeddable HTML code for your demo by clicking the "Embed" button on the demo page</span></span>
+<span id="cb222-4"><a href="#cb222-4" aria-hidden="true" tabindex="-1"></a>HTML(data<span class="op">=</span><span class="st">'''</span></span>
+<span id="cb222-5"><a href="#cb222-5" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;iframe</span></span>
+<span id="cb222-6"><a href="#cb222-6" aria-hidden="true" tabindex="-1"></a><span class="st">    src="https://mrdbourke-trashify-demo-v4.hf.space"</span></span>
+<span id="cb222-7"><a href="#cb222-7" aria-hidden="true" tabindex="-1"></a><span class="st">    frameborder="0"</span></span>
+<span id="cb222-8"><a href="#cb222-8" aria-hidden="true" tabindex="-1"></a><span class="st">    width="850"</span></span>
+<span id="cb222-9"><a href="#cb222-9" aria-hidden="true" tabindex="-1"></a><span class="st">    height="1000"</span></span>
+<span id="cb222-10"><a href="#cb222-10" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;&lt;/iframe&gt;     </span></span>
+<span id="cb222-11"><a href="#cb222-11" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="116">
 
 <iframe src="https://mrdbourke-trashify-demo-v4.hf.space" frameborder="0" width="850" height="1000"></iframe>     
