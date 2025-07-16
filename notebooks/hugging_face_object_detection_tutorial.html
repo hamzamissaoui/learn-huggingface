@@ -6704,7 +6704,7 @@ Note
 <p>We can write all of the above in a notebook cell.</p>
 <p>And we can turn it into a file by using the <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html#cellmagic-writefile"><code>%%writefile</code></a> magic command and passing it our target filepath.</p>
 <p>Let’s do it!</p>
-<div id="cell-263" class="cell" data-execution_count="17">
+<div id="cell-263" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb206"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>writefile ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span>app.py</span>
 <span id="cb206-2"><a href="#cb206-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb206-3"><a href="#cb206-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Import the required libraries and packages</span></span>
@@ -6808,72 +6808,73 @@ Note
 <span id="cb206-101"><a href="#cb206-101" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb206-102"><a href="#cb206-102" aria-hidden="true" tabindex="-1"></a>    <span class="co">### 5. Create logic for outputting information message </span><span class="al">###</span><span class="co"> </span></span>
 <span id="cb206-103"><a href="#cb206-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-104"><a href="#cb206-104" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setup blank string to print out</span></span>
-<span id="cb206-105"><a href="#cb206-105" aria-hidden="true" tabindex="-1"></a>    return_string <span class="op">=</span> <span class="st">""</span></span>
-<span id="cb206-106"><a href="#cb206-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-107"><a href="#cb206-107" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setup set of target items to discover</span></span>
-<span id="cb206-108"><a href="#cb206-108" aria-hidden="true" tabindex="-1"></a>    target_items <span class="op">=</span> {<span class="st">"trash"</span>, <span class="st">"bin"</span>, <span class="st">"hand"</span>} </span>
-<span id="cb206-109"><a href="#cb206-109" aria-hidden="true" tabindex="-1"></a>    detected_items <span class="op">=</span> <span class="bu">set</span>(detected_class_name_text_labels)</span>
-<span id="cb206-110"><a href="#cb206-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-111"><a href="#cb206-111" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no items detected or trash, bin, hand not in detected items, return notification</span></span>
-<span id="cb206-112"><a href="#cb206-112" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> detected_items <span class="op">&amp;</span> target_items:</span>
-<span id="cb206-113"><a href="#cb206-113" aria-hidden="true" tabindex="-1"></a>        return_string <span class="op">=</span> (<span class="ss">f"No trash, bin or hand detected at confidence threshold </span><span class="sc">{</span>conf_threshold<span class="sc">}</span><span class="ss">. "</span></span>
-<span id="cb206-114"><a href="#cb206-114" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Try another image or lowering the confidence threshold."</span>)</span>
-<span id="cb206-115"><a href="#cb206-115" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(return_string)</span>
-<span id="cb206-116"><a href="#cb206-116" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> image, return_string</span>
-<span id="cb206-117"><a href="#cb206-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-118"><a href="#cb206-118" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If there are missing items, say what the missing items are</span></span>
-<span id="cb206-119"><a href="#cb206-119" aria-hidden="true" tabindex="-1"></a>    missing_items <span class="op">=</span> target_items <span class="op">-</span> detected_items</span>
-<span id="cb206-120"><a href="#cb206-120" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> missing_items:</span>
-<span id="cb206-121"><a href="#cb206-121" aria-hidden="true" tabindex="-1"></a>        return_string <span class="op">=</span> (<span class="ss">f"Detected the following items: </span><span class="sc">{</span>detected_class_name_text_labels<span class="sc">}</span><span class="ss">. But missing the following in order to get +1: </span><span class="sc">{</span>missing_items<span class="sc">}</span><span class="ss">. "</span> </span>
-<span id="cb206-122"><a href="#cb206-122" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"If this is an error, try another image or altering the confidence threshold. "</span></span>
-<span id="cb206-123"><a href="#cb206-123" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Otherwise, the model may need to be updated with better data."</span>)</span>
-<span id="cb206-124"><a href="#cb206-124" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(return_string)</span>
-<span id="cb206-125"><a href="#cb206-125" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> image, return_string</span>
-<span id="cb206-126"><a href="#cb206-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-127"><a href="#cb206-127" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If all target items are present (the final remaining case)</span></span>
-<span id="cb206-128"><a href="#cb206-128" aria-hidden="true" tabindex="-1"></a>    return_string <span class="op">=</span> <span class="ss">f"+1! Found the following items: </span><span class="sc">{</span>detected_class_name_text_labels<span class="sc">}</span><span class="ss">, thank you for cleaning up the area!"</span></span>
-<span id="cb206-129"><a href="#cb206-129" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(return_string)</span>
-<span id="cb206-130"><a href="#cb206-130" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image, return_string</span>
-<span id="cb206-131"><a href="#cb206-131" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb206-132"><a href="#cb206-132" aria-hidden="true" tabindex="-1"></a><span class="co">### 6. Setup the demo application to take in image, make a prediction with our model, return the image with drawn predicitons </span><span class="al">###</span><span class="co"> </span></span>
-<span id="cb206-133"><a href="#cb206-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-134"><a href="#cb206-134" aria-hidden="true" tabindex="-1"></a><span class="co"># Write description for our demo application</span></span>
-<span id="cb206-135"><a href="#cb206-135" aria-hidden="true" tabindex="-1"></a>description <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb206-136"><a href="#cb206-136" aria-hidden="true" tabindex="-1"></a><span class="st">Help clean up your local area! Upload an image and get +1 if there is all of the following items detected: trash, bin, hand.</span></span>
-<span id="cb206-137"><a href="#cb206-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-138"><a href="#cb206-138" aria-hidden="true" tabindex="-1"></a><span class="st">Model is a fine-tuned version of [RT-DETRv2](https://huggingface.co/docs/transformers/main/en/model_doc/rt_detr_v2#transformers.RTDetrV2Config) on the [Trashify dataset](https://huggingface.co/datasets/mrdbourke/trashify_manual_labelled_images).</span></span>
-<span id="cb206-139"><a href="#cb206-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-140"><a href="#cb206-140" aria-hidden="true" tabindex="-1"></a><span class="st">See the full data loading and training code on [learnhuggingface.com](https://www.learnhuggingface.com/notebooks/hugging_face_object_detection_tutorial).</span></span>
-<span id="cb206-141"><a href="#cb206-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-142"><a href="#cb206-142" aria-hidden="true" tabindex="-1"></a><span class="st">This version is v4 because the first three versions were using a different model and did not perform as well, see the [README](https://huggingface.co/spaces/mrdbourke/trashify_demo_v4/blob/main/README.md) for more.</span></span>
-<span id="cb206-143"><a href="#cb206-143" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb206-144"><a href="#cb206-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-145"><a href="#cb206-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the Gradio interface to accept an image and confidence threshold and return an image with drawn prediction boxes</span></span>
-<span id="cb206-146"><a href="#cb206-146" aria-hidden="true" tabindex="-1"></a>demo <span class="op">=</span> gr.Interface(</span>
-<span id="cb206-147"><a href="#cb206-147" aria-hidden="true" tabindex="-1"></a>    fn<span class="op">=</span>predict_on_image,</span>
-<span id="cb206-148"><a href="#cb206-148" aria-hidden="true" tabindex="-1"></a>    inputs<span class="op">=</span>[</span>
-<span id="cb206-149"><a href="#cb206-149" aria-hidden="true" tabindex="-1"></a>        gr.Image(<span class="bu">type</span><span class="op">=</span><span class="st">"pil"</span>, label<span class="op">=</span><span class="st">"Target Image"</span>),</span>
-<span id="cb206-150"><a href="#cb206-150" aria-hidden="true" tabindex="-1"></a>        gr.Slider(minimum<span class="op">=</span><span class="dv">0</span>, maximum<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="fl">0.3</span>, label<span class="op">=</span><span class="st">"Confidence Threshold"</span>)</span>
-<span id="cb206-151"><a href="#cb206-151" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb206-152"><a href="#cb206-152" aria-hidden="true" tabindex="-1"></a>    outputs<span class="op">=</span>[</span>
-<span id="cb206-153"><a href="#cb206-153" aria-hidden="true" tabindex="-1"></a>        gr.Image(<span class="bu">type</span><span class="op">=</span><span class="st">"pil"</span>, label<span class="op">=</span><span class="st">"Image Output"</span>),</span>
-<span id="cb206-154"><a href="#cb206-154" aria-hidden="true" tabindex="-1"></a>        gr.Text(label<span class="op">=</span><span class="st">"Text Output"</span>)</span>
-<span id="cb206-155"><a href="#cb206-155" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb206-156"><a href="#cb206-156" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"🚮 Trashify Object Detection Demo V4"</span>,</span>
-<span id="cb206-157"><a href="#cb206-157" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span>description,</span>
-<span id="cb206-158"><a href="#cb206-158" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Examples come in the form of a list of lists, where each inner list contains elements to prefill the `inputs` parameter with</span></span>
-<span id="cb206-159"><a href="#cb206-159" aria-hidden="true" tabindex="-1"></a>    <span class="co"># See where the examples originate from here: https://huggingface.co/datasets/mrdbourke/trashify_examples/</span></span>
-<span id="cb206-160"><a href="#cb206-160" aria-hidden="true" tabindex="-1"></a>    examples<span class="op">=</span>[</span>
-<span id="cb206-161"><a href="#cb206-161" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_1.jpeg"</span>, <span class="fl">0.3</span>],</span>
-<span id="cb206-162"><a href="#cb206-162" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_2.jpeg"</span>, <span class="fl">0.3</span>], </span>
-<span id="cb206-163"><a href="#cb206-163" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_3.jpeg"</span>, <span class="fl">0.3</span>],</span>
-<span id="cb206-164"><a href="#cb206-164" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb206-165"><a href="#cb206-165" aria-hidden="true" tabindex="-1"></a>    cache_examples<span class="op">=</span><span class="va">True</span></span>
-<span id="cb206-166"><a href="#cb206-166" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb206-167"><a href="#cb206-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-168"><a href="#cb206-168" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch the demo</span></span>
-<span id="cb206-169"><a href="#cb206-169" aria-hidden="true" tabindex="-1"></a>demo.launch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb206-104"><a href="#cb206-104" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setup set of target items to discover</span></span>
+<span id="cb206-105"><a href="#cb206-105" aria-hidden="true" tabindex="-1"></a>    target_items <span class="op">=</span> {<span class="st">"trash"</span>, <span class="st">"bin"</span>, <span class="st">"hand"</span>} </span>
+<span id="cb206-106"><a href="#cb206-106" aria-hidden="true" tabindex="-1"></a>    detected_items <span class="op">=</span> <span class="bu">set</span>(detected_class_name_text_labels)</span>
+<span id="cb206-107"><a href="#cb206-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-108"><a href="#cb206-108" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no items detected or trash, bin, hand not in detected items, return notification</span></span>
+<span id="cb206-109"><a href="#cb206-109" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> detected_items <span class="op">&amp;</span> target_items:</span>
+<span id="cb206-110"><a href="#cb206-110" aria-hidden="true" tabindex="-1"></a>        return_string <span class="op">=</span> (</span>
+<span id="cb206-111"><a href="#cb206-111" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f"No trash, bin or hand detected at confidence threshold </span><span class="sc">{</span>conf_threshold<span class="sc">}</span><span class="ss">. "</span></span>
+<span id="cb206-112"><a href="#cb206-112" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Try another image or lowering the confidence threshold."</span></span>
+<span id="cb206-113"><a href="#cb206-113" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb206-114"><a href="#cb206-114" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(return_string)</span>
+<span id="cb206-115"><a href="#cb206-115" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> image, return_string</span>
+<span id="cb206-116"><a href="#cb206-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-117"><a href="#cb206-117" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If there are missing items, say what the missing items are</span></span>
+<span id="cb206-118"><a href="#cb206-118" aria-hidden="true" tabindex="-1"></a>    missing_items <span class="op">=</span> target_items <span class="op">-</span> detected_items</span>
+<span id="cb206-119"><a href="#cb206-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> missing_items:</span>
+<span id="cb206-120"><a href="#cb206-120" aria-hidden="true" tabindex="-1"></a>        return_string <span class="op">=</span> (</span>
+<span id="cb206-121"><a href="#cb206-121" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f"Detected the following items: </span><span class="sc">{</span><span class="bu">sorted</span>(detected_items <span class="op">&amp;</span> target_items)<span class="sc">}</span><span class="ss">. But missing the following in order to get +1: </span><span class="sc">{</span><span class="bu">sorted</span>(missing_items)<span class="sc">}</span><span class="ss">. "</span></span>
+<span id="cb206-122"><a href="#cb206-122" aria-hidden="true" tabindex="-1"></a>            <span class="st">"If this is an error, try another image or altering the confidence threshold. "</span></span>
+<span id="cb206-123"><a href="#cb206-123" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Otherwise, the model may need to be updated with better data."</span></span>
+<span id="cb206-124"><a href="#cb206-124" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb206-125"><a href="#cb206-125" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(return_string)</span>
+<span id="cb206-126"><a href="#cb206-126" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> image, return_string</span>
+<span id="cb206-127"><a href="#cb206-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-128"><a href="#cb206-128" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If all target items are present (the final remaining case)</span></span>
+<span id="cb206-129"><a href="#cb206-129" aria-hidden="true" tabindex="-1"></a>    return_string <span class="op">=</span> <span class="ss">f"+1! Found the following items: </span><span class="sc">{</span><span class="bu">sorted</span>(detected_items)<span class="sc">}</span><span class="ss">, thank you for cleaning up the area!"</span></span>
+<span id="cb206-130"><a href="#cb206-130" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(return_string)</span>
+<span id="cb206-131"><a href="#cb206-131" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image, return_string</span>
+<span id="cb206-132"><a href="#cb206-132" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb206-133"><a href="#cb206-133" aria-hidden="true" tabindex="-1"></a><span class="co">### 6. Setup the demo application to take in image, make a prediction with our model, return the image with drawn predicitons </span><span class="al">###</span><span class="co"> </span></span>
+<span id="cb206-134"><a href="#cb206-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-135"><a href="#cb206-135" aria-hidden="true" tabindex="-1"></a><span class="co"># Write description for our demo application</span></span>
+<span id="cb206-136"><a href="#cb206-136" aria-hidden="true" tabindex="-1"></a>description <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb206-137"><a href="#cb206-137" aria-hidden="true" tabindex="-1"></a><span class="st">Help clean up your local area! Upload an image and get +1 if there is all of the following items detected: trash, bin, hand.</span></span>
+<span id="cb206-138"><a href="#cb206-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-139"><a href="#cb206-139" aria-hidden="true" tabindex="-1"></a><span class="st">Model is a fine-tuned version of [RT-DETRv2](https://huggingface.co/docs/transformers/main/en/model_doc/rt_detr_v2#transformers.RTDetrV2Config) on the [Trashify dataset](https://huggingface.co/datasets/mrdbourke/trashify_manual_labelled_images).</span></span>
+<span id="cb206-140"><a href="#cb206-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-141"><a href="#cb206-141" aria-hidden="true" tabindex="-1"></a><span class="st">See the full data loading and training code on [learnhuggingface.com](https://www.learnhuggingface.com/notebooks/hugging_face_object_detection_tutorial).</span></span>
+<span id="cb206-142"><a href="#cb206-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-143"><a href="#cb206-143" aria-hidden="true" tabindex="-1"></a><span class="st">This version is v4 because the first three versions were using a different model and did not perform as well, see the [README](https://huggingface.co/spaces/mrdbourke/trashify_demo_v4/blob/main/README.md) for more.</span></span>
+<span id="cb206-144"><a href="#cb206-144" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb206-145"><a href="#cb206-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-146"><a href="#cb206-146" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the Gradio interface to accept an image and confidence threshold and return an image with drawn prediction boxes</span></span>
+<span id="cb206-147"><a href="#cb206-147" aria-hidden="true" tabindex="-1"></a>demo <span class="op">=</span> gr.Interface(</span>
+<span id="cb206-148"><a href="#cb206-148" aria-hidden="true" tabindex="-1"></a>    fn<span class="op">=</span>predict_on_image,</span>
+<span id="cb206-149"><a href="#cb206-149" aria-hidden="true" tabindex="-1"></a>    inputs<span class="op">=</span>[</span>
+<span id="cb206-150"><a href="#cb206-150" aria-hidden="true" tabindex="-1"></a>        gr.Image(<span class="bu">type</span><span class="op">=</span><span class="st">"pil"</span>, label<span class="op">=</span><span class="st">"Target Image"</span>),</span>
+<span id="cb206-151"><a href="#cb206-151" aria-hidden="true" tabindex="-1"></a>        gr.Slider(minimum<span class="op">=</span><span class="dv">0</span>, maximum<span class="op">=</span><span class="dv">1</span>, value<span class="op">=</span><span class="fl">0.3</span>, label<span class="op">=</span><span class="st">"Confidence Threshold"</span>)</span>
+<span id="cb206-152"><a href="#cb206-152" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb206-153"><a href="#cb206-153" aria-hidden="true" tabindex="-1"></a>    outputs<span class="op">=</span>[</span>
+<span id="cb206-154"><a href="#cb206-154" aria-hidden="true" tabindex="-1"></a>        gr.Image(<span class="bu">type</span><span class="op">=</span><span class="st">"pil"</span>, label<span class="op">=</span><span class="st">"Image Output"</span>),</span>
+<span id="cb206-155"><a href="#cb206-155" aria-hidden="true" tabindex="-1"></a>        gr.Text(label<span class="op">=</span><span class="st">"Text Output"</span>)</span>
+<span id="cb206-156"><a href="#cb206-156" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb206-157"><a href="#cb206-157" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"🚮 Trashify Object Detection Demo V4"</span>,</span>
+<span id="cb206-158"><a href="#cb206-158" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span>description,</span>
+<span id="cb206-159"><a href="#cb206-159" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Examples come in the form of a list of lists, where each inner list contains elements to prefill the `inputs` parameter with</span></span>
+<span id="cb206-160"><a href="#cb206-160" aria-hidden="true" tabindex="-1"></a>    <span class="co"># See where the examples originate from here: https://huggingface.co/datasets/mrdbourke/trashify_examples/</span></span>
+<span id="cb206-161"><a href="#cb206-161" aria-hidden="true" tabindex="-1"></a>    examples<span class="op">=</span>[</span>
+<span id="cb206-162"><a href="#cb206-162" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_1.jpeg"</span>, <span class="fl">0.3</span>],</span>
+<span id="cb206-163"><a href="#cb206-163" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_2.jpeg"</span>, <span class="fl">0.3</span>], </span>
+<span id="cb206-164"><a href="#cb206-164" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"trashify_examples/trashify_example_3.jpeg"</span>, <span class="fl">0.3</span>],</span>
+<span id="cb206-165"><a href="#cb206-165" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb206-166"><a href="#cb206-166" aria-hidden="true" tabindex="-1"></a>    cache_examples<span class="op">=</span><span class="va">True</span></span>
+<span id="cb206-167"><a href="#cb206-167" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb206-168"><a href="#cb206-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-169"><a href="#cb206-169" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch the demo</span></span>
+<span id="cb206-170"><a href="#cb206-170" aria-hidden="true" tabindex="-1"></a>demo.launch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Overwriting ../demos/trashify_object_detector/app.py</code></pre>
 </div>
