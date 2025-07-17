@@ -6951,7 +6951,7 @@ Note
 <p>If you want to see a demo of how one gets created, try making a Hugging Face Space with the “Create new Space” button on the <a href="https://huggingface.co/spaces">https://huggingface.co/spaces</a> page and seeing what the <code>README.md</code> file starts with (that’s how I found out what to do!).</p>
 </div>
 </div>
-<div id="cell-267" class="cell" data-execution_count="19">
+<div id="cell-267" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb211"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>writefile ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span>README.md</span>
 <span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
 <span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>title: Trashify Demo V4 🚮</span>
@@ -6999,7 +6999,7 @@ Note
 <p>When we create our demo application, it’ll be good to show people how to use it.</p>
 <p>To do so, we can add some example images to use with our demo.</p>
 <p>First we’ll create a folder to store the demo images.</p>
-<div id="cell-269" class="cell" data-execution_count="20">
+<div id="cell-269" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb213"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a directory to save examples to</span></span>
 <span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -7008,13 +7008,13 @@ Note
 </div>
 <p>And now we can download some pre-made examples I’ve added to Hugging Face Datasets (none of these were in the Trashify training data).</p>
 <p>You can find the example Trashify images at <a href="https://huggingface.co/datasets/mrdbourke/trashify_examples"><code>mrdbourke/trashify_examples</code></a>.</p>
-<div id="cell-271" class="cell" data-execution_count="21">
+<div id="cell-271" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb214"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the examples from Hugging Face Datasets</span></span>
 <span id="cb214-2"><a href="#cb214-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
 <span id="cb214-3"><a href="#cb214-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb214-4"><a href="#cb214-4" aria-hidden="true" tabindex="-1"></a>trashify_examples <span class="op">=</span> load_dataset(<span class="st">"mrdbourke/trashify_examples"</span>)</span>
 <span id="cb214-5"><a href="#cb214-5" aria-hidden="true" tabindex="-1"></a>trashify_examples</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>DatasetDict({
     train: Dataset({
         features: ['image'],
@@ -7025,7 +7025,7 @@ Note
 </div>
 <p>Perfect!</p>
 <p>Now let’s save each of these images to our target example folder in the Trashify demo directory.</p>
-<div id="cell-273" class="cell" data-execution_count="22">
+<div id="cell-273" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb216"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, sample <span class="kw">in</span> <span class="bu">enumerate</span>(trashify_examples[<span class="st">"train"</span>]):</span>
 <span id="cb216-2"><a href="#cb216-2" aria-hidden="true" tabindex="-1"></a>    save_path <span class="op">=</span> Path(demo_example_dir, <span class="ss">f"trashify_example_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">.jpeg"</span>)</span>
 <span id="cb216-3"><a href="#cb216-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[INFO] Saving image to: </span><span class="sc">{</span>save_path<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -7037,7 +7037,7 @@ Note
 </div>
 </div>
 <p>Now let’s check the demo folder for Trashify.</p>
-<div id="cell-275" class="cell" data-execution_count="23">
+<div id="cell-275" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb218"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls ..<span class="op">/</span>demos<span class="op">/</span>trashify_object_detector<span class="op">/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>README.md  app.py  requirements.txt  trashify_examples</code></pre>
@@ -7077,7 +7077,7 @@ Note
 <li>Hope it all works and inspect the results! 🤞</li>
 </ol>
 <p>A fair few steps but we’ve got this!</p>
-<div id="cell-278" class="cell" data-execution_count="24">
+<div id="cell-278" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb220"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb220-1"><a href="#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Import the required methods for uploading to the Hugging Face Hub</span></span>
 <span id="cb220-2"><a href="#cb220-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> (</span>
 <span id="cb220-3"><a href="#cb220-3" aria-hidden="true" tabindex="-1"></a>    create_repo,</span>
@@ -7172,7 +7172,10 @@ Note
 </ul></li>
 <li>So far the RT-DETRv2 model we used seemed to work pretty well, what happens if you try the <a href="https://huggingface.co/docs/transformers/main/model_doc/d_fine">D-FINE model</a>?</li>
 <li>Sometimes our model predicts multiple of the same kind of boxes, for example, it will predict 2 boxes for “hand” when there is only one, a technique to help with this is called NMS (<a href="https://paperswithcode.com/method/non-maximum-suppression">Non Maximum Suppression</a>), how might you implement this into our post processing pipeline?</li>
-<li>How does our model perform when removing the <code>"not_X"</code> classes? For example, only have the positive classes (<code>"bin", "trash", "hand"</code>) in the training data. Does the model naturally learn what is <code>"not_bin", "not_hand", "not_trash"</code>? For example, distinguishing background items from non-background items?</li>
+<li>How does our model perform when removing the <code>"not_X"</code> classes? For example, only have the positive classes (<code>"bin", "trash", "hand"</code>) in the training data. Does the model naturally learn what is <code>"not_bin", "not_hand", "not_trash"</code>? For example, distinguishing background items from non-background items?
+<ul>
+<li>Along with this, how might we teach our model to predict nothing (no outputs) when there are no bins, hands or trash present? For example, if someone uploaded a selfie, how do we make sure our model doesn’t predict any false positives? Hint: You can include pure background images in the training (e.g.&nbsp;images with no labels) to help the model recognize when <em>not</em> to detect anything.</li>
+</ul></li>
 </ul>
 </section>
 <section id="extra-curriculum" class="level3" data-number="17.2">
