@@ -248,7 +248,7 @@
     "href": "index.html#updates",
     "title": "Learn Hugging Face 🤗",
     "section": "Updates",
-    "text": "Updates\n\n18 June 2025 - All code has been completed for the object detection project, train a custom object detection model and make a demo with it for others to try! (video course to come soon)\n1 Oct 2024 - Video course version of text classification is live on ZTM! Inside, we’ll walkthrough every line of code building the text classification project with Hugging Face Datasets, Transformers and Spaces."
+    "text": "Updates\n\n07 Nov 2025 - Videos for the object detection project are now available on ZTM in the Hugging Face Bootcamp!\n18 June 2025 - All code has been completed for the object detection project, train a custom object detection model and make a demo with it for others to try! (video course to come soon)\n1 Oct 2024 - Video course version of text classification is live on ZTM! Inside, we’ll walkthrough every line of code building the text classification project with Hugging Face Datasets, Transformers and Spaces."
   },
   {
     "objectID": "index.html#contents",
