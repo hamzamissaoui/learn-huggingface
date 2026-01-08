@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Fully Fine-tune a Small Language Model with Hugging Face Tutorial – Learn Hugging Face 🤗</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/learn-hf-favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-68c8bffd90dad8f2b55c52d7b6410dc0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-13bf511119587872fcee423a69787372.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Fully Fine-tune a Small Language Model with Hugging Face Tutorial – Learn Hugging Face 🤗">
+<meta property="og:description" content="Practical hands-on machine learning tutorials using the Hugging Face ecosystem.">
+<meta property="og:image" content="https://www.learnhuggingface.com/notebooks/hugging_face_llm_full_fine_tune_tutorial_files/figure-html/cell-22-output-1.png">
+<meta property="og:site_name" content="Learn Hugging Face 🤗">
+<meta property="og:image:height" content="455">
+<meta property="og:image:width" content="567">
+<meta name="twitter:title" content="Fully Fine-tune a Small Language Model with Hugging Face Tutorial – Learn Hugging Face 🤗">
+<meta name="twitter:description" content="Practical hands-on machine learning tutorials using the Hugging Face ecosystem.">
+<meta name="twitter:image" content="https://www.learnhuggingface.com/notebooks/hugging_face_llm_full_fine_tune_tutorial_files/figure-html/cell-22-output-1.png">
+<meta name="twitter:image-height" content="455">
+<meta name="twitter:image-width" content="567">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Learn Hugging Face 🤗</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../extras/setup.html"> 
+<span class="menu-text">Setup</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../extras/glossary.html"> 
+<span class="menu-text">Glossary</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/mrdbourke/learn-huggingface" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Fully Fine-tune a Small Language Model with Hugging Face Tutorial</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Natural Language Processing (NLP)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/hugging_face_text_classification_tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Build a custom text classification model and demo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Computer Vision</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/hugging_face_object_detection_tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Build a custom object detection model and demo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#how-to-fine-tune-an-llm-model" id="toc-how-to-fine-tune-an-llm-model" class="nav-link active" data-scroll-target="#how-to-fine-tune-an-llm-model">How to fine-tune an LLM model</a></li>
+  <li><a href="#what-were-cooking" id="toc-what-were-cooking" class="nav-link" data-scroll-target="#what-were-cooking">What we’re cooking</a></li>
+  <li><a href="#ingredients" id="toc-ingredients" class="nav-link" data-scroll-target="#ingredients">Ingredients</a></li>
+  <li><a href="#method" id="toc-method" class="nav-link" data-scroll-target="#method">Method</a></li>
+  <li><a href="#fine-tuning-llm-vs-rag" id="toc-fine-tuning-llm-vs-rag" class="nav-link" data-scroll-target="#fine-tuning-llm-vs-rag">Fine-tuning LLM vs RAG</a></li>
+  <li><a href="#why-fine-tune-your-own-model" id="toc-why-fine-tune-your-own-model" class="nav-link" data-scroll-target="#why-fine-tune-your-own-model">Why fine-tune your own model?</a></li>
+  <li><a href="#definitions" id="toc-definitions" class="nav-link" data-scroll-target="#definitions">Definitions</a></li>
+  <li><a href="#import-dependencies" id="toc-import-dependencies" class="nav-link" data-scroll-target="#import-dependencies">Import dependencies</a></li>
+  <li><a href="#setup-base-model" id="toc-setup-base-model" class="nav-link" data-scroll-target="#setup-base-model">Setup Base Model</a></li>
+  <li><a href="#get-dataset" id="toc-get-dataset" class="nav-link" data-scroll-target="#get-dataset">Get dataset</a>
+  <ul class="collapse">
+  <li><a href="#format-the-dataset-into-llm-style-inputsoutputs" id="toc-format-the-dataset-into-llm-style-inputsoutputs" class="nav-link" data-scroll-target="#format-the-dataset-into-llm-style-inputsoutputs">Format the dataset into LLM-style inputs/outputs</a></li>
+  <li><a href="#try-the-model-with-a-pipeline" id="toc-try-the-model-with-a-pipeline" class="nav-link" data-scroll-target="#try-the-model-with-a-pipeline">Try the model with a pipeline</a></li>
+  <li><a href="#try-the-model-on-one-of-our-sequences" id="toc-try-the-model-on-one-of-our-sequences" class="nav-link" data-scroll-target="#try-the-model-on-one-of-our-sequences">Try the model on one of our sequences</a></li>
+  <li><a href="#lets-try-to-prompt-the-model" id="toc-lets-try-to-prompt-the-model" class="nav-link" data-scroll-target="#lets-try-to-prompt-the-model">Let’s try to prompt the model</a></li>
+  </ul></li>
+  <li><a href="#fine-tuning-our-model" id="toc-fine-tuning-our-model" class="nav-link" data-scroll-target="#fine-tuning-our-model">Fine-tuning our model</a></li>
+  <li><a href="#load-the-trained-model-back-in-and-see-how-it-performs" id="toc-load-the-trained-model-back-in-and-see-how-it-performs" class="nav-link" data-scroll-target="#load-the-trained-model-back-in-and-see-how-it-performs">Load the trained model back in and see how it performs</a></li>
+  <li><a href="#turning-out-model-into-a-demo" id="toc-turning-out-model-into-a-demo" class="nav-link" data-scroll-target="#turning-out-model-into-a-demo">Turning out model into a demo</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/mrdbourke/learn-huggingface/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fully Fine-tune a Small Language Model with Hugging Face Tutorial</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Why fine-tune?</p>
+<p>Because we want small model for a specific task (e.g.&nbsp;don’t to pay API credits or leak our data online).</p>
+<p>If we have our own model… we can run it anywhere and everywhere we like.</p>
+<section id="how-to-fine-tune-an-llm-model" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-fine-tune-an-llm-model">How to fine-tune an LLM model</h2>
+<p>We are going to do Supervised Fine-tuning (SFT).</p>
+<p>Basically SFT = give samples of inputs and outputs.</p>
+<p>For example if our goal was to extract names:</p>
+<ul>
+<li>Input: Hello my name is Daniel</li>
+<li>Output: Daniel</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li>Our inputs can be <em>any</em> kind of input string.</li>
+<li>Our outputs will be fine-tuned to conform to a structured data pattern.</li>
+</ul>
+</section>
+<section id="what-were-cooking" class="level2">
+<h2 class="anchored" data-anchor-id="what-were-cooking">What we’re cooking</h2>
+<p>We’re going to build a SLM (Small Language Model) to extract food and drink items from text.</p>
+<p>Why?</p>
+<p>If we needed to go over a large dataset of image captions and filter them for food items (we could then use these filtered captions for a food app).</p>
+<p>TK image - example of what we’re doing.</p>
+</section>
+<section id="ingredients" class="level2">
+<h2 class="anchored" data-anchor-id="ingredients">Ingredients</h2>
+<ol type="1">
+<li>Model (Gemma3-270M)</li>
+<li>Dataset (a pre-baked dataset to extract foods from text)</li>
+<li>Training code (Hugging Face Transformers + TRL)</li>
+<li>Eval code</li>
+<li>Demo</li>
+</ol>
+</section>
+<section id="method" class="level2">
+<h2 class="anchored" data-anchor-id="method">Method</h2>
+<ol type="1">
+<li>Download model - Hugging Face <code>transformers</code></li>
+<li>Download dataset - Hugging Face <code>datasets</code></li>
+<li>Inspect dataset - Hugging Face <code>datasets</code></li>
+<li>Train model on dataset - Hugging Face <code>trl</code> (TRL = Transformers Reinforcement Learning)</li>
+<li>Eval model - basically just look at a bunch of samples</li>
+<li>Create an interactive demo - Hugging Face <code>gradio</code></li>
+<li>Bonus: Make the demo public so other people can use it - Hugging Face Spaces</li>
+</ol>
+</section>
+<section id="fine-tuning-llm-vs-rag" class="level2">
+<h2 class="anchored" data-anchor-id="fine-tuning-llm-vs-rag">Fine-tuning LLM vs RAG</h2>
+<ul>
+<li>Fine-tuning = To do a very specific task, e.g.&nbsp;structured data extraction.
+<ul>
+<li>An example would be you’re an insurance company who gets 10,000 emails a day and you want to extract structured data directly from these emails to JSON.</li>
+</ul></li>
+<li>RAG = You want to inject custom knowledge into an LLM.
+<ul>
+<li>An example would be you’re an insurance company wanting to send <em>automatic</em> responses to people but you want the responses to include information from your own docs.</li>
+</ul></li>
+</ul>
+</section>
+<section id="why-fine-tune-your-own-model" class="level2">
+<h2 class="anchored" data-anchor-id="why-fine-tune-your-own-model">Why fine-tune your own model?</h2>
+<ol type="1">
+<li>Own the model, can run on own hardware</li>
+<li>Our task is simple enough to just use a small language model</li>
+<li>No API calls needed</li>
+<li>Can run in batch mode to get much faster inference than API calls</li>
+<li>Model by default wasn’t very good at our task but now since fine-tuning, is <em>very good</em></li>
+</ol>
+</section>
+<section id="definitions" class="level2">
+<h2 class="anchored" data-anchor-id="definitions">Definitions</h2>
+<ul>
+<li>TK - Some definitions of what we’re doing</li>
+<li>Full fine-tuning</li>
+<li>LORA fine-tuning (this is partial fine-tuning)</li>
+<li>SLM</li>
+</ul>
+</section>
+<section id="import-dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="import-dependencies">Import dependencies</h2>
+<div id="421530e1" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> transformers </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> trl <span class="co"># trl = Transformers Reinforcement Learning -&gt; https://github.com/huggingface/trl </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datasets </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> acclerate</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gradio <span class="im">as</span> gr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="setup-base-model" class="level2">
+<h2 class="anchored" data-anchor-id="setup-base-model">Setup Base Model</h2>
+<p>The base model we’ll be using is <a href="https://huggingface.co/google/gemma-3-270m-it/tree/main">Gemma 3 270M</a> from Google.</p>
+<p>It’s the same architecture style as larger LLMs such as Gemini but at a <em>much</em> smaller scale.</p>
+<p>This is why we refer to it as a “Small Language Model” or SLM.</p>
+<p>We can load our model using <code>transformers</code>.</p>
+<div id="4de92467" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer, AutoModelForCausalLM</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>MODEL_NAME <span class="op">=</span> <span class="st">"google/gemma-3-270m-it"</span> <span class="co"># note: "it" stands for "instruction tuned" which means the model has been tuned for following instructions</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    MODEL_NAME,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    dtype<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"auto"</span>, <span class="co"># put the model on the GPU</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    attn_implementation<span class="op">=</span><span class="st">"eager"</span> <span class="co"># could use flash_attention_2 but ran into issues... so stick with Eager for now</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/mrdbourke/miniforge3/envs/ai/lib/python3.12/site-packages/torch/cuda/__init__.py:283: UserWarning: 
+    Found GPU0 NVIDIA GB10 which is of cuda capability 12.1.
+    Minimum and Maximum cuda capability supported by this version of PyTorch is
+    (8.0) - (12.0)
+    
+  warnings.warn(</code></pre>
+</div>
+</div>
+<div id="8ae5a6b9" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(MODEL_NAME)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Model on device: </span><span class="sc">{</span>model<span class="sc">.</span>device<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Model using dtype: </span><span class="sc">{</span>model<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[INFO] Model on device: cuda:0
+[INFO] Model using dtype: torch.bfloat16</code></pre>
+</div>
+</div>
+<div id="1f6e0397" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Our model requires numbers (tokens) as input</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># # We can turn strings into tokens via a tokenizer!</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># model("Hello my name is Daniel")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="e8d187d0" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tokenizer(<span class="st">"Hello my name is Daniel"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>{'input_ids': [2, 9259, 1041, 1463, 563, 13108], 'attention_mask': [1, 1, 1, 1, 1, 1]}</code></pre>
+</div>
+</div>
+<div id="5cf6296a" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model(torch.tensor(tokenizer(<span class="st">"Hello my name is Daniel"</span>)[<span class="st">"input_ids"</span>]).unsqueeze(<span class="dv">0</span>).to(<span class="st">"cuda"</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>outputs.keys()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>odict_keys(['logits', 'past_key_values'])</code></pre>
+</div>
+</div>
+</section>
+<section id="get-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="get-dataset">Get dataset</h2>
+<p>TK - our dataset is located here: (link), it was created from image captions + random strings and then using <code>gpt-oss-120b</code> (a powerful open-source LLM) to do synthetic labelling</p>
+<div id="5721a3b1" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> load_dataset(<span class="st">"mrdbourke/FoodExtract-1k"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Number of samples in the dataset: </span><span class="sc">{</span><span class="bu">len</span>(dataset[<span class="st">'train'</span>])<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[INFO] Number of samples in the dataset: 1420</code></pre>
+</div>
+</div>
+<div id="3fa6954c" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_random_idx(dataset):</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Returns a random integer index based on the number of samples in the dataset."""</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    random_idx <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="bu">len</span>(dataset)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> random_idx</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>random_idx <span class="op">=</span> get_random_idx(dataset[<span class="st">"train"</span>])</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>random_sample <span class="op">=</span> dataset[<span class="st">"train"</span>][random_idx]</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>example_input <span class="op">=</span> random_sample[<span class="st">"sequence"</span>]</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>example_output <span class="op">=</span> random_sample[<span class="st">"gpt-oss-120b-label"</span>]</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>example_output_condensed <span class="op">=</span> random_sample[<span class="st">"gpt-oss-120b-label-condensed"</span>]</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Input:</span><span class="ch">\n</span><span class="sc">{</span>example_input<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Example output:"</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">eval</span>(example_output))</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Example output condensed:"</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(example_output_condensed)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[INFO] Input:
+the building where the resort village is located
+
+[INFO] Example output:
+{'is_food_or_drink': False, 'tags': [], 'food_items': [], 'drink_items': []}
+
+[INFO] Example output condensed:
+food_or_drink: 0
+tags: 
+foods: 
+drinks:</code></pre>
+</div>
+</div>
+<section id="format-the-dataset-into-llm-style-inputsoutputs" class="level3">
+<h3 class="anchored" data-anchor-id="format-the-dataset-into-llm-style-inputsoutputs">Format the dataset into LLM-style inputs/outputs</h3>
+<p>Right now we have examples of string-based inputs and structured outputs.</p>
+<p>However, our LLMs generally want things in the format of:</p>
+<pre><code>{"user": "Hello my name is Daniel",
+"system": "Hi Daniel, I'm an LLM"}</code></pre>
+<p>In other words, they want structure around the intputs and outputs rather than just raw information.</p>
+<blockquote class="blockquote">
+<p><strong>Resource:</strong> See the dataset formats and types in the TRL docs: https://huggingface.co/docs/trl/en/dataset_formats</p>
+</blockquote>
+<div id="6d909b36" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>random_sample</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>{'sequence': 'the building where the resort village is located',
+ 'image_url': 'https://q-cf.bstatic.com/images/hotel/max1024x768/216/216309766.jpg',
+ 'class_label': 'not_food',
+ 'source': 'qwen2vl_open_dataset',
+ 'char_len': 48.0,
+ 'word_count': 8.0,
+ 'syn_or_real': 'real',
+ 'uuid': '2842f35d-ad79-4024-a063-e16987a6896a',
+ 'gpt-oss-120b-label': "{'is_food_or_drink': False, 'tags': [], 'food_items': [], 'drink_items': []}",
+ 'gpt-oss-120b-label-condensed': 'food_or_drink: 0\ntags: \nfoods: \ndrinks:',
+ 'target_food_names_to_use': None,
+ 'caption_detail_level': None,
+ 'num_foods': None,
+ 'target_image_point_of_view': None}</code></pre>
+</div>
+</div>
+<div id="16769fa3" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sample_to_conversation(sample):</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"messages"</span>: [</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: sample[<span class="st">"sequence"</span>]}, <span class="co"># Load the sequence from the dataset</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: sample[<span class="st">"gpt-oss-120b-label-condensed"</span>]} <span class="co"># Load the gpt-oss-120b generated label</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>sample_to_conversation(random_sample)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>{'messages': [{'role': 'user',
+   'content': 'the building where the resort village is located'},
+  {'role': 'system', 'content': 'food_or_drink: 0\ntags: \nfoods: \ndrinks:'}]}</code></pre>
+</div>
+</div>
+<div id="09cca9d2" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map our sample_to_conversation function to dataset </span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.<span class="bu">map</span>(sample_to_conversation,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                      batched<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>dataset[<span class="st">"train"</span>][<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>{'sequence': 'A mouth-watering photograph captures a delectable dish centered on a rectangular white porcelain plate, resting on a rustic wooden tabletop indoors. In the background, a wooden cutting board with a long handle subtly enhances the setting. The plate is adorned with several generously-sized, cheese-stuffed peppers that have been roasted to perfection, their blistered skins marked by charred black spots. Split down the middle, the peppers reveal a creamy white cheese filling, enriched with a blend of aromatic herbs. Once stuffed, the peppers have been closed and roasted, achieving a luscious, smoky flavor.\n\nThe dish is elegantly garnished with vibrant cherry tomato halves, freshly chopped green herbs, and delicate sprinkles of small diced red onions. A light, possibly citrus-infused dressing, hinted by a sheen of oil or lime juice, gently coats the ensemble, adding an extra layer of freshness. The meticulous presentation and vivid colors make this image not only a feast for the stomach but also a feast for the eyes.',
+ 'image_url': 'http://i.imgur.com/X7cM9Df.jpg',
+ 'class_label': 'food',
+ 'source': 'pixmo_cap_dataset',
+ 'char_len': 1028.0,
+ 'word_count': 160.0,
+ 'syn_or_real': 'real',
+ 'uuid': '6720d6e0-5912-41e7-be50-85a2b63bfef9',
+ 'gpt-oss-120b-label': "{'is_food_or_drink': True, 'tags': ['fi', 'fa'], 'food_items': ['cheese-stuffed peppers', 'cherry tomato halves', 'green herbs', 'diced red onions', 'citrus-infused dressing', 'oil', 'lime juice', 'cheese'], 'drink_items': []}",
+ 'gpt-oss-120b-label-condensed': 'food_or_drink: 1\ntags: fi, fa\nfoods: cheese-stuffed peppers, cherry tomato halves, green herbs, diced red onions, citrus-infused dressing, oil, lime juice, cheese\ndrinks:',
+ 'target_food_names_to_use': None,
+ 'caption_detail_level': None,
+ 'num_foods': None,
+ 'target_image_point_of_view': None,
+ 'messages': [{'content': 'A mouth-watering photograph captures a delectable dish centered on a rectangular white porcelain plate, resting on a rustic wooden tabletop indoors. In the background, a wooden cutting board with a long handle subtly enhances the setting. The plate is adorned with several generously-sized, cheese-stuffed peppers that have been roasted to perfection, their blistered skins marked by charred black spots. Split down the middle, the peppers reveal a creamy white cheese filling, enriched with a blend of aromatic herbs. Once stuffed, the peppers have been closed and roasted, achieving a luscious, smoky flavor.\n\nThe dish is elegantly garnished with vibrant cherry tomato halves, freshly chopped green herbs, and delicate sprinkles of small diced red onions. A light, possibly citrus-infused dressing, hinted by a sheen of oil or lime juice, gently coats the ensemble, adding an extra layer of freshness. The meticulous presentation and vivid colors make this image not only a feast for the stomach but also a feast for the eyes.',
+   'role': 'user'},
+  {'content': 'food_or_drink: 1\ntags: fi, fa\nfoods: cheese-stuffed peppers, cherry tomato halves, green herbs, diced red onions, citrus-infused dressing, oil, lime juice, cheese\ndrinks:',
+   'role': 'system'}]}</code></pre>
+</div>
+</div>
+<div id="f027190f" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a train/test split</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset[<span class="st">"train"</span>].train_test_split(test_size<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                                            shuffle<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                                            seed<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Number #1 rule in machine learning</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Always train on the train set and test on the test set</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># This gives us an indication of how our model will perform in the real world</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>dataset</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>DatasetDict({
+    train: Dataset({
+        features: ['sequence', 'image_url', 'class_label', 'source', 'char_len', 'word_count', 'syn_or_real', 'uuid', 'gpt-oss-120b-label', 'gpt-oss-120b-label-condensed', 'target_food_names_to_use', 'caption_detail_level', 'num_foods', 'target_image_point_of_view', 'messages'],
+        num_rows: 1136
+    })
+    test: Dataset({
+        features: ['sequence', 'image_url', 'class_label', 'source', 'char_len', 'word_count', 'syn_or_real', 'uuid', 'gpt-oss-120b-label', 'gpt-oss-120b-label-condensed', 'target_food_names_to_use', 'caption_detail_level', 'num_foods', 'target_image_point_of_view', 'messages'],
+        num_rows: 284
+    })
+})</code></pre>
+</div>
+</div>
+</section>
+<section id="try-the-model-with-a-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="try-the-model-with-a-pipeline">Try the model with a pipeline</h3>
+<div id="ea2738c3" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>easy_sample <span class="op">=</span> {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Hi my name is Daniel"</span>}</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_easy_sample(<span class="bu">input</span>):</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    template <span class="op">=</span> {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="bu">input</span>}</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> template</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="1a9871a6" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load model and use it as a pipeline</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> pipeline(<span class="st">"text-generation"</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                model<span class="op">=</span>model,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                tokenizer<span class="op">=</span>tokenizer)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>input_text <span class="op">=</span> <span class="st">"Hi my name is Daniel. Please reply to me with a machine learning poem."</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>easy_sample <span class="op">=</span> create_easy_sample(<span class="bu">input</span><span class="op">=</span>input_text)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>input_prompt <span class="op">=</span> pipe.tokenizer.apply_chat_template([easy_sample],</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                                                  tokenize<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                                                  add_generation_prompt<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] This is the input prompt: </span><span class="sc">{</span>input_prompt<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>default_outputs <span class="op">=</span> pipe(input_prompt,</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>                       max_new_tokens<span class="op">=</span><span class="dv">512</span>,</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>                       disable_compile<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Input:</span><span class="ch">\n</span><span class="sc">{</span>input_text<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Output from </span><span class="sc">{</span>MODEL_NAME<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(default_outputs[<span class="dv">0</span>][<span class="st">"generated_text"</span>][<span class="bu">len</span>(input_prompt):])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Device set to use cuda:0</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[INFO] This is the input prompt: &lt;bos&gt;&lt;start_of_turn&gt;user
+Hi my name is Daniel. Please reply to me with a machine learning poem.&lt;end_of_turn&gt;
+&lt;start_of_turn&gt;model
+
+[INFO] Input:
+Hi my name is Daniel. Please reply to me with a machine learning poem.
+
+[INFO] Output from google/gemma-3-270m-it:
+
+Okay, Daniel, here's a machine learning poem. I've tried to capture a feeling of wonder and a bit of mystery.
+
+The algorithm learns,
+A silent, tireless quest.
+Through data streams, it flows,
+A symphony of thought.
+Each point a new layer,
+A learning bloom,
+A future bright and clear.
+
+It analyzes the data,
+No single clue it knows.
+It weaves a pattern true,
+A story in the hue.
+The world unfolds anew,
+With subtle, complex view.
+
+It's not just numbers,
+But feeling, a soul.
+A tapestry of grace,
+A hopeful, vibrant space.
+A learning, growing deep,
+Secrets it will keep.
+</code></pre>
+</div>
+</div>
+<p>Example machine learning poem generated by Gemma 3 270M:</p>
+<pre><code>Okay, Daniel, here's a machine learning poem. I've tried to capture a feeling of wonder and a bit of mystery.
+
+The algorithm learns,
+A silent, tireless quest.
+Through data streams, it flows,
+A symphony of thought.
+Each point a new layer,
+A learning bloom,
+A future bright and clear.
+
+It analyzes the data,
+No single clue it knows.
+It weaves a pattern true,
+A story in the hue.
+The world unfolds anew,
+With subtle, complex view.
+
+It's not just numbers,
+But feeling, a soul.
+A tapestry of grace,
+A hopeful, vibrant space.
+A learning, growing deep,
+Secrets it will keep.</code></pre>
+</section>
+<section id="try-the-model-on-one-of-our-sequences" class="level3">
+<h3 class="anchored" data-anchor-id="try-the-model-on-one-of-our-sequences">Try the model on one of our sequences</h3>
+<div id="39394d8b" class="cell" data-execution_count="98">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get a random sample</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>random_idx <span class="op">=</span> get_random_idx(dataset[<span class="st">"train"</span>])</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>random_train_sample <span class="op">=</span> dataset[<span class="st">"train"</span>][random_idx]</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the chat template</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>input_prompt <span class="op">=</span> pipe.tokenizer.apply_chat_template(conversation<span class="op">=</span>random_train_sample[<span class="st">"messages"</span>][:<span class="dv">1</span>],</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                                                  tokenize<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                                                  add_generation_prompt<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's run the default model on our input</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>default_outputs <span class="op">=</span> pipe(text_inputs<span class="op">=</span>input_prompt, max_new_tokens<span class="op">=</span><span class="dv">256</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co"># View and compare the outputs</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Input:</span><span class="ch">\n</span><span class="sc">{</span>input_prompt<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Output:</span><span class="ch">\n</span><span class="sc">{</span>default_outputs[<span class="dv">0</span>][<span class="st">'generated_text'</span>][<span class="bu">len</span>(input_prompt):]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[INFO] Input:
+&lt;bos&gt;&lt;start_of_turn&gt;user
+A top‑down view of a rustic wooden board featuring three distinct elements: a mound of peeled white yams, sliced into thick, ivory‑colored rounds that show a smooth, slightly creamy interior; a small ceramic bowl of deep‑red gochujang, its glossy surface speckled with tiny black pepper flecks; and a tray of golden‑brown empanadas, their flaky pastry crust lightly brushed with a sheen of butter and dotted with a few crisp, baked edges. The items are spaced apart, each highlighted against the neutral board, emphasizing their individual textures and colors.&lt;end_of_turn&gt;
+&lt;start_of_turn&gt;model
+
+
+[INFO] Output:
+This is a great description of the rustic wooden board! It effectively conveys the following:
+
+* **Overall Impression:** The board is a rustic and inviting space, emphasizing a warm and inviting atmosphere.
+* **Key Elements:** The key elements are the mound of peeled white yams, sliced into thick rounds, the smooth, creamy interior, the deep-red gochujang, the golden-brown empanadas, and the scattered, highlighted textures.
+* **Visual Appeal:** The combination of the yams, the ceramic bowl, the deep-red gochujang, and the golden-brown empanadas creates a visually appealing and appetizing scene.
+* **Texture and Color Contrast:** The board's textures are highlighted through the contrasting colors, creating a sense of visual interest and highlighting the individual elements.
+* **Focus on Texture:** The description emphasizes the textural quality of the items, highlighting the smooth, creamy interior and the flaky pastry crust.
+* **Atmosphere:** The overall feeling is one of warmth, inviting, and a touch of rustic charm.
+
+Overall, this is a well-written and descriptive piece of art that effectively communicates the beauty and appeal of the wooden board.
+</code></pre>
+</div>
+</div>
+</section>
+<section id="lets-try-to-prompt-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="lets-try-to-prompt-the-model">Let’s try to prompt the model</h3>
+<p>We want a model to extract food and drink items from text.</p>
+<p>By default the model will just reply to any text input.</p>
+<p>However, we can try and get our ideal outputs via prompting.</p>
+<div id="a1f93224" class="cell" data-execution_count="112">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>prompt_instruction <span class="op">=</span> <span class="st">"""Given the following target input text from an image caption, please extract the food and drink items to a list. </span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="st">If there are no food or drink items, return an empty list.</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="st">Return in the following format:</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="st">food_items: [item_1, item_2, item_3]</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="st">drink_items: [item_4, item_5]</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="st">For example:</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="st">Input text: Hello my name is Daniel.</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="st">Output:</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="st">food_items: []</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="st">drink_items: []</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="st">Example 2:</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="st">Input text: A plate of rice cakes, salmon, cottage cheese and small cherry tomatoes with a cup of tea.</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="st">Output:</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="st">food_items: ['rice cakes', 'salmon', 'cottage cheese', 'cherry tomatoes']</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="st">drink_items: ['cup of tea']</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="st">Target input text: &lt;targ_input_text&gt;"""</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_input_message_content(<span class="bu">input</span>):</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>    original_content <span class="op">=</span> <span class="bu">input</span>[<span class="st">"messages"</span>][:<span class="dv">1</span>][<span class="dv">0</span>][<span class="st">"content"</span>]</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>    new_content <span class="op">=</span> prompt_instruction.replace(<span class="st">"&lt;targ_input_text&gt;"</span>, original_content)</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>    new_input <span class="op">=</span> [{<span class="st">"content"</span>: new_content,</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"role"</span>: <span class="st">"user"</span>}]</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> new_input</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'[INFO] Original content:</span><span class="ch">\n</span><span class="sc">{</span>random_train_sample[<span class="st">"messages"</span>][:<span class="dv">1</span>][<span class="dv">0</span>][<span class="st">"content"</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'[INFO] New content with instructions in prompt:'</span>)</span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(update_input_message_content(<span class="bu">input</span><span class="op">=</span>random_train_sample)[<span class="dv">0</span>][<span class="st">"content"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[INFO] Original content:
+A top‑down view of a rustic wooden board featuring three distinct elements: a mound of peeled white yams, sliced into thick, ivory‑colored rounds that show a smooth, slightly creamy interior; a small ceramic bowl of deep‑red gochujang, its glossy surface speckled with tiny black pepper flecks; and a tray of golden‑brown empanadas, their flaky pastry crust lightly brushed with a sheen of butter and dotted with a few crisp, baked edges. The items are spaced apart, each highlighted against the neutral board, emphasizing their individual textures and colors.
+
+[INFO] New content with instructions in prompt:
+Given the following target input text from an image caption, please extract the food and drink items to a list. 
+If there are no food or drink items, return an empty list.
+
+Return in the following format:
+food_items: [item_1, item_2, item_3]
+drink_items: [item_4, item_5]
+
+For example:
+Input text: Hello my name is Daniel.
+Output:
+food_items: []
+drink_items: []
+
+Example 2:
+Input text: A plate of rice cakes, salmon, cottage cheese and small cherry tomatoes with a cup of tea.
+Output:
+food_items: ['rice cakes', 'salmon', 'cottage cheese', 'cherry tomatoes']
+drink_items: ['cup of tea']
+
+Target input text: A top‑down view of a rustic wooden board featuring three distinct elements: a mound of peeled white yams, sliced into thick, ivory‑colored rounds that show a smooth, slightly creamy interior; a small ceramic bowl of deep‑red gochujang, its glossy surface speckled with tiny black pepper flecks; and a tray of golden‑brown empanadas, their flaky pastry crust lightly brushed with a sheen of butter and dotted with a few crisp, baked edges. The items are spaced apart, each highlighted against the neutral board, emphasizing their individual textures and colors.</code></pre>
+</div>
+</div>
+<div id="22ed0f84" class="cell" data-execution_count="113">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the chat template</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>updated_input_prompt <span class="op">=</span> update_input_message_content(<span class="bu">input</span><span class="op">=</span>random_train_sample)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>input_prompt <span class="op">=</span> pipe.tokenizer.apply_chat_template(conversation<span class="op">=</span>updated_input_prompt,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                                                  tokenize<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                                                  add_generation_prompt<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's run the default model on our input</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>default_outputs <span class="op">=</span> pipe(text_inputs<span class="op">=</span>input_prompt, </span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>                       max_new_tokens<span class="op">=</span><span class="dv">256</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="co"># View and compare the outputs</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Input:</span><span class="ch">\n</span><span class="sc">{</span>input_prompt<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Output:</span><span class="ch">\n</span><span class="sc">{</span>default_outputs[<span class="dv">0</span>][<span class="st">'generated_text'</span>][<span class="bu">len</span>(input_prompt):]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[INFO] Input:
+&lt;bos&gt;&lt;start_of_turn&gt;user
+Given the following target input text from an image caption, please extract the food and drink items to a list. 
+If there are no food or drink items, return an empty list.
+
+Return in the following format:
+food_items: [item_1, item_2, item_3]
+drink_items: [item_4, item_5]
+
+For example:
+Input text: Hello my name is Daniel.
+Output:
+food_items: []
+drink_items: []
+
+Example 2:
+Input text: A plate of rice cakes, salmon, cottage cheese and small cherry tomatoes with a cup of tea.
+Output:
+food_items: ['rice cakes', 'salmon', 'cottage cheese', 'cherry tomatoes']
+drink_items: ['cup of tea']
+
+Target input text: A top‑down view of a rustic wooden board featuring three distinct elements: a mound of peeled white yams, sliced into thick, ivory‑colored rounds that show a smooth, slightly creamy interior; a small ceramic bowl of deep‑red gochujang, its glossy surface speckled with tiny black pepper flecks; and a tray of golden‑brown empanadas, their flaky pastry crust lightly brushed with a sheen of butter and dotted with a few crisp, baked edges. The items are spaced apart, each highlighted against the neutral board, emphasizing their individual textures and colors.&lt;end_of_turn&gt;
+&lt;start_of_turn&gt;model
+
+
+[INFO] Output:
+```python
+def extract_food_and_drink_items(image_caption):
+    """
+    Extracts food and drink items from a text caption.
+
+    Args:
+        image_caption: The text of the image caption.
+
+    Returns:
+        A list of food and drink items.
+    """
+
+    food_items = []
+    drink_items = []
+
+    try:
+        # Clear the image
+        image = image.strip()
+
+        if image.startswith("plate"):
+            food_items.append(image)
+        elif image.startswith("rice cakes"):
+           food_items.append(image)
+        elif image.startswith("salmon"):
+            food_items.append(image)
+        elif image.startswith("cottage cheese"):
+            food_items.append(image)
+        elif image.startswith("cherry tomatoes"):
+            food_items.append(image)
+        else:
+            return []
+
+        # Remove empty items
+        food_items = [item for item in food_items if item not in ["rice cakes", "salmon", "cottage cheese", "cherry tomatoes"]]
+        drink_items = [item for</code></pre>
+</div>
+</div>
+<div id="ff2b1392" class="cell" data-execution_count="121">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is our input</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(random_train_sample[<span class="st">"messages"</span>][<span class="dv">0</span>][<span class="st">"content"</span>])</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># This is our ideal output: </span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(random_train_sample[<span class="st">"messages"</span>][<span class="dv">1</span>][<span class="st">"content"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A top‑down view of a rustic wooden board featuring three distinct elements: a mound of peeled white yams, sliced into thick, ivory‑colored rounds that show a smooth, slightly creamy interior; a small ceramic bowl of deep‑red gochujang, its glossy surface speckled with tiny black pepper flecks; and a tray of golden‑brown empanadas, their flaky pastry crust lightly brushed with a sheen of butter and dotted with a few crisp, baked edges. The items are spaced apart, each highlighted against the neutral board, emphasizing their individual textures and colors.
+
+food_or_drink: 1
+tags: fi
+foods: peeled white yams, deep-red gochujang, golden-brown empanadas
+drinks:</code></pre>
+</div>
+</div>
+<p>Okay looks like our small LLM doesn’t do what we want it to do… no matter, we can fine-tune it so it does our specific task!</p>
+</section>
+</section>
+<section id="fine-tuning-our-model" class="level2">
+<h2 class="anchored" data-anchor-id="fine-tuning-our-model">Fine-tuning our model</h2>
+<p>Steps:</p>
+<ol type="1">
+<li>Setup SFTConfig (Supervised Fine-tuning Config) - https://huggingface.co/docs/trl/v0.26.2/en/sft_trainer#trl.SFTConfig</li>
+<li>Use SFTTrainer to train our model on our supervised samples - https://huggingface.co/docs/trl/v0.26.2/en/sft_trainer#trl.SFTTrainer</li>
+</ol>
+<div id="c5f29e96" class="cell" data-execution_count="123">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting up our SFTConfig</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> trl <span class="im">import</span> SFTConfig</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>torch_dtype <span class="op">=</span> model.dtype</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>CHECKPOINT_DIR_NAME <span class="op">=</span> <span class="st">"./checkpoint_models"</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>BASE_LEARNING_RATE <span class="op">=</span> <span class="fl">5e-5</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Using dtype: </span><span class="sc">{</span>torch_dtype<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Using learning rate: </span><span class="sc">{</span>BASE_LEARNING_RATE<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>sft_config <span class="op">=</span> SFTConfig(</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    output_dir<span class="op">=</span>CHECKPOINT_DIR_NAME,</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    max_length<span class="op">=</span><span class="dv">512</span>,</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    packing<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    num_train_epochs<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    per_device_train_batch_size<span class="op">=</span><span class="dv">16</span>, <span class="co"># Note: you can change this depending on the amount of VRAM your GPU has</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    per_device_eval_batch_size<span class="op">=</span><span class="dv">16</span>,</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>    gradient_checkpointing<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>    optim<span class="op">=</span><span class="st">"adamw_torch_fused"</span>, <span class="co"># Note: if you try "adamw", you will get an error</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>    logging_steps<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>    save_strategy<span class="op">=</span><span class="st">"epoch"</span>,</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>    eval_strategy<span class="op">=</span><span class="st">"epoch"</span>,</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span>BASE_LEARNING_RATE,</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>    fp16<span class="op">=</span><span class="va">True</span> <span class="cf">if</span> torch_dtype <span class="op">==</span> torch.float16 <span class="cf">else</span> <span class="va">False</span>,</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>    bf16<span class="op">=</span><span class="va">True</span> <span class="cf">if</span> torch_dtype <span class="op">==</span> torch.float16 <span class="cf">else</span> <span class="va">False</span>,</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>    lr_scheduler_type<span class="op">=</span><span class="st">"constant"</span>,</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>    push_to_hub<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>    report_to<span class="op">=</span><span class="va">None</span></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>sft_config</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[INFO] Using dtype: torch.bfloat16
+[INFO] Using learning rate: 5e-05</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="123">
+<pre><code>SFTConfig(output_dir='./checkpoint_models', overwrite_output_dir=False, do_train=False, do_eval=True, do_predict=False, eval_strategy=&lt;IntervalStrategy.EPOCH: 'epoch'&gt;, prediction_loss_only=False, per_device_train_batch_size=16, per_device_eval_batch_size=8, per_gpu_train_batch_size=None, per_gpu_eval_batch_size=None, gradient_accumulation_steps=1, eval_accumulation_steps=None, eval_delay=0, torch_empty_cache_steps=None, learning_rate=5e-05, weight_decay=0.0, adam_beta1=0.9, adam_beta2=0.999, adam_epsilon=1e-08, max_grad_norm=1.0, num_train_epochs=3, max_steps=-1, lr_scheduler_type=&lt;SchedulerType.CONSTANT: 'constant'&gt;, lr_scheduler_kwargs=None, warmup_ratio=0.0, warmup_steps=0, log_level='passive', log_level_replica='warning', log_on_each_node=True, logging_dir='./checkpoint_models/runs/Jan07_00-53-16_spark-ff62', logging_strategy=&lt;IntervalStrategy.STEPS: 'steps'&gt;, logging_first_step=False, logging_steps=1, logging_nan_inf_filter=True, save_strategy=&lt;SaveStrategy.EPOCH: 'epoch'&gt;, save_steps=500, save_total_limit=None, save_safetensors=True, save_on_each_node=False, save_only_model=False, restore_callback_states_from_checkpoint=False, no_cuda=False, use_cpu=False, use_mps_device=False, seed=42, data_seed=None, jit_mode_eval=False, bf16=False, fp16=False, fp16_opt_level='O1', half_precision_backend='auto', bf16_full_eval=False, fp16_full_eval=False, tf32=None, local_rank=0, ddp_backend=None, tpu_num_cores=None, tpu_metrics_debug=False, debug=[], dataloader_drop_last=False, eval_steps=None, dataloader_num_workers=0, dataloader_prefetch_factor=None, past_index=-1, run_name=None, disable_tqdm=False, remove_unused_columns=True, label_names=None, load_best_model_at_end=False, metric_for_best_model=None, greater_is_better=None, ignore_data_skip=False, fsdp=[], fsdp_min_num_params=0, fsdp_config={'min_num_params': 0, 'xla': False, 'xla_fsdp_v2': False, 'xla_fsdp_grad_ckpt': False}, fsdp_transformer_layer_cls_to_wrap=None, accelerator_config=AcceleratorConfig(split_batches=False, dispatch_batches=None, even_batches=True, use_seedable_sampler=True, non_blocking=False, gradient_accumulation_kwargs=None, use_configured_state=False), parallelism_config=None, deepspeed=None, label_smoothing_factor=0.0, optim=&lt;OptimizerNames.ADAMW_TORCH_FUSED: 'adamw_torch_fused'&gt;, optim_args=None, adafactor=False, group_by_length=False, length_column_name='length', report_to=[], project='huggingface', trackio_space_id='trackio', ddp_find_unused_parameters=None, ddp_bucket_cap_mb=None, ddp_broadcast_buffers=None, dataloader_pin_memory=True, dataloader_persistent_workers=False, skip_memory_metrics=True, use_legacy_prediction_loop=False, push_to_hub=False, resume_from_checkpoint=None, hub_model_id=None, hub_strategy=&lt;HubStrategy.EVERY_SAVE: 'every_save'&gt;, hub_token=None, hub_private_repo=None, hub_always_push=False, hub_revision=None, gradient_checkpointing=False, gradient_checkpointing_kwargs=None, include_inputs_for_metrics=False, include_for_metrics=[], eval_do_concat_batches=True, fp16_backend='auto', push_to_hub_model_id=None, push_to_hub_organization=None, push_to_hub_token=None, mp_parameters='', auto_find_batch_size=False, full_determinism=False, torchdynamo=None, ray_scope='last', ddp_timeout=1800, torch_compile=False, torch_compile_backend=None, torch_compile_mode=None, include_tokens_per_second=False, include_num_input_tokens_seen='no', neftune_noise_alpha=None, optim_target_modules=None, batch_eval_metrics=False, eval_on_start=False, use_liger_kernel=False, liger_kernel_config=None, eval_use_gather_object=False, average_tokens_across_devices=True, model_init_kwargs=None, chat_template_path=None, dataset_text_field='text', dataset_kwargs=None, dataset_num_proc=None, eos_token=None, pad_token=None, max_length=512, shuffle_dataset=False, packing=False, packing_strategy='bfd', padding_free=False, pad_to_multiple_of=None, eval_packing=None, completion_only_loss=None, assistant_only_loss=False, loss_type='nll', activation_offloading=False)</code></pre>
+</div>
+</div>
+<div id="a6a74f51" class="cell" data-execution_count="124">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Supervised Fine-Tuning = provide input and desired output samples</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> trl <span class="im">import</span> SFTTrainer</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create Trainer object</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> SFTTrainer(</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    args<span class="op">=</span>sft_config,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    train_dataset<span class="op">=</span>dataset[<span class="st">"train"</span>],</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    eval_dataset<span class="op">=</span>dataset[<span class="st">"test"</span>],</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    processing_class<span class="op">=</span>tokenizer </span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>trainer.train()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"d3dc1d0735084b9681d787ef45cea1ef","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"0131db184ef04182ad3d825bec58e0f1","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"8bda94a0977f4e5288f5284ab2ac1517","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"a58c3ac999034532a7f8dede4026bcdf","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The model is already on multiple devices. Skipping the move to device specified in `args`.
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': 2, 'pad_token_id': 0}.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+      
+      <progress value="171" max="171" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      [171/171 03:46, Epoch 3/3]
+    </div>
+    
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Epoch</th>
+<th data-quarto-table-cell-role="th">Training Loss</th>
+<th data-quarto-table-cell-role="th">Validation Loss</th>
+<th data-quarto-table-cell-role="th">Entropy</th>
+<th data-quarto-table-cell-role="th">Num Tokens</th>
+<th data-quarto-table-cell-role="th">Mean Token Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>2.226700</td>
+<td>2.081992</td>
+<td>1.969289</td>
+<td>123023.000000</td>
+<td>0.604268</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>1.911500</td>
+<td>2.040673</td>
+<td>1.757004</td>
+<td>246046.000000</td>
+<td>0.611950</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>1.278400</td>
+<td>2.101415</td>
+<td>1.560075</td>
+<td>369069.000000</td>
+<td>0.612939</td>
+</tr>
+</tbody>
+</table>
+<p>
+</p></div>
+<div class="cell-output cell-output-display" data-execution_count="124">
+<pre><code>TrainOutput(global_step=171, training_loss=2.0012289899134497, metrics={'train_runtime': 229.1573, 'train_samples_per_second': 11.887, 'train_steps_per_second': 0.746, 'total_flos': 630811463417856.0, 'train_loss': 2.0012289899134497, 'epoch': 3.0})</code></pre>
+</div>
+</div>
+<div id="0e176da4" class="cell" data-execution_count="126">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Access the log history</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>log_history <span class="op">=</span> trainer.state.log_history</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract training / validation loss</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>train_losses <span class="op">=</span> [log[<span class="st">"loss"</span>] <span class="cf">for</span> log <span class="kw">in</span> log_history <span class="cf">if</span> <span class="st">"loss"</span> <span class="kw">in</span> log]</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>epoch_train <span class="op">=</span> [log[<span class="st">"epoch"</span>] <span class="cf">for</span> log <span class="kw">in</span> log_history <span class="cf">if</span> <span class="st">"loss"</span> <span class="kw">in</span> log]</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>eval_losses <span class="op">=</span> [log[<span class="st">"eval_loss"</span>] <span class="cf">for</span> log <span class="kw">in</span> log_history <span class="cf">if</span> <span class="st">"eval_loss"</span> <span class="kw">in</span> log]</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>epoch_eval <span class="op">=</span> [log[<span class="st">"epoch"</span>] <span class="cf">for</span> log <span class="kw">in</span> log_history <span class="cf">if</span> <span class="st">"eval_loss"</span> <span class="kw">in</span> log]</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the training loss</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>plt.plot(epoch_train, train_losses, label<span class="op">=</span><span class="st">"Training Loss"</span>)</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>plt.plot(epoch_eval, eval_losses, label<span class="op">=</span><span class="st">"Validation Loss"</span>)</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Epoch"</span>)</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Loss"</span>)</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Training and Validation Loss per Epoch"</span>)</span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hugging_face_llm_full_fine_tune_tutorial_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="8499b2ea" class="cell" data-execution_count="125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>tags_dict <span class="op">=</span> {<span class="st">'np'</span>: <span class="st">'nutrition_panel'</span>,</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a> <span class="st">'il'</span>: <span class="st">'ingredient list'</span>,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a> <span class="st">'me'</span>: <span class="st">'menu'</span>,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a> <span class="st">'re'</span>: <span class="st">'recipe'</span>,</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a> <span class="st">'fi'</span>: <span class="st">'food_items'</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a> <span class="st">'di'</span>: <span class="st">'drink_items'</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a> <span class="st">'fa'</span>: <span class="st">'food_advertistment'</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a> <span class="st">'fp'</span>: <span class="st">'food_packaging'</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="ab9d8bbd" class="cell" data-execution_count="127">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the model</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>trainer.save_model()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="load-the-trained-model-back-in-and-see-how-it-performs" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-trained-model-back-in-and-see-how-it-performs">Load the trained model back in and see how it performs</h2>
+<p>We’ve now fine-tuned our own Gemma 3 270M to do a specific task, let’s load it back in and see how it performs.</p>
+<div id="d2d5d374" class="cell" data-execution_count="128">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>CHECKPOINT_DIR_NAME</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="128">
+<pre><code>'./checkpoint_models'</code></pre>
+</div>
+</div>
+<div id="c2ebfeae" class="cell" data-execution_count="133">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the fine-tuned model and see how it goes</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer, AutoModelForCausalLM</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load trained model</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>loaded_model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    pretrained_model_name_or_path<span class="op">=</span>CHECKPOINT_DIR_NAME,</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    dtype<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    attn_implementation<span class="op">=</span><span class="st">"eager"</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="739c608d" class="cell" data-execution_count="134">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>loaded_model_pipeline <span class="op">=</span> pipeline(<span class="st">"text-generation"</span>,</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>                                 model<span class="op">=</span>loaded_model,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                                 tokenizer<span class="op">=</span>tokenizer)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>loaded_model_pipeline</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Device set to use cuda:0</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="134">
+<pre><code>&lt;transformers.pipelines.text_generation.TextGenerationPipeline at 0xedd66d298bc0&gt;</code></pre>
+</div>
+</div>
+<div id="8db929ad" class="cell" data-execution_count="161">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>dataset[<span class="st">"test"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="161">
+<pre><code>Dataset({
+    features: ['sequence', 'image_url', 'class_label', 'source', 'char_len', 'word_count', 'syn_or_real', 'uuid', 'gpt-oss-120b-label', 'gpt-oss-120b-label-condensed', 'target_food_names_to_use', 'caption_detail_level', 'num_foods', 'target_image_point_of_view', 'messages'],
+    num_rows: 228
+})</code></pre>
+</div>
+</div>
+<div id="ee88d7fa" class="cell" data-execution_count="160">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get a random sample</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>random_test_idx <span class="op">=</span> get_random_idx(dataset[<span class="st">"test"</span>])</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>random_test_sample <span class="op">=</span> dataset[<span class="st">"test"</span>][random_test_idx]</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the chat template</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>input_prompt <span class="op">=</span> pipe.tokenizer.apply_chat_template(conversation<span class="op">=</span>random_test_sample[<span class="st">"messages"</span>][:<span class="dv">1</span>],</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>                                                  tokenize<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>                                                  add_generation_prompt<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's run the default model on our input</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>default_outputs <span class="op">=</span> loaded_model_pipeline(text_inputs<span class="op">=</span>input_prompt, </span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>                                        max_new_tokens<span class="op">=</span><span class="dv">256</span>)</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a><span class="co"># View and compare the outputs</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Input:</span><span class="ch">\n</span><span class="sc">{</span>input_prompt<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[INFO] Output:</span><span class="ch">\n</span><span class="sc">{</span>default_outputs[<span class="dv">0</span>][<span class="st">'generated_text'</span>][<span class="bu">len</span>(input_prompt):]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[INFO] Input:
+&lt;bos&gt;&lt;start_of_turn&gt;user
+The image shows a box of Arnott's Flavoured Biscuits. The ingredients list includes Wheat Flour, Vegetable Oil (Antioxidant E307b from Soy), Tomato Powder, Starch (Wheat), Salt, Yeast, Garlic Powder, Parsley, Sugar, Worcestershire Sauce, Natural Flavour, Onion Powder, Baking Powder, Spices, Spice Extracts, Vegetable Protein Extract (from Maize), Antioxidant (E300), Flavour Enhancer (E635), Malt Extract (from Barley), and Emulsifier (Soy Lecithin). The box also states that it contains Wheat, Gluten, Soy, and may contain Egg, Milk, Tree Nuts, Peanut, and Sesame. The nutritional information section is partially visible, listing servings, energy, protein, fat, total carbohydrates, sugars, dietary fibre, and sodium. The brand name Arnott's Australia is prominently displayed, along with the tagline "Exporting to the World." The box is green with red and white accents.&lt;end_of_turn&gt;
+&lt;start_of_turn&gt;model
+
+
+[INFO] Output:
+food_or_drink: 1
+tags: np, fi, fp, il, di, fp
+foods: Wheat Flour, Vegetable Oil, Tomato Powder, Starch, Yeast, Garlic Powder, Parsley, Sugar, Worcestershire Sauce, Onion Powder, Baking Powder, Spices, Spice Extracts, Vegetable Protein Extract (from Maize), Antioxidant (E300), Flavour Enhancer (E635), Malt Extract (from Barley), Emulsifier (Soy Lecithin), Wheat, Gluten, Soy, Egg, Milk, Tree Nuts, Peanut, Sesame
+drinks:</code></pre>
+</div>
+</div>
+<div id="1f424585" class="cell" data-execution_count="150">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(random_test_sample[<span class="st">"gpt-oss-120b-label-condensed"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>food_or_drink: 1
+tags: np, il, fp, fi, di
+foods: mushroom, lemongrass, galangal, chili, soybean oil, garlic, shallot, kaffir lime leaves, fish sauce, parsley, pepper, fish, crustacean, egg, peanut, soy, sesame, cashew
+drinks: water, lime juice</code></pre>
+</div>
+</div>
+<div id="4410f741" class="cell" data-execution_count="131">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>dataset[<span class="st">"train"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="131">
+<pre><code>Dataset({
+    features: ['sequence', 'image_url', 'class_label', 'source', 'char_len', 'word_count', 'syn_or_real', 'uuid', 'gpt-oss-120b-label', 'gpt-oss-120b-label-condensed', 'target_food_names_to_use', 'caption_detail_level', 'num_foods', 'target_image_point_of_view', 'messages'],
+    num_rows: 908
+})</code></pre>
+</div>
+</div>
+<div id="46e4beb1" class="cell" data-execution_count="159">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Eval on these</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>dataset[<span class="st">"test"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="159">
+<pre><code>Dataset({
+    features: ['sequence', 'image_url', 'class_label', 'source', 'char_len', 'word_count', 'syn_or_real', 'uuid', 'gpt-oss-120b-label', 'gpt-oss-120b-label-condensed', 'target_food_names_to_use', 'caption_detail_level', 'num_foods', 'target_image_point_of_view', 'messages'],
+    num_rows: 228
+})</code></pre>
+</div>
+</div>
+<div id="56c4e8ce" class="cell" data-execution_count="152">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_model_num_params(model):</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns the number of trainable, non-trainable and total parameters of a PyTorch model.</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    trainable_params <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> model.parameters() <span class="cf">if</span> p.requires_grad)</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>    non_trainable_params <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> model.parameters() <span class="cf">if</span> <span class="kw">not</span> p.requires_grad)</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>    total_params <span class="op">=</span> trainable_params <span class="op">+</span> non_trainable_params</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">"trainable_params"</span>: trainable_params,</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"non_trainable_params"</span>: non_trainable_params,</span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">"total_params"</span>: total_params}</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Get parameters of our fine-tuned model</span></span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>model_params <span class="op">=</span> get_model_num_params(loaded_model)</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Trainable parameters: </span><span class="sc">{</span>model_params[<span class="st">'trainable_params'</span>]<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Non-trainable parameters: </span><span class="sc">{</span>model_params[<span class="st">'non_trainable_params'</span>]<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total parameters: </span><span class="sc">{</span>model_params[<span class="st">'total_params'</span>]<span class="sc">:,}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Trainable parameters: 268,098,176
+Non-trainable parameters: 0
+Total parameters: 268,098,176</code></pre>
+</div>
+</div>
+<div id="10c365fe" class="cell" data-execution_count="153">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Our model is 270M parameters, GPT-OSS-120B is 120B parameters</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="457361d8" class="cell" data-execution_count="154">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="dv">120_000_000_000</span> <span class="op">/</span> <span class="dv">270_000_000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="154">
+<pre><code>444.44444444444446</code></pre>
+</div>
+</div>
+</section>
+<section id="turning-out-model-into-a-demo" class="level2">
+<h2 class="anchored" data-anchor-id="turning-out-model-into-a-demo">Turning out model into a demo</h2>
+<div id="60366c1e" class="cell" data-execution_count="162">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gradio <span class="im">as</span> gr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[162]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg ansi-bold">gradio</span><span style="color:rgb(188,188,188)"> </span><span style="font-weight:bold;color:rgb(0,135,0)">as</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg ansi-bold">gr</span>
+
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named 'gradio'</pre>
+</div>
+</div>
+</div>
+<div id="b428498c" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reminder:</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Input = text of image caption</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Output = structured data</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="co"># LLMs = tokens in, tokens out -&gt; if you get the right tokens in, you'll get the right tokens out</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/www\.learnhuggingface\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/mrdbourke/learn-huggingface/issues" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.mrdbourke.com">
+      <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mrdbourke/learn-huggingface">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.youtube.com/channel/UCr8O8l5cCX85Oem1d18EezQ">
+      <i class="bi bi-youtube" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/mrdbourke">
+      <i class="bi bi-twitter-x" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/mrdbourke/">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
